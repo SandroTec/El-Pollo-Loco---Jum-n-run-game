@@ -1,5 +1,5 @@
 
-class MoveableObject {
+class MoveableObject extends DrawableObject {
     x;
     y;
     img;
@@ -32,19 +32,6 @@ class MoveableObject {
 
     isAboveGround() {
         return this.y < 180
-    }
-
-    loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
-    }
-
-    loadImages(arr) {
-        arr.forEach(path => {
-            let img = new Image();
-            img.src = path;
-            this.imageCache[path] = img;
-        });
     }
 
     playAnimation(images) {
