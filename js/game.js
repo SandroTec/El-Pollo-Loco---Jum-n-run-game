@@ -6,8 +6,6 @@ function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
 
-    console.log('my character is: ', world.character);
-    console.log('my enemies are: ', world.enemies);
 }
 
 

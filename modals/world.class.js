@@ -13,7 +13,7 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld(keyboard);
-
+        this.checkCollisions();
     }
 
     setWorld() {
@@ -58,6 +58,26 @@ class World {
         }
     }
 
+    
+    checkCollisions() {
+        // checks if the character is coliding with an enemy.
+        setInterval(() => {
+            this.level.enemies.forEach(enemy => {
+                if (this.character.isColiding(enemy) ) {
+                    this.character.hit();
+                    console.log('hit')
+                }
+            });
+        
+        // checks if the charcter is coliding with a coin.
+            this.level.coins.forEach(coin => {
+                if (this.character.isColiding(coin)) {
+                    console.log('coin collected!')
+                }
+            });
+        }, 200);
+    }
+
     showHitBox(mo) {
         if (mo instanceof Character || mo instanceof Chicken || mo instanceof Endboss || mo instanceof Coin) {
         this.ctx.beginPath();
@@ -78,6 +98,8 @@ class World {
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
-    }
+    }   
+
+    
     
 }
