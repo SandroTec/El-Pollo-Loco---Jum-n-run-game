@@ -20,7 +20,6 @@ class World {
         this.character.world = this;
     }
 
-
     draw() {
         // for clearing the canvas, so that you can draw the next frame without the previous one.
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
@@ -48,15 +47,37 @@ class World {
 
     addToMap(mo) {
         if (mo.otherDirection) {
-            this.ctx.save();
-            this.ctx.translate(mo.width, 0);
-            this.ctx.scale(-1, 1);
-            mo.x = mo.x * -1;
+            this.flipImage(mo);
         }
+
         this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        this.showHitBox(mo);
+
         if (mo.otherDirection) {
-            mo.x = mo.x * -1;
-            this.ctx.restore();
+            this.flipImageBack(mo);
         }
     }
+
+    showHitBox(mo) {
+        if (mo instanceof Character || mo instanceof Chicken || mo instanceof Endboss || mo instanceof Coin) {
+        this.ctx.beginPath();
+        this.ctx.lineWidth = '1';
+        this.ctx.strokeStyle = 'blue';
+        this.ctx.rect(mo.x, mo.y, mo.width, mo.height);
+        this.ctx.stroke();
+       }
+    }
+
+    flipImage(mo) {
+        this.ctx.save();
+        this.ctx.translate(mo.width, 0);
+        this.ctx.scale(-1, 1);
+        mo.x = mo.x * -1;
+    }
+
+    flipImageBack(mo) {
+        mo.x = mo.x * -1;
+        this.ctx.restore();
+    }
+    
 }

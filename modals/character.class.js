@@ -1,6 +1,7 @@
 
 class Character extends MoveableObject {
-
+    height = 250;
+    width = 100;
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -28,10 +29,8 @@ class Character extends MoveableObject {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
-        this.x = 50;
-        this.y = 0;
-        this.height = 180;
-        this.width = 100;
+        this.x = 0;
+        this.y = 170;
         this.speed = 10;
         this.speed_y = 0;
 
@@ -68,6 +67,13 @@ class Character extends MoveableObject {
                 this.playAnimation(this.IMAGES_WALKING);
         
             }}, 100);
+    }
+
+    isColiding(mo) {
+        return this.x + this.width > mo.x && // right side of the character is bigger than the left side of the object
+               this.y + this.height > mo.y && // bottom of the character is bigger than the top of the object
+               this.x < mo.x + mo.width && // left side of the character is smaller than the right side of the object
+               this.y < mo.y + mo.height; // top of the character is smaller than the bottom of the object
     }
 
 }

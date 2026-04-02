@@ -1,6 +1,6 @@
 class Coin extends MoveableObject {
-    height = 350;
-    width = 350;
+    height = 150;
+    width = 150;
 
     constructor(x) {
         super().loadImage('img/8_coin/coin_2.png');
