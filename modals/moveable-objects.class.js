@@ -1,13 +1,7 @@
 
 class MoveableObject extends DrawableObject {
-    x;
-    y;
-    img;
-    height;
-    width;
-    imageCache = [];
+   
     speed = 0.25;
-    currentImage = 0;
     otherDirection = false;
     speed_y = 0;
     acceleration = 5;

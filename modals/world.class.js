@@ -1,5 +1,6 @@
 class World {
     character = new Character();
+    statusbar = new Statusbar();
     level = level1;
 
     canvas;
@@ -30,8 +31,10 @@ class World {
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.coins);
+        
         // draw the character and the enemies on the canvas
         this.addToMap(this.character);
+        this.addToMap(this.statusbar);
         this.addObjectsToMap(this.level.enemies);
         // the function draw will be called as often as possible for your computer hardware, so that you have a smooth animation. 
         this.ctx.translate(- this.camera_x, 0);
@@ -46,12 +49,14 @@ class World {
     }
 
     addToMap(mo) {
+        console.log("OBJECT:", mo);
+        console.log("HAS DRAW?", typeof mo.draw);
+
         if (mo.otherDirection) {
             this.flipImage(mo);
         }
-
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
-        this.showHitBox(mo);
+        mo.draw(this.ctx)
+        mo.showHitBox(this.ctx);
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);
@@ -76,16 +81,6 @@ class World {
                 }
             });
         }, 200);
-    }
-
-    showHitBox(mo) {
-        if (mo instanceof Character || mo instanceof Chicken || mo instanceof Endboss || mo instanceof Coin) {
-        this.ctx.beginPath();
-        this.ctx.lineWidth = '1';
-        this.ctx.strokeStyle = 'blue';
-        this.ctx.rect(mo.x, mo.y, mo.width, mo.height);
-        this.ctx.stroke();
-       }
     }
 
     flipImage(mo) {
