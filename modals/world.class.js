@@ -32,6 +32,7 @@ class World {
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.bottle);
         this.addObjectsToMap(this.throwableObjects);
 
         this.ctx.translate(-this.camera_x, 0); //moves camera back to draw static statusbar
@@ -61,7 +62,7 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx)
-        mo.showHitBox(this.ctx);
+        //mo.showHitBox(this.ctx);
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);

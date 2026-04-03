@@ -25,6 +25,7 @@ class DrawableObject {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
+    /* to show hitbox on character and enemies.
     showHitBox(ctx) {
         if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof Coin) {
         ctx.beginPath();
@@ -34,5 +35,5 @@ class DrawableObject {
         ctx.stroke();
        }
     }
-
+    */
 }

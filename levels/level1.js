@@ -45,5 +45,10 @@ const level1 = new Level(
         new Coin(720),
         new Coin((1000 * Math.random() + 720)),
         new Coin((100 * Math.random() + 720*2))
+    ],
+    [
+        new Bottle(400), 
+        new Bottle(1000 * Math.random() + 400), 
     ]
+
 );
