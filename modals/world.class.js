@@ -35,14 +35,11 @@ class World {
         this.addObjectsToMap(this.throwableObjects);
 
         this.ctx.translate(-this.camera_x, 0); //moves camera back to draw static statusbar
-        this.addToMap(this.level.statusbar);
+        this.addObjectsToMap(this.level.statusbar);
         this.ctx.translate(this.camera_x, 0); // moves camera forward
         
         // draw the character and the enemies on the canvas
         this.addToMap(this.character);
-
-        
-
         this.addObjectsToMap(this.level.enemies);
         // the function draw will be called as often as possible for your computer hardware, so that you have a smooth animation. 
         this.ctx.translate(-this.camera_x, 0);

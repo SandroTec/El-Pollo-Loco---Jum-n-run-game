@@ -8,7 +8,9 @@ function init() {
 
 }
 
-// canvas.requestFullscreen()
+function setCanvasToFullscreen() {
+    canvas.requestFullscreen()
+}
 
 window.addEventListener('keydown', (e) => {
     if (e.keyCode === 38) { // UP arrow

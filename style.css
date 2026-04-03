@@ -11,3 +11,9 @@ body {
 canvas {
     background-color: black;
 }
+
+.fullscreen-btn {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+}

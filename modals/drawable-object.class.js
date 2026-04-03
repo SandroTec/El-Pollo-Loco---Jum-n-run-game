@@ -7,6 +7,7 @@ class DrawableObject {
     width;
     imageCache = [];
     currentImage = 0;
+    percentage = 100;
 
     loadImage(path) {
         this.img = new Image();
