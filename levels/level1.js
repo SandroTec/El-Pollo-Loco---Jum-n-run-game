@@ -49,6 +49,11 @@ const level1 = new Level(
     [
         new Bottle(400), 
         new Bottle(1000 * Math.random() + 400), 
+    ],
+    [
+        new Statusbar('IMAGES_HEALTH'),
+        new Statusbar('IMAGES_COIN'),
+        new Statusbar('IMAGES_BOTTLE'),
     ]
 
 );

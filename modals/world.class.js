@@ -1,6 +1,5 @@
 class World {
     character = new Character();
-    statusbar = new Statusbar();
     throwableObjects = [];
     level = level1;
 
@@ -36,7 +35,7 @@ class World {
         this.addObjectsToMap(this.throwableObjects);
 
         this.ctx.translate(-this.camera_x, 0); //moves camera back to draw static statusbar
-        this.addToMap(this.statusbar);
+        this.addToMap(this.level.statusbar);
         this.ctx.translate(this.camera_x, 0); // moves camera forward
         
         // draw the character and the enemies on the canvas
