@@ -1,6 +1,7 @@
 class World {
     character = new Character();
     statusbar = new Statusbar();
+    throwableObjects = [];
     level = level1;
 
     canvas;
@@ -14,7 +15,7 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld(keyboard);
-        this.checkCollisions();
+        this.run();
     }
 
     setWorld() {
@@ -31,13 +32,20 @@ class World {
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.throwableObjects);
+
+        this.ctx.translate(-this.camera_x, 0); //moves camera back to draw static statusbar
+        this.addToMap(this.statusbar);
+        this.ctx.translate(this.camera_x, 0); // moves camera forward
         
         // draw the character and the enemies on the canvas
         this.addToMap(this.character);
-        this.addToMap(this.statusbar);
+
+        
+
         this.addObjectsToMap(this.level.enemies);
         // the function draw will be called as often as possible for your computer hardware, so that you have a smooth animation. 
-        this.ctx.translate(- this.camera_x, 0);
+        this.ctx.translate(-this.camera_x, 0);
         
         requestAnimationFrame(this.draw.bind(this));
     }
@@ -49,9 +57,6 @@ class World {
     }
 
     addToMap(mo) {
-        console.log("OBJECT:", mo);
-        console.log("HAS DRAW?", typeof mo.draw);
-
         if (mo.otherDirection) {
             this.flipImage(mo);
         }
@@ -63,14 +68,26 @@ class World {
         }
     }
 
-    
+    run() {
+        setInterval(() => {
+            this.checkCollisions();
+            this.checkThrowableObject()
+        }, 200);
+    }
+
+    checkThrowableObject() {
+        if (this.keyboard.D) {
+            let bottle = new ThrowableObject(this.character.x + this.character.width, this.character.y + 10);
+            this.throwableObjects.push(bottle);
+        }
+    }
+
     checkCollisions() {
         // checks if the character is coliding with an enemy.
-        setInterval(() => {
             this.level.enemies.forEach(enemy => {
                 if (this.character.isColiding(enemy) ) {
                     this.character.hit();
-                    console.log('hit')
+                    this.statusbar.setPercentage(this.character.energy);
                 }
             });
         
@@ -80,7 +97,6 @@ class World {
                     console.log('coin collected!')
                 }
             });
-        }, 200);
     }
 
     flipImage(mo) {

@@ -8,6 +8,7 @@ function init() {
 
 }
 
+// canvas.requestFullscreen()
 
 window.addEventListener('keydown', (e) => {
     if (e.keyCode === 38) { // UP arrow
@@ -24,6 +25,9 @@ window.addEventListener('keydown', (e) => {
     }
     if (e.keyCode === 32) { // SPACE bar
         keyboard.SPACE = true;
+    }
+    if (e.keyCode === 68) { // d
+        keyboard.D = true;
     }
 });
 
@@ -42,5 +46,8 @@ window.addEventListener('keyup', (e) => {
     }
     if (e.keyCode === 32) { // SPACE bar
         keyboard.SPACE = false;
+    }
+    if (e.keyCode === 68) { // d
+        keyboard.D = false;
     }
 });
