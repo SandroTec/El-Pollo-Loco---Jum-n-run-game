@@ -18,10 +18,17 @@ class ThrowableObject extends MoveableObject {
         
     }
 
-    throw() {
+    throw() {// not working
+        if (this.character.otherDirection = false) {
+            this.speed_x = 20;
+            this.speed_y = 30;
+        } 
+        if (this.character.otherDirection = true) {
+            this.speed_x = -20;
+            this.speed_y = 30;
+        }
         
-        this.speed_x = 20;
-        this.speed_y = 30;
+        
         this.applyGravity();
         setInterval(() => {
             if (this.isAboveGround()) {
