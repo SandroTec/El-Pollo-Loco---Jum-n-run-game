@@ -32,7 +32,6 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottle);
-        this.addObjectsToMap(this.throwableObjects);
 
         this.ctx.translate(-this.camera_x, 0); //moves camera back to draw static statusbar
         this.addObjectsToMap(this.level.statusbar);
@@ -40,6 +39,7 @@ class World {
         
         // draw the character and the enemies on the canvas
         this.addToMap(this.character);
+        this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.level.enemies);
         // the function draw will be called as often as possible for your computer hardware, so that you have a smooth animation. 
         this.ctx.translate(-this.camera_x, 0);
@@ -74,7 +74,7 @@ class World {
 
     checkThrowableObject() {
         if (this.keyboard.D) {
-            let bottle = new ThrowableObject(this.character.x + this.character.width, this.character.y + 10, this.character);
+            let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 10, this.character);
             this.throwableObjects.push(bottle);
         }
     }
