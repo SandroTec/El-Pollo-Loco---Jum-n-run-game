@@ -84,7 +84,7 @@ class World {
             this.level.enemies.forEach(enemy => {
                 if (this.character.isColiding(enemy) ) {
                     this.character.hit();
-                    this.statusbar.setPercentage(this.character.energy);
+                    statusbar.setPercentage(this.character.energy);
                 }
             });
         
