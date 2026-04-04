@@ -5,25 +5,26 @@ class ThrowableObject extends MoveableObject {
         'img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png',
     ]
-    speed_x
-    constructor(x, y) {
+    speed_x;
+    constructor(x, y, mo) {
         super().loadImage('img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
         //this.loadImages(this.IMAGES_BOTTLE);
         this.x = x;
         this.y = y; 
         this.height = 75;
         this.width = 50;
-        this.throw();
+        this.throw(mo);
 
         
     }
 
-    throw() {// not working
-        if (this.character.otherDirection = false) {
+    throw(mo) {
+        if (mo.otherDirection == false) {
             this.speed_x = 20;
             this.speed_y = 30;
         } 
-        if (this.character.otherDirection = true) {
+        if (mo.otherDirection == true) {
+            this.x = mo.x;
             this.speed_x = -20;
             this.speed_y = 30;
         }

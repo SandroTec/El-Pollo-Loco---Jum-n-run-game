@@ -64,9 +64,7 @@ class MoveableObject extends DrawableObject {
         this.energy -= 25;
         if (this.energy < 0) {
             this.energy = 0;
-        } else {
-            this.lastHit = new Date().getTime();
-        }
+        } else {this.lastHit = new Date().getTime()};
     }
 
     isHurt() {
@@ -76,8 +74,13 @@ class MoveableObject extends DrawableObject {
     }
 
     isDead() {
-        return this.energy == 0;
-        
+        return this.energy == 0;    
     }
+
+    jumpOnEnemy() {
+        return
+    }
+
+          
 
 }
