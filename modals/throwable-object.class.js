@@ -47,7 +47,7 @@ class ThrowableObject extends MoveableObject {
 
                 let timePassed = (new Date().getTime() - this.splashStartTime) / 1000;
 
-                if (timePassed > 2) {
+                if (timePassed > 1) {
                     this.removed = true
                     world.throwableObjects = world.throwableObjects.filter(obj => !obj.removed);
                 }
