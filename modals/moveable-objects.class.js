@@ -17,8 +17,10 @@ class MoveableObject extends DrawableObject {
     };
 
     applyGravity() {
+        
         setInterval(() => {
             if (this.isAboveGround() || this.speed_y > 0) {
+                this.lastY = this.y; // for jumpOn chicken enemy
                 this.y -= this.speed_y;
                 this.speed_y -= this.acceleration;
             }}, 1000 / 25);
@@ -53,11 +55,25 @@ class MoveableObject extends DrawableObject {
 
     // checks if a moveable object is coliding with another mo.
     isColiding(mo) {
-        return this.x + this.width - this.offset.right > mo.x + mo.offset.left && // right side of the character is bigger than the left side of the object
-               this.y + this.height - this.offset.bottom > mo.y + mo.offset.top && // bottom of the character is bigger than the top of the object
-               this.x + this.offset.left < mo.x + mo.width - mo.offset.right && // left side of the character is smaller than the right side of the object
-               this.y + this.offset.right < mo.y + mo.height - mo.offset.left; // top of the character is smaller than the bottom of the object
-        
+        let charLeft = this.x + this.offset.left;
+        let charRight = this.x + this.width - this.offset.right;
+        let charTop = this.y + this.offset.top;
+        let charBottom = this.y + this.height - this.offset.bottom;
+
+        let moLeft = mo.x + mo.offset.left;
+        let moRight = mo.x + mo.width - mo.offset.right;
+        let moTop = mo.y + mo.offset.top;
+        let moBottom = mo.y + mo.height - mo.offset.bottom;
+
+        // horizontale Überlappung
+        let horizontalHit = charRight > moLeft && charLeft < moRight;
+
+        // vertikale Überlappung, nur Schaden wenn **nicht von oben gesprungen**
+        let verticalHit = charBottom > moTop &&
+                        charTop < moBottom &&
+                        !(this.jumpOn(mo)); // hier ausschließen
+
+        return horizontalHit && verticalHit;
     }
 
     hit() {
@@ -77,10 +93,22 @@ class MoveableObject extends DrawableObject {
         return this.energy == 0;    
     }
 
-    jumpOnEnemy() {
-        return
+    jumpOn(mo) {
+    let charBottom = this.y + this.height - this.offset.bottom;
+    let lastCharBottom = this.lastY + this.height - this.offset.bottom;
+    let enemyTop = mo.y + mo.offset.top;
+
+    let charLeft = this.x + this.offset.left;
+    let charRight = this.x + this.width - this.offset.right;
+    let enemyLeft = mo.x + mo.offset.left;
+    let enemyRight = mo.x + mo.width - mo.offset.right;
+
+    let verticalHit = lastCharBottom <= enemyTop &&
+                      charBottom >= enemyTop;
+
+    let horizontalHit = charRight > enemyLeft &&
+                        charLeft < enemyRight;
+
+    return verticalHit && horizontalHit;
     }
-
-          
-
 }

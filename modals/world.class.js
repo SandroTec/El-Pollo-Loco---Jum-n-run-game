@@ -57,8 +57,8 @@ class World {
         if (mo.otherDirection) {
             this.flipImage(mo);
         }
-        mo.draw(this.ctx)
-        //mo.showHitBox(this.ctx);
+        mo.draw(this.ctx);
+        mo.showHitBox(this.ctx);
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);
@@ -69,7 +69,7 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowableObject()
-        }, 200);
+        }, 500);
     }
 
     checkThrowableObject() {
@@ -80,20 +80,25 @@ class World {
     }
 
     checkCollisions() {
-        // checks if the character is coliding with an enemy.
-            this.level.enemies.forEach(enemy => {
-                if (this.character.isColiding(enemy) ) {
-                    this.character.hit();
-                    statusbar.setPercentage(this.character.energy);
-                }
-            });
-        
-        // checks if the charcter is coliding with a coin.
-            this.level.coins.forEach(coin => {
-                if (this.character.isColiding(coin)) {
-                    console.log('coin collected!')
-                }
-            });
+        // Gegner prüfen
+        this.level.enemies.forEach(enemy => {
+            if (this.character.jumpOn(enemy)) {
+                // Character springt auf Enemy → nur Enemy trifft Schaden
+                enemy.hit();
+                console.log('Jump on Enemy!');
+            } else if (this.character.isColiding(enemy) && !this.character.jumpOn(enemy)) {
+                // Character wird nur getroffen, wenn er nicht von oben auf Enemy springt
+                this.character.hit();
+                this.level.statusbar[0].setPercentage(this.character.energy);
+            }
+        });
+
+        // Münzen prüfen
+        this.level.coins.forEach(coin => {
+            if (this.character.isColiding(coin)) {
+                console.log('coin collected!');
+            }
+        });
     }
 
     flipImage(mo) {

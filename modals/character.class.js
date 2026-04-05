@@ -39,10 +39,10 @@ class Character extends MoveableObject {
     world;
     walking_sound = new Audio('')
     offset = {
-        top: 10,
-        left: 20,
-        right: 20,
-        bottom: 0
+        top: 50,
+        left: 10,
+        right: 10,
+        bottom: 10
     };
 
     constructor() {        
