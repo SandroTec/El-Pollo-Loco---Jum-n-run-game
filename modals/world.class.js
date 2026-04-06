@@ -80,12 +80,11 @@ class World {
     }
 
     checkCollisions() {
-        // Gegner prüfen
+        // check enemy
         this.level.enemies.forEach(enemy => {
             if (this.character.jumpOn(enemy)) {
                 // Character springt auf Enemy → nur Enemy trifft Schaden
                 enemy.hit();
-                console.log('Jump on Enemy!');
             } else if (this.character.isColiding(enemy) && !this.character.jumpOn(enemy)) {
                 // Character wird nur getroffen, wenn er nicht von oben auf Enemy springt
                 this.character.hit();
@@ -93,7 +92,17 @@ class World {
             }
         });
 
-        // Münzen prüfen
+        //check if bottle hits enemy or ground
+        this.level.throwableObjects.forEach(throwableObject => {
+            if (this.enemies.burnEnemy(throwableObject)) { // noch zu tun: burnEnemy
+                // splash burns the enemy
+                enemy.hit();
+                enemy.hit();
+                console.log('Enemy burns!');
+            } 
+        });
+
+        // check Coins
         this.level.coins.forEach(coin => {
             if (this.character.isColiding(coin)) {
                 console.log('coin collected!');
