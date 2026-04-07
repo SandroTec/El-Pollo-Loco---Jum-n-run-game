@@ -90,17 +90,14 @@ class World {
                 this.character.hit();
                 this.level.statusbar[0].setPercentage(this.character.energy);
             }
-        });
 
-        //check if bottle hits enemy or ground
-        this.level.throwableObjects.forEach(throwableObject => {
-            if (this.enemies.burnEnemy(throwableObject)) { // noch zu tun: burnEnemy
-                // splash burns the enemy
-                enemy.hit();
-                enemy.hit();
-                console.log('Enemy burns!');
-            } 
-        });
+            //check if bottle hits enemy or ground
+            this.throwableObjects.forEach(throwableObject => {
+                if (enemy.isColiding(throwableObject)) {
+                    console.log('enemy burn!')
+                    throwableObject.hasSplashed = true;
+            }    
+        })});
 
         // check Coins
         this.level.coins.forEach(coin => {

@@ -94,21 +94,21 @@ class MoveableObject extends DrawableObject {
     }
 
     jumpOn(mo) {
-    let charBottom = this.y + this.height - this.offset.bottom;
-    let lastCharBottom = this.lastY + this.height - this.offset.bottom;
-    let enemyTop = mo.y + mo.offset.top;
+        let charBottom = this.y + this.height - this.offset.bottom;
+        let lastCharBottom = this.lastY + this.height - this.offset.bottom;
+        let enemyTop = mo.y + mo.offset.top;
 
-    let charLeft = this.x + this.offset.left;
-    let charRight = this.x + this.width - this.offset.right;
-    let enemyLeft = mo.x + mo.offset.left;
-    let enemyRight = mo.x + mo.width - mo.offset.right;
+        let charLeft = this.x + this.offset.left;
+        let charRight = this.x + this.width - this.offset.right;
+        let enemyLeft = mo.x + mo.offset.left;
+        let enemyRight = mo.x + mo.width - mo.offset.right;
 
-    let verticalHit = lastCharBottom <= enemyTop &&
-                      charBottom >= enemyTop;
+        let verticalHit = lastCharBottom <= enemyTop &&
+                        charBottom >= enemyTop;
 
-    let horizontalHit = charRight > enemyLeft &&
-                        charLeft < enemyRight;
+        let horizontalHit = charRight > enemyLeft &&
+                            charLeft < enemyRight;
 
-    return verticalHit && horizontalHit;
+        return verticalHit && horizontalHit;
     }
 }
