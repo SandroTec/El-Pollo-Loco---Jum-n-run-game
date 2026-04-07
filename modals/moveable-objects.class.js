@@ -17,7 +17,6 @@ class MoveableObject extends DrawableObject {
     };
 
     applyGravity() {
-        
         setInterval(() => {
             if (this.isAboveGround() || this.speed_y > 0) {
                 this.lastY = this.y; // for jumpOn chicken enemy

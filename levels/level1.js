@@ -1,4 +1,7 @@
 const level1 = new Level(
+    
+    startscreen = new Startscreen(),
+    
     [
         new Chicken(),
         new Chicken(),
@@ -54,6 +57,8 @@ const level1 = new Level(
         new Statusbar_health(),
         new Statusbar_coin(),
         new Statusbar_bottle(),
-    ]
+    ],
+    
+    endscreen = new Endscreen()
 
 );

@@ -1,5 +1,6 @@
 class World {
     character = new Character();
+    isAlive = false;
     throwableObjects = [];
     level = level1;
 
@@ -22,28 +23,39 @@ class World {
     }
 
     draw() {
-        // for clearing the canvas, so that you can draw the next frame without the previous one.
-        this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-        // moves camera
-        this.ctx.translate(this.camera_x, 0);
-        // draw a array of objects on the canvas
-        this.addObjectsToMap(this.level.skyes);
-        this.addObjectsToMap(this.level.clouds);
-        this.addObjectsToMap(this.level.backgroundObjects);
-        this.addObjectsToMap(this.level.coins);
-        this.addObjectsToMap(this.level.bottle);
+        if (this.isAlive == false) {
+            this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+            this.addToMap(this.level.startscreen);
+            this.isAlive = true;
+        } else {
+            // for clearing the canvas, so that you can draw the next frame without the previous one.
+            this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+            // moves camera
+            this.ctx.translate(this.camera_x, 0);
+            // draw a array of objects on the canvas
+            this.addObjectsToMap(this.level.skyes);
+            this.addObjectsToMap(this.level.clouds);
+            this.addObjectsToMap(this.level.backgroundObjects);
+            this.addObjectsToMap(this.level.coins);
+            this.addObjectsToMap(this.level.bottle);
 
-        this.ctx.translate(-this.camera_x, 0); //moves camera back to draw static statusbar
-        this.addObjectsToMap(this.level.statusbar);
-        this.ctx.translate(this.camera_x, 0); // moves camera forward
-        
-        // draw the character and the enemies on the canvas
-        this.addToMap(this.character);
-        this.addObjectsToMap(this.throwableObjects);
-        this.addObjectsToMap(this.level.enemies);
-        // the function draw will be called as often as possible for your computer hardware, so that you have a smooth animation. 
-        this.ctx.translate(-this.camera_x, 0);
-        
+            this.ctx.translate(-this.camera_x, 0); //moves camera back to draw static statusbar
+            this.addObjectsToMap(this.level.statusbar);
+            this.ctx.translate(this.camera_x, 0); // moves camera forward
+            
+            // draw the character and the enemies on the canvas
+            this.addToMap(this.character);
+            this.addObjectsToMap(this.throwableObjects);
+            this.addObjectsToMap(this.level.enemies);
+            // the function draw will be called as often as possible for your computer hardware, so that you have a smooth animation. 
+            this.ctx.translate(-this.camera_x, 0);
+        }
+        if (this.character.isDead()) {
+            setInterval(() => {
+                this.addToMap(this.level.endscreen);
+            }, 3000);
+            this.isAlive = false;
+        }
         requestAnimationFrame(this.draw.bind(this));
     }
 

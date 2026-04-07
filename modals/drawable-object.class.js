@@ -2,7 +2,6 @@ class DrawableObject {
     img;
     x;
     y;
-    
     height;
     width;
     imageCache = [];
