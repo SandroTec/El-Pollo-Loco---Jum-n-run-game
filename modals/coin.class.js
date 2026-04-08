@@ -12,5 +12,9 @@ class Coin extends MoveableObject {
         super().loadImage('img/8_coin/coin_2.png');
         this.x = x;
         this.y = 100* Math.random() + 100;
-    }
+    };
+
+    collectCoin() {
+        console.log('Coin collected!')
+    };
 }
