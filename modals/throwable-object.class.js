@@ -35,34 +35,35 @@ class ThrowableObject extends MoveableObject {
     }
 
     animate() {
-        this.loadImages(this.IMAGES_BOTTLE);
-        this.loadImages(this.IMAGES_BOTTLE_SPLASH);
+        
+            this.loadImages(this.IMAGES_BOTTLE);
+            this.loadImages(this.IMAGES_BOTTLE_SPLASH);
 
-        setInterval(() => {
+            setInterval(() => {
 
-            if (!this.hasSplashed) {
-                this.playAnimation(this.IMAGES_BOTTLE);
+                if (!this.hasSplashed) {
+                    this.playAnimation(this.IMAGES_BOTTLE);
 
-                if (this.bottleHitGround()) {
-                    this.hasSplashed = true;
-                    this.splashStartTime = new Date().getTime();
-                    this.stopGravity();
+                    if (this.bottleHitGround()) {
+                        this.hasSplashed = true;
+                        this.splashStartTime = new Date().getTime();
+                        this.stopGravity();
+                    }
+                } else {
+                    this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
+
+                    let timePassed = (new Date().getTime() - this.splashStartTime) / 1000;
+
+                    if (timePassed > 1) {
+                        this.removed = true
+                        world.throwableObjects = world.throwableObjects.filter(obj => !obj.removed);
+                    }
                 }
-            } else {
-                this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
-
-                let timePassed = (new Date().getTime() - this.splashStartTime) / 1000;
-
-                if (timePassed > 1) {
-                    this.removed = true
-                    world.throwableObjects = world.throwableObjects.filter(obj => !obj.removed);
-                }
-            }
-            
-        }, 100);
+                
+            }, 100);
     }
-
     throw(mo) {
+        
         this.applyGravityForBottle();
 
         this.speed_y = 30;
@@ -74,7 +75,10 @@ class ThrowableObject extends MoveableObject {
             }
         }, 50);
 
+        world.character.bottleCollected = false;
+        world.level.statusbar[2].setBottleBar(world.character.bottleCollected)
         this.animate();
+    
     }
 
     applyGravityForBottle() {

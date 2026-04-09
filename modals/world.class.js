@@ -85,7 +85,7 @@ class World {
     }
 
     checkThrowableObject() {
-        if (this.keyboard.D) {
+        if (this.keyboard.D && this.character.bottleCollected == true) {
             let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 10, this.character);
             this.throwableObjects.push(bottle);
         }
