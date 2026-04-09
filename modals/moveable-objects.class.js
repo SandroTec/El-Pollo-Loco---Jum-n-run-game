@@ -5,7 +5,6 @@ class MoveableObject extends DrawableObject {
     otherDirection = false;
     speed_y = 0;
     acceleration = 5;
-    energy = 100;
     lastHit = 0;
 
     // object used for collision check.

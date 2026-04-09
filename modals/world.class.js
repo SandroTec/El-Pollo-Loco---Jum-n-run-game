@@ -114,7 +114,9 @@ class World {
         // check Coins
         this.level.coins.forEach(coin => {
             if (this.character.isColiding(coin)) {
+                this.character.coinCount += 1;
                 coin.collectCoin();
+                this.level.statusbar[1].setCoinBar(this.character.coinCount)
             }
         });
         // check SalsaBottle

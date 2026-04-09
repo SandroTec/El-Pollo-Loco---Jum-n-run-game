@@ -54,35 +54,32 @@ class Statusbar_coin extends DrawableObject {
     constructor() {
         super();
         this.loadImages(this.IMAGES_COIN);
-        this.setPercentage(100);
+        this.setCoinBar(0);
         this.x = 20;
         this.y = 40;
         this.height = 75;
         this.width = 250;
     }
 
-    setPercentage(percentage) {
-    this.percentage = percentage;
+    setCoinBar(coinCount) {
+    this.coinCount = coinCount;
 
     let path;
 
-        if (this.percentage >= 90) {
+        if (this.coinCount == 0) {
             path = this.IMAGES_COIN[0];
-        } else if (this.percentage >= 70) {
-            path = this.IMAGES_COIN[1];
-        } else if (this.percentage >= 50) {
+        } else if (this.coinCount == 1) {
             path = this.IMAGES_COIN[2];
-        } else if (this.percentage >= 30) {
-            path = this.IMAGES_COIN[3];
-        } else if (this.percentage >= 15) {
+        } else if (this.coinCount == 2) {
             path = this.IMAGES_COIN[4];
-        } else {
+        } else if (this.coinCount == 3) {
             path = this.IMAGES_COIN[5];
         }
 
         this.img = this.imageCache[path]; 
+        }
     }
-}
+
 
 class Statusbar_bottle extends DrawableObject {
     IMAGES_BOTTLE = [
@@ -96,14 +93,14 @@ class Statusbar_bottle extends DrawableObject {
     constructor() {
         super();
         this.loadImages(this.IMAGES_BOTTLE);
-        this.setPercentage(100);
+        this.setBottleBar(100)
         this.x = 20;
         this.y = 80;
         this.height = 75;
         this.width = 250;
     }
 
-    setPercentage(percentage) {
+    setBottleBar(percentage) {
     this.percentage = percentage;
 
     let path;

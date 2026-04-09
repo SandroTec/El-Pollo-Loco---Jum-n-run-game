@@ -16,7 +16,7 @@ class Chicken extends MoveableObject {
         right: 0,
         bottom: 0
     };
-
+    enemyDead = false;
     constructor() {
        super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/2_w.png');
        this.loadImages(this.IMAGES_WALKING);
@@ -38,7 +38,11 @@ class Chicken extends MoveableObject {
             if (this.isDead()) {
                 this.loadImage(this.IMAGES_DEAD[0]); 
                 this.speed = 0;
+                this.enemyDead = true;
             } else {this.playAnimation(this.IMAGES_WALKING);}
+            if (this.enemyDead == true) {
+                world.level.enemies = world.level.enemies.filter(obj => !obj.enemyDead);
+            }
         
         }, 200);
     }

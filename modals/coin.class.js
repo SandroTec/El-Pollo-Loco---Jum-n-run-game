@@ -1,13 +1,14 @@
 class Coin extends MoveableObject {
     height = 150;
     width = 150;
-
+    
     offset = {
         top: 50,
         left: 50,
         right: 50,
         bottom: 50
     };
+    removed = false;
     constructor(x) {
         super().loadImage('img/8_coin/coin_2.png');
         this.x = x;
@@ -15,6 +16,10 @@ class Coin extends MoveableObject {
     };
 
     collectCoin() {
-        console.log('Coin collected!')
+        console.log('Coin collected!');
+        this.removed = true;
+        
+        world.level.coins = world.level.coins.filter(obj => !obj.removed);
+        console.log(world.character.coinCount);
     };
 }

@@ -6,7 +6,9 @@ class DrawableObject {
     width;
     imageCache = [];
     currentImage = 0;
-    percentage = 100;
+    energy = 100;
+    bottleCollected = false;
+    coinCount = 0;
 
     loadImage(path) {
         this.img = new Image();
