@@ -95,9 +95,12 @@ class World {
         // check enemy
         this.level.enemies.forEach(enemy => {
             if (this.character.jumpOn(enemy)) {
-                // Character springt auf Enemy → nur Enemy trifft Schaden
                 enemy.hit();
-            } else if (this.character.isColiding(enemy) && !this.character.jumpOn(enemy)) {
+
+            } else if (this.character.isColiding(enemy) 
+                && !this.character.jumpOn(enemy)
+                && !enemy.isDying) {
+                
                 // Character wird nur getroffen, wenn er nicht von oben auf Enemy springt
                 this.character.hit();
                 this.level.statusbar[0].setPercentage(this.character.energy);
