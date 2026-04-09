@@ -106,7 +106,8 @@ class World {
             //check if bottle hits enemy or ground
             this.throwableObjects.forEach(throwableObject => {
                 if (enemy.isColiding(throwableObject)) {
-                    console.log('enemy burn!')
+                    enemy.hit();
+                    enemy.hit();
                     throwableObject.hasSplashed = true;
             }    
         })});

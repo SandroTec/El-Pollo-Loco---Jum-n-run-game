@@ -31,20 +31,36 @@ class Chicken extends MoveableObject {
 
     animate() {
         setInterval(() => {
-            this.moveLeft(); 
-        }, 1000 / 60)
+            if (!this.isDying) {
+                this.moveLeft();
+            }
+        }, 1000 / 60);
 
         setInterval(() => {
-            if (this.isDead()) {
-                this.loadImage(this.IMAGES_DEAD[0]); 
-                this.speed = 0;
-                this.enemyDead = true;
-            } else {this.playAnimation(this.IMAGES_WALKING);}
-            if (this.enemyDead == true) {
-                world.level.enemies = world.level.enemies.filter(obj => !obj.enemyDead);
+            if (this.isDead() && !this.isDying) {
+                this.startDying();
             }
-        
+
+            if (this.isDying) {
+                this.loadImage(this.IMAGES_DEAD[0]);
+
+                let timePassed = new Date().getTime() - this.deathStartTime;
+
+                if (timePassed > 2000) { // 2 Sekunden
+                    this.enemyDead = true;
+                    world.level.enemies = world.level.enemies.filter(obj => !obj.enemyDead);
+                }
+            } else {
+                this.playAnimation(this.IMAGES_WALKING);
+            }
+
         }, 200);
+    }
+
+    startDying() {
+        this.isDying = true;
+        this.deathStartTime = new Date().getTime();
+        this.speed = 0;
     }
 
     

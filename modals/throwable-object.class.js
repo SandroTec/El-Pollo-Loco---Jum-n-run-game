@@ -87,7 +87,7 @@ class ThrowableObject extends MoveableObject {
                 this.y -= this.speed_y;
                 this.speed_y -= this.acceleration;
             }}, 1000 / 25);
-    }
+    }  
 
     stopGravity() {
         this.speed_y = 0;

@@ -51,6 +51,7 @@ class Endboss extends MoveableObject {
        this.height = 470;
        this.width = 150;
        this.speed = 0.25 * Math.random() + 0.5;
+       this.energy = 100;
        this.animate();
     }
 
