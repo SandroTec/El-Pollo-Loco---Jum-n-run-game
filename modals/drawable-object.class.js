@@ -26,7 +26,7 @@ class DrawableObject {
     }
 
     showHitBox(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof Coin) {
+        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof Coin || this instanceof Bottle) {
         ctx.beginPath();
         ctx.lineWidth = '1';
         ctx.strokeStyle = 'red';
