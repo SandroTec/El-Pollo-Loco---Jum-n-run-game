@@ -122,6 +122,8 @@ class World {
         // check SalsaBottle
         if (this.character.isColiding(this.level.bottle)) {
             bottle.collectBottle();
+            this.character.bottleCollected = true;
+            this.level.statusbar[2].setBottleBar(this.character.bottleCollected)
         }
     }
 
