@@ -10,6 +10,7 @@ class Level {
     backgroundObjects;
     level_end_x = 720*2.5;
     endscreen;
+    win;
 
     constructor(startscreen, enemies, clouds, backgroundObjects, skyes, coins, bottle, statusbar, endscreen) {
         this.startscreen = startscreen;
@@ -21,5 +22,6 @@ class Level {
         this.bottle = bottle;
         this.statusbar = statusbar;
         this.endscreen = endscreen;
+        this.win = this.win;
     }
 }

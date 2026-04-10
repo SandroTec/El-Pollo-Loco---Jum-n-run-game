@@ -58,7 +58,10 @@ class World {
             if (gameRestart()) {
                 this.isAlive = false;
             }
+        } else if (this.character.x == this.level.level_end_x) {
+            this.addToMap(this.level.win);
         }
+            
         requestAnimationFrame(this.draw.bind(this));
     }
 
