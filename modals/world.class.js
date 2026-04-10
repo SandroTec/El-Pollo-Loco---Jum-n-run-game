@@ -22,10 +22,12 @@ class World {
         this.character.world = this;
     }
 
+   
+
     draw() {
         if (this.character.isAlive == false) {
             this.addToMap(this.level.startscreen);
-        
+            
             
         } else {
             // for clearing the canvas, so that you can draw the next frame without the previous one.
@@ -59,6 +61,7 @@ class World {
         }
         requestAnimationFrame(this.draw.bind(this));
     }
+
 
     addObjectsToMap(objects) {
         objects.forEach(object => {

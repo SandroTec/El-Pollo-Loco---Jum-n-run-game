@@ -48,7 +48,7 @@ class Chicken extends MoveableObject {
 
                 let timePassed = new Date().getTime() - this.deathStartTime;
 
-                if (timePassed > 2000) { // 2 Sekunden
+                if (timePassed >= 5000) { // 5 Sekunden
                     world.level.enemies = world.level.enemies.filter(obj => !obj.enemyDead);
                 }
             } else {

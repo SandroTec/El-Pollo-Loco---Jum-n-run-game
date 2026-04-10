@@ -68,6 +68,7 @@ class Endboss extends MoveableObject {
                 this.playAnimation(this.IMAGES_DEAD);
                 this.isDying = true;
                 this.speed = 0;
+                this.enemyDead = true;
             }
         }, 200);
     }

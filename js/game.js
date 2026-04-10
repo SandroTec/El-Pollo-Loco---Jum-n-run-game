@@ -2,6 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 
+
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
@@ -69,6 +70,7 @@ canvas.addEventListener("click", (event) => {
 
 function handleClick(event) {
         world.character.isAlive = true;
-        
+        gameStart()
         
 }
+
