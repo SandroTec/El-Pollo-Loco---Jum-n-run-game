@@ -44,6 +44,7 @@ class Character extends MoveableObject {
         right: 15,
         bottom: 10
     };
+    isAlive = false;
 
     constructor() {        
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');

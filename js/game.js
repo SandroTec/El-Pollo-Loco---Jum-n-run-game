@@ -8,6 +8,13 @@ function init() {
 
 }
 
+function gameStart() {
+    return true
+}
+function gameRestart() {
+    return true
+}
+
 function setCanvasToFullscreen() {
     canvas.requestFullscreen()
 }
@@ -53,3 +60,15 @@ window.addEventListener('keyup', (e) => {
         keyboard.D = false;
     }
 });
+
+canvas = document.getElementById('canvas');
+        
+canvas.addEventListener("click", (event) => {
+    this.handleClick(event);
+})
+
+function handleClick(event) {
+        world.character.isAlive = true;
+        
+        
+}

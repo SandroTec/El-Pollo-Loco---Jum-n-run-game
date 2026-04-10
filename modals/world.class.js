@@ -23,10 +23,10 @@ class World {
     }
 
     draw() {
-        if (this.isAlive == false) {
-            this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        if (this.character.isAlive == false) {
             this.addToMap(this.level.startscreen);
-            this.isAlive = true;
+        
+            
         } else {
             // for clearing the canvas, so that you can draw the next frame without the previous one.
             this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
@@ -50,11 +50,12 @@ class World {
             // the function draw will be called as often as possible for your computer hardware, so that you have a smooth animation. 
             this.ctx.translate(-this.camera_x, 0);
         }
-        if (this.character.isDead()) {
-            setInterval(() => {
-                this.addToMap(this.level.endscreen);
-            }, 3000);
-            this.isAlive = false;
+        
+        if (this.character.isDead()) {    
+            this.addToMap(this.level.endscreen);
+            if (gameRestart()) {
+                this.isAlive = false;
+            }
         }
         requestAnimationFrame(this.draw.bind(this));
     }
@@ -94,13 +95,10 @@ class World {
     checkCollisions() {
         // check enemy
         this.level.enemies.forEach(enemy => {
-            if (this.character.jumpOn(enemy)) {
+            let isJumpingOnEnemy = this.character.jumpOn(enemy);
+            if (isJumpingOnEnemy) {
                 enemy.hit();
-
-            } else if (this.character.isColiding(enemy) 
-                && !this.character.jumpOn(enemy)
-                && !enemy.isDying) {
-                
+            } else if (this.character.isColiding(enemy) && !enemy.isDying && enemy.enemyDead == false) {
                 // Character wird nur getroffen, wenn er nicht von oben auf Enemy springt
                 this.character.hit();
                 this.level.statusbar[0].setPercentage(this.character.energy);
