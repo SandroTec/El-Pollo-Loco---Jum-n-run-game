@@ -45,7 +45,6 @@ class Endboss extends MoveableObject {
     enemyDead = false;
     constructor() {
        super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
-       this.loadImages(this.IMAGES_WALKING);
        this.x = 1820; // fixed position for the boss;
        this.y = 0;
        this.height = 470;
@@ -56,20 +55,31 @@ class Endboss extends MoveableObject {
        this.animate();
     }
 
-    animate() {
+    animate() { 
         setInterval(() => {
-            this.moveLeft();
-        }, 1000 / 60);
-        
-        setInterval(() => {
-            this.playAnimation(this.IMAGES_WALKING);
-            if (this.isDead()) {
+            if (world.character.x >= 1000) {
+                this.loadImages(this.IMAGES_ALERT);
+                this.playAnimation(this.IMAGES_ALERT);
+                
+            } else if (world.character.isColiding(this)) {
+                this.loadImages(this.IMAGES_ATTACK);
+                this.playAnimation(this.IMAGES_ATTACK);
+            } else if (this.isDead()) {
                 this.loadImages(this.IMAGES_DEAD)
                 this.playAnimation(this.IMAGES_DEAD);
                 this.isDying = true;
                 this.speed = 0;
                 this.enemyDead = true;
-            }
+            } 
+
+            
+            
         }, 200);
+
+        setInterval(() => {
+            this.moveLeft();
+            this.loadImages(this.IMAGES_WALKING);
+            this.playAnimation(this.IMAGES_WALKING);
+        }, 50)
     }
 }
