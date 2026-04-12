@@ -1,9 +1,12 @@
 class World {
+    startscreen = new Startscreen();
     character = new Character();
-    isAlive = false;
+    endscreen = new Endscreen();
     throwableObjects = [];
-    level = level1;
+    level;
+    level_end_x = 720*2.5;
 
+    isPlaying = false;
     canvas;
     ctx;
     keyboard;
@@ -13,26 +16,30 @@ class World {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
-        this.draw();
         this.setWorld(keyboard);
-        this.run();
+        this.drawStartscreen();
     }
 
     setWorld() {
         this.character.world = this;
     }
 
+    drawStartscreen() {
+        if (this.isPlaying == false) {
+            this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+            this.addToMap(this.startscreen);
+            requestAnimationFrame(() => this.drawStartscreen());
+        } else return;
+    }
    
 
     draw() {
-        if (this.character.isAlive == false) {
-            this.addToMap(this.level.startscreen);
-            
-            
-        } else {
+        if (!this.level) {
+            return;
+        }
+        if (this.level) {
             // for clearing the canvas, so that you can draw the next frame without the previous one.
             this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-            // moves camera
             this.ctx.translate(this.camera_x, 0);
             // draw a array of objects on the canvas
             this.addObjectsToMap(this.level.skyes);
@@ -51,16 +58,13 @@ class World {
             this.addObjectsToMap(this.level.enemies);
             // the function draw will be called as often as possible for your computer hardware, so that you have a smooth animation. 
             this.ctx.translate(-this.camera_x, 0);
-        }
-        
+        } 
         if (this.character.isDead()) {    
-            this.addToMap(this.level.endscreen);
-            if (gameRestart()) {
-                this.isAlive = false;
-            }
-        } else if (this.character.x == this.level.level_end_x) {
+            this.addToMap(this.endscreen);
+            
+        } else if (this.level && this.character.x >= this.level_end_x) {
             this.addToMap(this.level.win);
-        }
+        } 
             
         requestAnimationFrame(this.draw.bind(this));
     }

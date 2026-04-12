@@ -6,12 +6,18 @@ let keyboard = new Keyboard();
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
-
 }
 
 function gameStart() {
-    return true
+    if (world.isPlaying) return
+    const level1 = initLevel();  
+    world.level = level1; 
+    world.isPlaying = true;      
+    world.draw();
+    world.run();
+    
 }
+
 function gameRestart() {
     return true
 }
@@ -69,8 +75,8 @@ canvas.addEventListener("click", (event) => {
 })
 
 function handleClick(event) {
-        world.character.isAlive = true;
-        gameStart()
-        
+    if (!world.isPlaying) {
+        gameStart();
+    } else return;
 }
 

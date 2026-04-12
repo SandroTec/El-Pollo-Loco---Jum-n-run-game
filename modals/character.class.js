@@ -44,7 +44,6 @@ class Character extends MoveableObject {
         right: 15,
         bottom: 10
     };
-    isAlive = false;
 
     constructor() {        
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
@@ -65,7 +64,7 @@ class Character extends MoveableObject {
     animate() {
         // moves the character if arrow key left or right is pressed.
         setInterval(() => {
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+            if (this.world.keyboard.RIGHT && this.x < this.world.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false; // if the character moves right, the image will not be mirrored.
             }
