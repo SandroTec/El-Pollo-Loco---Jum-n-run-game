@@ -95,6 +95,12 @@ class MoveableObject extends DrawableObject {
         return this.energy == 0;    
     }
 
+    startDying() {
+        this.isDying = true;
+        this.deathStartTime = new Date().getTime();
+        this.speed = 0;
+    }
+
     jumpOn(mo) {
         let charBottom = this.y + this.height - this.offset.bottom;
         let enemyTop = mo.y + mo.offset.top;

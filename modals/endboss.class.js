@@ -49,7 +49,7 @@ class Endboss extends MoveableObject {
        this.y = 0;
        this.height = 470;
        this.width = 150;
-       this.speed = 1.5 * Math.random() + 2.5;
+       this.speed = 1.5 * Math.random() + 5;
        this.energy = 100;
        this.isDying = false;
        this.animate();
@@ -57,7 +57,7 @@ class Endboss extends MoveableObject {
 
     animate() { 
         setInterval(() => {
-            if (world.character.x >= 1000 && world.character.x <= 1800 && this.isAlerted <= 15) {
+            if (world.character.x >= 1000 && world.character.x <= 1400 && this.isAlerted <= 15 && !this.isDead()) {
                 this.loadImages(this.IMAGES_ALERT);
                 this.playAnimation(this.IMAGES_ALERT);
                 this.isAlerted++
@@ -65,21 +65,23 @@ class Endboss extends MoveableObject {
                 this.loadImages(this.IMAGES_ATTACK);
                 this.playAnimation(this.IMAGES_ATTACK);
             } else if (this.isDead()) {
+                this.startDying();
                 this.loadImages(this.IMAGES_DEAD)
                 this.playAnimation(this.IMAGES_DEAD);
-                this.isDying = true;
-                this.speed = 0;
+                console.log(this.deathStartTime); 
+                let timePassed = new Date().getTime() - this.deathStartTime;
                 this.enemyDead = true;
+                if (timePassed >= 3000) { // 3 Sekunden
+                    world.level.enemies = world.level.enemies.filter(obj => !obj.enemyDead);
+                }
+            
             } else {
                 this.moveLeft();
                 this.loadImages(this.IMAGES_WALKING);
                 this.playAnimation(this.IMAGES_WALKING);
             }
-
-            
             
         }, 200);
-
-        
     }
+
 }

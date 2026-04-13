@@ -61,9 +61,11 @@ class World {
         } 
         if (this.character.isDead()) {    
             this.addToMap(this.endscreen);
+            this.stop();
             
         } else if (this.level && this.character.x >= this.level_end_x) {
             this.addToMap(this.level.win);
+            this.stop();
         } 
             
         requestAnimationFrame(this.draw.bind(this));
