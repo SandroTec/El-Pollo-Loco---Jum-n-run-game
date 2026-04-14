@@ -5,6 +5,7 @@ class Keyboard {
     DOWN;
     SPACE;
     D;
+    F;
 
     constructor() {
         

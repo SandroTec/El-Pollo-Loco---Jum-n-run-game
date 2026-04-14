@@ -16,10 +16,8 @@ class Coin extends MoveableObject {
     };
 
     collectCoin() {
-        console.log('Coin collected!');
         this.removed = true;
 
             world.level.coins = world.level.coins.filter(obj => !obj.removed);
-            console.log(world.character.coinCount);
     };
 }

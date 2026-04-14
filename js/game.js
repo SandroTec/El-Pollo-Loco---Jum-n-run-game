@@ -15,15 +15,10 @@ function gameStart() {
     world.isPlaying = true;      
     world.draw();
     world.run();
-    
 }
 
 function gameRestart() {
     return true
-}
-
-function setCanvasToFullscreen() {
-    canvas.requestFullscreen()
 }
 
 window.addEventListener('keydown', (e) => {
@@ -45,6 +40,9 @@ window.addEventListener('keydown', (e) => {
     if (e.keyCode === 68) { // d
         keyboard.D = true;
     }
+    if (e.keyCode === 70) { // f
+        keyboard.F = true;
+    }
 });
 
 window.addEventListener('keyup', (e) => {
@@ -65,6 +63,9 @@ window.addEventListener('keyup', (e) => {
     }
     if (e.keyCode === 68) { // d
         keyboard.D = false;
+    }
+    if (e.keyCode === 70) { // f
+        keyboard.F = true;
     }
 });
 

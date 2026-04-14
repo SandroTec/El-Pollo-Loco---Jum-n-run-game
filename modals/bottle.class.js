@@ -16,7 +16,6 @@ class Bottle extends MoveableObject {
     };
 
     collectBottle() {
-        console.log('Salsa-bottle collected!')    
         this.removed = true
         
         if (world.level.bottle.removed == true ) {

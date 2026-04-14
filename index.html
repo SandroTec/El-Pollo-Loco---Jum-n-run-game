@@ -33,8 +33,26 @@
     <h1>El Pollo Loco</h1>
 
     <canvas id="canvas" width="720" height="480">
-        <button class="fullscreen-btn" onclick="setCanvasToFullscreen()">F</button>
     </canvas>
     
+
+    <div class="controlling-information">
+        <h2>Controlling:</h2> 
+        <article>
+            Arrow-Left: Character moves left. <br>
+            Arrow-Right: Character moves right. <br>
+            Space-bar: Character Jumps. <br>
+            Keyboard-key D: Character throws Salsa-bottle, if collected. <br>
+            Keyboard-key F: Fullscreen.
+        </article>
+    </div>
+
+    <div class="game-btn-container">
+        <button id="moveLeft">move-left</button>
+        <button id="moveRight">move-right</button>
+        <button id="jump">jump</button>
+        <button id="throw">throw</button>
+        <button class="fullscreen-btn" id="fullscreenBtn" onclick="world.setCanvasToFullscreen()">F</button>
+    </div>
 </body>
 </html>

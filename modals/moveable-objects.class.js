@@ -15,6 +15,10 @@ class MoveableObject extends DrawableObject {
         bottom: 0
     };
 
+    setCanvasToFullscreen() {
+        canvas.requestFullscreen()
+    }
+
     applyGravity() {
         setInterval(() => {
             if (this.isAboveGround() || this.speed_y > 0) {

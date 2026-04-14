@@ -56,7 +56,6 @@ class Character extends MoveableObject {
         this.speed = 10;
         this.speed_y = 0;
 
-        
         this.applyGravity();
         this.animate();
     }
@@ -76,6 +75,10 @@ class Character extends MoveableObject {
 
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.jump();
+            }
+
+            if (this.world.keyboard.F) {
+                this.setCanvasToFullscreen()
             }
             this.world.camera_x = -this.x + 150;
         }, 1000 / 60);
