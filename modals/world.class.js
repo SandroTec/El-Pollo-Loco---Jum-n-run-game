@@ -61,10 +61,12 @@ class World {
         } 
         if (this.character.isDead()) {    
             this.addToMap(this.endscreen);
+            this.isPlaying = false;
             this.stop()
             
         } else if (this.level && this.character.x >= this.level_end_x) {
             this.addToMap(this.level.win);
+            this.isPlaying = false;
             this.stop()
         } 
             
