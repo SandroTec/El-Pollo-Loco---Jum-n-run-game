@@ -15,16 +15,37 @@ body {
 
 canvas {
     background-color: black;
+    z-index: 0;
+    display: flex;
 }
 
-.fullscreen-btn {
-    position: absolute;
+button {
     height: 50px;
     width: 50px;
+    z-index: 1000;
+}
+
+.fullScreenContainer {
+    position: absolute;
+    top: 35px;
+    width: 720px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+
+.game-btn-container {
+    display: none;
+    position: absolute;
+    top: 470px;
+    width: 720px;
+    justify-content: space-evenly;
+
 }
 
 .controlling-information {
     width: 720px;
     height: 300px;
-    text-align: center;
+    text-align: left;
 }

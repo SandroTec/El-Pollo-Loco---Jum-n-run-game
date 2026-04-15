@@ -2,7 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 
-
+let mobileControlls = document.getElementById('mobileControllBtns');
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
@@ -15,11 +15,19 @@ function gameStart() {
     world.isPlaying = true;      
     world.draw();
     world.run();
+    if (window.innerWidth <= 800)
+        {
+            mobileControlls.style.display = 'flex';
+        }
 }
 
 function gameRestart() {
     return true
 }
+
+function setCanvasToFullscreen() {
+        canvas.requestFullscreen()
+    }
 
 window.addEventListener('keydown', (e) => {
     if (e.keyCode === 38) { // UP arrow

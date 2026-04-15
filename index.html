@@ -39,20 +39,26 @@
     <div class="controlling-information">
         <h2>Controlling:</h2> 
         <article>
-            Arrow-Left: Character moves left. <br>
-            Arrow-Right: Character moves right. <br>
-            Space-bar: Character Jumps. <br>
-            Keyboard-key D: Character throws Salsa-bottle, if collected. <br>
-            Keyboard-key F: Fullscreen.
+            <ul>
+            <li>Arrow-Left: Character moves left.</li>
+            <li>Arrow-Right: Character moves right.</li>
+            <li>Space-bar: Character Jumps.</li>
+            <li>Keyboard-key D: Character throws Salsa-bottle, if collected.</li>
+            <li>Keyboard-key F: Fullscreen.</li>
+            </ul>
         </article>
     </div>
-
-    <div class="game-btn-container">
-        <button id="moveLeft"><-</button>
-        <button id="moveRight">-></button>
-        <button id="jump">jump</button>
+    <div class="fullScreenContainer">
+        <button class="fullscreen-btn" id="fullscreenBtn" onclick="setCanvasToFullscreen()">F</button>
+    </div>
+    <div id="mobileControllBtns" class="game-btn-container">
+        <div>
+            <button id="moveLeft"><-</button>
+            <button id="moveRight">-></button>
+            <button id="jump">jump</button>
+        </div>
         <button id="throw">throw</button>
-        <button class="fullscreen-btn" id="fullscreenBtn" onclick="world.setCanvasToFullscreen()">F</button>
+        
     </div>
 </body>
 </html>
