@@ -4,7 +4,8 @@
 }
 
 html {
-    background-image: url();
+    background-image: url('img/5_background/complete_background.png');
+    background-repeat: no-repeat;
 }
 
 body {
@@ -33,7 +34,11 @@ button {
     justify-content: flex-end;
 }
 
-
+.restart-btn {
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
 
 .game-btn-container {
     display: none;
@@ -46,6 +51,12 @@ button {
 
 .controlling-information {
     width: 720px;
-    height: 300px;
+    height: 120px;
     text-align: left;
+    color: goldenrod;
+    background-color: black;
+}
+
+ul {
+    padding-left: 25px;
 }

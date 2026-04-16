@@ -42,6 +42,7 @@ class Endboss extends MoveableObject {
         right: 10,
         bottom: 10
     };
+    boss = true;
     enemyDead = false;
     constructor() {
        super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
@@ -49,7 +50,7 @@ class Endboss extends MoveableObject {
        this.y = 0;
        this.height = 470;
        this.width = 150;
-       this.speed = 5 * Math.random() + 5;
+       this.speed = 15 * Math.random() + 5;
        this.energy = 100;
        this.isDying = false;
        this.animate();

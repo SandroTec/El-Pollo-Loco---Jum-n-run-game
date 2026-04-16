@@ -12,6 +12,8 @@ class World {
     keyboard;
     camera_x = -100;
 
+    gameRestart = document.getElementById('restartBtn');
+
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -28,6 +30,7 @@ class World {
         if (this.isPlaying == false) {
             this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
             this.addToMap(this.startscreen);
+            this.gameRestart.style.display = 'none';
             requestAnimationFrame(() => this.drawStartscreen());
         } else return;
     }
@@ -62,11 +65,13 @@ class World {
         if (this.character.isDead()) {    
             this.addToMap(this.endscreen);
             this.isPlaying = false;
+            this.gameRestart.style.display = 'flex';
             this.stop()
             
         } else if (this.level && this.character.x >= this.level_end_x) {
             this.addToMap(this.level.win);
             this.isPlaying = false;
+            this.gameRestart.style.display = 'flex';
             this.stop()
         } 
             

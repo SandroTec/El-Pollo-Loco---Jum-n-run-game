@@ -21,9 +21,22 @@ function gameStart() {
         }
 }
 
-function gameRestart() {
-    return true
-}
+function restart() {
+        world.character.x = 0;
+        world.character.isDying = false;
+        world.character.energy = 100;
+        world.level.enemies = world.level.enemies.filter(obj => obj.boss)
+        world.level.enemies.forEach(enemy => {
+            enemy.enemyDead = false;
+            enemy.energy = 100;
+            enemy.x = (200 + Math.random() * 500);
+            
+            });
+        world.character.coinCount = 0;
+            
+        world.drawStartscreen();
+        
+    }
 
 function setCanvasToFullscreen() {
         canvas.requestFullscreen()
@@ -84,7 +97,7 @@ canvas.addEventListener("click", (event) => {
 })
 
 function handleClick(event) {
-    if (!world.isPlaying) {
+    if (!world.isPlaying && !world.character.isDying) {
         gameStart();
     } else return;
 }

@@ -30,7 +30,6 @@
     
 </head>
 <body onload="init()">
-    <h1>El Pollo Loco</h1>
 
     <canvas id="canvas" width="720" height="480">
     </canvas>
@@ -40,16 +39,17 @@
         <h2>Controlling:</h2> 
         <article>
             <ul>
-            <li>Arrow-Left: Character moves left.</li>
-            <li>Arrow-Right: Character moves right.</li>
-            <li>Space-bar: Character Jumps.</li>
-            <li>Keyboard-key D: Character throws Salsa-bottle, if collected.</li>
-            <li>Keyboard-key F: Fullscreen.</li>
+                <li>Arrow-Left: Character moves left.</li>
+                <li>Arrow-Right: Character moves right.</li>
+                <li>Space-bar: Character Jumps. Jump on character to kill them.</li>
+                <li>Keyboard-key D: Character throws Salsa-bottle, if collected.</li>
+                <li>Keyboard-key F: Fullscreen.</li>
             </ul>
         </article>
     </div>
     <div class="fullScreenContainer">
         <button class="fullscreen-btn" id="fullscreenBtn" onclick="setCanvasToFullscreen()">F</button>
+        <button class="restart-btn" id="restartBtn" onclick="restart()">Restart</button>
     </div>
     <div id="mobileControllBtns" class="game-btn-container">
         <div>
