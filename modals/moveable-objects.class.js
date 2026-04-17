@@ -116,7 +116,6 @@ class MoveableObject extends DrawableObject {
 
         let verticalDistance = charBottom - enemyTop;
 
-        console.log(falling, horizontalOverlap, verticalDistance)
         return falling && 
             horizontalOverlap &&
             verticalDistance >= -25 &&   // leicht drüber

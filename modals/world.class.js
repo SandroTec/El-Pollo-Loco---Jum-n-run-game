@@ -14,12 +14,14 @@ class World {
 
     gameRestart = document.getElementById('restartBtn');
 
+    animationId;
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.setWorld(keyboard);
         this.drawStartscreen();
+        this.animationId = null;
     }
 
     setWorld() {
@@ -47,24 +49,26 @@ class World {
         } 
         if (this.character.isDead()) {    
             this.gameOver();
+            return;
         } else if (this.level && this.character.x >= this.level_end_x) {
             this.gameWin();
+            return;
         }
-        requestAnimationFrame(this.draw.bind(this));
+        this.animationId = requestAnimationFrame(this.draw.bind(this));
     }
 
     gameOver() {
         this.addToMap(this.endscreen);
         this.isPlaying = false;
         this.gameRestart.style.display = 'flex';
-        this.stop()
+        this.stop();
     }
 
     gameWin() {
         this.addToMap(this.level.win);
         this.isPlaying = false;
         this.gameRestart.style.display = 'flex';
-        this.stop()
+        this.stop();
     }
 
     addObjectsToMap(objects) {
@@ -180,5 +184,13 @@ class World {
         this.addObjectsToMap(this.level.enemies);
         // the function draw will be called as often as possible for your computer hardware, so that you have a smooth animation. 
         this.ctx.translate(-this.camera_x, 0);
+    }
+
+    stop() {
+
+        if (this.animationId) {
+            cancelAnimationFrame(this.animationId);
+            this.animationId = null;
+        }
     }
 }
