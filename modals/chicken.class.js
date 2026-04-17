@@ -30,6 +30,10 @@ class Chicken extends MoveableObject {
        this.animate();
     }
 
+    /**
+     * The `animate` function moves an object left at a set interval and triggers a method to handle
+     * the object's death.
+     */
     animate() {
         setInterval(() => {
             if (!this.isDying) {
@@ -39,6 +43,11 @@ class Chicken extends MoveableObject {
         this.chickenDies()
     }
 
+    /**
+     * The function `chickenDies` periodically checks if a chicken is dead and initiates the dying
+     * process if it is not already dying, then removes the dead chicken after a certain time period,
+     * while also handling animations.
+     */
     chickenDies() {
         setInterval(() => {
             if (this.isDead() && !this.isDying) {

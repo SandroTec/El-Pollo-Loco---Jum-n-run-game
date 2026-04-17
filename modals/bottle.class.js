@@ -15,6 +15,10 @@ class Bottle extends MoveableObject {
         this.y = 100* Math.random() + 100;
     };
 
+    /**
+     * The function `collectBottle` sets the `removed` property to true and updates the image, height,
+     * and width properties if the bottle in the world level is also removed.
+     */
     collectBottle() {
         this.removed = true
         

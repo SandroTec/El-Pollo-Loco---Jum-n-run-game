@@ -60,11 +60,18 @@ class Character extends MoveableObject {
         this.animate();
     }
 
+    /**
+     * The `animate` function sets up keyboard moves and animations.
+     */
     animate() {
         this.setKeyboardMoves();
         this.setAnimations();
     }
 
+    /**
+     * The function `setKeyboardMoves` continuously checks for keyboard inputs to move a character
+     * right, left, jump, or set the canvas to fullscreen in a game environment.
+     */
     setKeyboardMoves() {
         setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level_end_x) {
@@ -85,6 +92,10 @@ class Character extends MoveableObject {
         }, 1000 / 60);
     }
 
+    /**
+     * The setAnimations function sets intervals to play different animations based on the character's
+     * state.
+     */
     setAnimations() {
         setInterval(() => {
             if (this.isDead()) {

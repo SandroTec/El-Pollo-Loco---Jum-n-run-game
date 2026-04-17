@@ -1,13 +1,24 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-
 let mobileControlls = document.getElementById('mobileControllBtns');
+
+/**
+ * Initializes the game by retrieving the canvas element
+ * and creating a new World instance.
+ *
+ * @returns {void}
+ */
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
 }
 
+/**
+ * @function gameStart
+ * @description Starts the game loop and sets up the initial level state.
+ * Prevents multiple starts if the game is already running.
+ */
 function gameStart() {
     if (world.isPlaying) return
     const level1 = initLevel();  
@@ -21,6 +32,13 @@ function gameStart() {
         }
 }
 
+/**
+ * Resets the game state to allow restarting.
+ * Restores player stats, resets enemies,
+ * and displays the start screen.
+ *
+ * @returns {void}
+ */
 function restart() {
         world.character.x = 0;
         world.character.isDying = false;
@@ -38,6 +56,11 @@ function restart() {
         
     }
 
+/**
+ * Requests fullscreen mode for the game canvas.
+ *
+ * @returns {void}
+ */
 function setCanvasToFullscreen() {
         canvas.requestFullscreen()
     }
@@ -96,6 +119,16 @@ canvas.addEventListener("click", (event) => {
     this.handleClick(event);
 })
 
+/**
+ * The handleClick function starts the game if it is not already playing and the character is not
+ * dying.
+ * @param event - The `event` parameter in the `handleClick` function represents the event object that
+ * is generated when the click event occurs. This object contains information about the event, such as
+ * the type of event, the target element that was clicked, and any other relevant data associated with
+ * the event. In this case
+ * @returns In the provided code snippet, if the conditions for `gameStart()` are not met, the function
+ * will return `undefined`.
+ */
 function handleClick(event) {
     if (!world.isPlaying && !world.character.isDying) {
         gameStart();

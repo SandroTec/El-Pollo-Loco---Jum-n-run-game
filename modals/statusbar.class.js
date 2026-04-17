@@ -18,6 +18,12 @@ class Statusbar_health extends DrawableObject {
         this.width = 250;
     }
 
+    /**
+     * The function `setPercentage` sets an image based on a given percentage value.
+     * @param percentage - The `setPercentage` function you provided sets an image based on a given
+     * percentage value. The function checks the percentage value and assigns an image path accordingly
+     * from the `IMAGES_HEALTH` array.
+     */
     setPercentage(percentage) {
         this.percentage = percentage;
         let path;
@@ -59,6 +65,9 @@ class Statusbar_coin extends DrawableObject {
         this.width = 250;
     }
 
+    /* The `setCoinBar(coinCount)` function in the `Statusbar_coin` class is responsible for setting
+    the image path for the `img` property based on the `coinCount` parameter provided to the
+    function. Here's a breakdown of how it works: */
     setCoinBar(coinCount) {
         this.coinCount = coinCount;
         let path;
@@ -96,6 +105,12 @@ class Statusbar_bottle extends DrawableObject {
         this.width = 250;
     }
 
+    /**
+     * The function setBottleBar sets the image path based on the value of the bottle parameter.
+     * @param bottle - The `bottle` parameter in the `setBottleBar` function is used to determine which
+     * image path to set for the `img` property based on its boolean value. If `bottle` is `false`, the
+     * image path is set to `this.IMAGES_BOTTLE[0
+     */
     setBottleBar(bottle) {
         this.bottle = bottle;
         let path;

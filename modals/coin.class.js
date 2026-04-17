@@ -15,6 +15,8 @@ class Coin extends MoveableObject {
         this.y = 100* Math.random() + 100;
     };
 
+    /* The `collectCoin()` method in the `Coin` class sets the `removed` property of the current `Coin`
+    object to `true`, indicating that the coin has been collected. */
     collectCoin() {
         this.removed = true;
 

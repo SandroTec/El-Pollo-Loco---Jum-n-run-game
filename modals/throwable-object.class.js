@@ -34,6 +34,10 @@ class ThrowableObject extends MoveableObject {
         
     }
 
+    /**
+     * The `animate` function loads images, plays animations, and handles a splash effect for a bottle
+     * object in a game loop.
+     */
     animate() {
         this.loadImages(this.IMAGES_BOTTLE);
         this.loadImages(this.IMAGES_BOTTLE_SPLASH);
@@ -56,6 +60,14 @@ class ThrowableObject extends MoveableObject {
             }, 100);
     }
 
+    /**
+     * The function applies gravity to a bottle, sets its speed and direction, moves it horizontally,
+     * updates a status bar, and triggers an animation.
+     * @param mo - The `mo` parameter seems to be an object with properties used within the `throw`
+     * function. It may have a property called `otherDirection` which is used to determine the
+     * direction of the bottle throw. The function applies gravity to the bottle, sets initial speeds
+     * for the bottle in the x and
+     */
     throw(mo) {
         this.applyGravityForBottle();
         this.speed_y = 30;
@@ -70,6 +82,10 @@ class ThrowableObject extends MoveableObject {
         this.animate();
     }
 
+    /**
+     * The function `applyGravityForBottle` simulates gravity by decreasing the vertical position of an
+     * object over time.
+     */
     applyGravityForBottle() {
         setInterval(() => {
             if (!this.hasSplashed) {
@@ -78,11 +94,20 @@ class ThrowableObject extends MoveableObject {
             }}, 1000 / 25);
     }  
 
+    /**
+     * The function "stopGravity" sets the vertical and horizontal speeds to zero.
+     */
     stopGravity() {
         this.speed_y = 0;
         this.speed_x = 0;
     }
 
+    /**
+     * The function `bottleHitGround` checks if the bottle's y-coordinate is greater than or equal to
+     * 350.
+     * @returns The function `bottleHitGround()` will return `true` if the value of `this.y` is greater
+     * than or equal to 350.
+     */
     bottleHitGround() {
         if (this.y >= 350) {return true;}
     }

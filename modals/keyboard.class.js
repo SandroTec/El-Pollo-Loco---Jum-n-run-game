@@ -9,12 +9,16 @@ class Keyboard {
     btnRight = document.getElementById('moveRight');
     btnJump = document.getElementById('jump');
     btnThrow = document.getElementById('throw');
-    
+
     constructor() {
         this.bindKeyboard();
         this.bindButtons();
     }
 
+    /**
+     * The `bindKeyboard` function in JavaScript listens for keydown and keyup events to set boolean
+     * values based on the pressed keys.
+     */
     bindKeyboard() {
         window.addEventListener('keydown', (e) => {
             if (e.code === 'ArrowLeft') this.LEFT = true;
@@ -30,6 +34,10 @@ class Keyboard {
         });
     }
 
+    /**
+     * The `bindButtons` function sets up event listeners for buttons to track key states for left,
+     * right, jump, and throw actions.
+     */
     bindButtons() {
         const bind = (btn, key) => {
             btn.addEventListener('pointerdown', (e) => {

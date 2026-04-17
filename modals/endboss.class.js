@@ -44,7 +44,7 @@ class Endboss extends MoveableObject {
     };
     boss = true;
     enemyDead = false;
-    
+
     constructor() {
        super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
        this.x = 1820; // fixed position for the boss;
@@ -57,6 +57,10 @@ class Endboss extends MoveableObject {
        this.animate();
     }
 
+   /**
+    * The `animate` function controls the behavior of a boss character in a game, including detecting
+    * player proximity, attacking, dying, and moving.
+    */
     animate() { 
         setInterval(() => {
             if (world.character.x >= 1000 && world.character.x <= 1400 && this.isAlerted <= 10 && !this.isDead()) {
@@ -74,12 +78,21 @@ class Endboss extends MoveableObject {
         }, 200);
     }
 
+    /**
+     * The function bossIsAlerted() loads alert images, plays an alert animation, and increments the
+     * isAlerted counter.
+     */
     bossIsAlerted() {
         this.loadImages(this.IMAGES_ALERT);
         this.playAnimation(this.IMAGES_ALERT);
         this.isAlerted++
     }
 
+    /**
+     * The function `bossIsDead` handles the logic for when the boss enemy is defeated in a game,
+     * including loading images, playing animations, and removing the enemy from the level after a
+     * certain time has passed.
+     */
     bossIsDead() {
         this.loadImages(this.IMAGES_DEAD)
         this.playAnimation(this.IMAGES_DEAD);
@@ -90,6 +103,10 @@ class Endboss extends MoveableObject {
         }
     }
 
+    /**
+     * The function bossMoves() moves the boss character to the left while displaying a walking
+     * animation.
+     */
     bossMoves() {
         this.moveLeft();
         this.loadImages(this.IMAGES_WALKING);

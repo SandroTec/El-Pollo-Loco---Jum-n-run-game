@@ -10,6 +10,9 @@ class Cloud extends MoveableObject {
         this.animate();
     }
 
+    /**
+     * The `animate` function calls the `moveLeft` method.
+     */
     animate() {
         this.moveLeft();
     }
