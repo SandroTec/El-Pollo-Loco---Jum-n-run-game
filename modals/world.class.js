@@ -110,9 +110,12 @@ class World {
 
     checkEnemies() {
         this.level.enemies.forEach(enemy => {
+            if (enemy.isDying || enemy.enemyDead) return;
             let isJumpingOnEnemy = this.character.jumpOn(enemy);
             if (isJumpingOnEnemy) {
                 enemy.hit();
+                this.character.speedY = -10; // Bounce top
+                return;
             } else if (this.character.isColiding(enemy) && !enemy.isDying && enemy.enemyDead == false) {
                 this.character.hit();
                 this.level.statusbar[0].setPercentage(this.character.energy);
