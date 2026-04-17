@@ -35,25 +35,18 @@ class ThrowableObject extends MoveableObject {
     }
 
     animate() {
-        
-            this.loadImages(this.IMAGES_BOTTLE);
-            this.loadImages(this.IMAGES_BOTTLE_SPLASH);
-
-            setInterval(() => {
-
-                if (!this.hasSplashed) {
-                    this.playAnimation(this.IMAGES_BOTTLE);
-
-                    if (this.bottleHitGround()) {
-                        this.hasSplashed = true;
-                        this.splashStartTime = new Date().getTime();
-                        this.stopGravity();
-                    }
-                } else {
+        this.loadImages(this.IMAGES_BOTTLE);
+        this.loadImages(this.IMAGES_BOTTLE_SPLASH);
+        setInterval(() => {
+            if (!this.hasSplashed) {
+                this.playAnimation(this.IMAGES_BOTTLE);
+                if (this.bottleHitGround()) {
+                    this.hasSplashed = true;
+                    this.splashStartTime = new Date().getTime();
+                    this.stopGravity();
+                }} else {
                     this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
-
                     let timePassed = (new Date().getTime() - this.splashStartTime) / 1000;
-
                     if (timePassed > 1) {
                         this.removed = true
                         world.throwableObjects = world.throwableObjects.filter(obj => !obj.removed);
@@ -62,23 +55,19 @@ class ThrowableObject extends MoveableObject {
                 
             }, 100);
     }
-    throw(mo) {
-        
-        this.applyGravityForBottle();
 
+    throw(mo) {
+        this.applyGravityForBottle();
         this.speed_y = 30;
         this.speed_x = mo.otherDirection ? -20 : 20;
-
         setInterval(() => {
             if (this.isAboveGround() && !this.hasSplashed) {
                 this.x += this.speed_x;
             }
         }, 50);
-
         world.character.bottleCollected = false;
         world.level.statusbar[2].setBottleBar(world.character.bottleCollected)
         this.animate();
-    
     }
 
     applyGravityForBottle() {

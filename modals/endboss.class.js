@@ -44,6 +44,7 @@ class Endboss extends MoveableObject {
     };
     boss = true;
     enemyDead = false;
+    
     constructor() {
        super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
        this.x = 1820; // fixed position for the boss;
@@ -59,30 +60,40 @@ class Endboss extends MoveableObject {
     animate() { 
         setInterval(() => {
             if (world.character.x >= 1000 && world.character.x <= 1400 && this.isAlerted <= 10 && !this.isDead()) {
-                this.loadImages(this.IMAGES_ALERT);
-                this.playAnimation(this.IMAGES_ALERT);
-                this.isAlerted++
+                this.bossIsAlerted();
             } else if (world.character.isColiding(this)) {
                 this.loadImages(this.IMAGES_ATTACK);
                 this.playAnimation(this.IMAGES_ATTACK);
             } else if (this.isDead() && !this.isDying) {
                 this.startDying();
             } else if (this.isDying){
-                this.loadImages(this.IMAGES_DEAD)
-                this.playAnimation(this.IMAGES_DEAD);
-                this.enemyDead = true;
-                let timePassed = new Date().getTime() - this.deathStartTime;
-
-                if (timePassed >= 4000) { // 4 Sekunden
-                    world.level.enemies = world.level.enemies.filter(obj => !obj.enemyDead);
-                }
+                this.bossIsDead();
             }else {
-                this.moveLeft();
-                this.loadImages(this.IMAGES_WALKING);
-                this.playAnimation(this.IMAGES_WALKING);
+                this.bossMoves();
             }
-            
         }, 200);
+    }
+
+    bossIsAlerted() {
+        this.loadImages(this.IMAGES_ALERT);
+        this.playAnimation(this.IMAGES_ALERT);
+        this.isAlerted++
+    }
+
+    bossIsDead() {
+        this.loadImages(this.IMAGES_DEAD)
+        this.playAnimation(this.IMAGES_DEAD);
+        this.enemyDead = true;
+        let timePassed = new Date().getTime() - this.deathStartTime;
+        if (timePassed >= 4000) { // 4 Sekunden
+            world.level.enemies = world.level.enemies.filter(obj => !obj.enemyDead);
+        }
+    }
+
+    bossMoves() {
+        this.moveLeft();
+        this.loadImages(this.IMAGES_WALKING);
+        this.playAnimation(this.IMAGES_WALKING);
     }
 
 }

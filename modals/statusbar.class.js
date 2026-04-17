@@ -19,26 +19,24 @@ class Statusbar_health extends DrawableObject {
     }
 
     setPercentage(percentage) {
-    this.percentage = percentage;
+        this.percentage = percentage;
+        let path;
+            if (this.percentage >= 90) {
+                path = this.IMAGES_HEALTH[5];
+            } else if (this.percentage >= 70) {
+                path = this.IMAGES_HEALTH[4];
+            } else if (this.percentage >= 50) {
+                path = this.IMAGES_HEALTH[3];
+            } else if (this.percentage >= 30) {
+                path = this.IMAGES_HEALTH[2];
+            } else if (this.percentage >= 15) {
+                path = this.IMAGES_HEALTH[1];
+            } else {
+                path = this.IMAGES_HEALTH[0];
+            }
 
-    let path;
-
-        if (this.percentage >= 90) {
-            path = this.IMAGES_HEALTH[5];
-        } else if (this.percentage >= 70) {
-            path = this.IMAGES_HEALTH[4];
-        } else if (this.percentage >= 50) {
-            path = this.IMAGES_HEALTH[3];
-        } else if (this.percentage >= 30) {
-            path = this.IMAGES_HEALTH[2];
-        } else if (this.percentage >= 15) {
-            path = this.IMAGES_HEALTH[1];
-        } else {
-            path = this.IMAGES_HEALTH[0];
+            this.img = this.imageCache[path]; 
         }
-
-        this.img = this.imageCache[path]; 
-    }
 }
 
 class Statusbar_coin extends DrawableObject {
@@ -62,10 +60,8 @@ class Statusbar_coin extends DrawableObject {
     }
 
     setCoinBar(coinCount) {
-    this.coinCount = coinCount;
-
-    let path;
-
+        this.coinCount = coinCount;
+        let path;
         if (this.coinCount == 0) {
             path = this.IMAGES_COIN[0];
         } else if (this.coinCount == 1) {
@@ -101,16 +97,13 @@ class Statusbar_bottle extends DrawableObject {
     }
 
     setBottleBar(bottle) {
-    this.bottle = bottle;
-
-    let path;
-
+        this.bottle = bottle;
+        let path;
         if (this.bottle == false) {
             path = this.IMAGES_BOTTLE[0];
         }else if (this.bottle == true) {
             path = this.IMAGES_BOTTLE[5];
         }
-
         this.img = this.imageCache[path]; 
     }
 }

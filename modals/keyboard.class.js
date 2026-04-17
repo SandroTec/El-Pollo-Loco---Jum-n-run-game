@@ -4,6 +4,12 @@ class Keyboard {
     SPACE = false;
     D = false;
     F;
+
+    btnLeft = document.getElementById('moveLeft');
+    btnRight = document.getElementById('moveRight');
+    btnJump = document.getElementById('jump');
+    btnThrow = document.getElementById('throw');
+    
     constructor() {
         this.bindKeyboard();
         this.bindButtons();
@@ -16,7 +22,6 @@ class Keyboard {
             if (e.code === 'Space') this.SPACE = true;
             if (e.code === 'KeyD') this.D = true;
         });
-
         window.addEventListener('keyup', (e) => {
             if (e.code === 'ArrowLeft') this.LEFT = false;
             if (e.code === 'ArrowRight') this.RIGHT = false;
@@ -26,25 +31,18 @@ class Keyboard {
     }
 
     bindButtons() {
-        const btnLeft = document.getElementById('moveLeft');
-        const btnRight = document.getElementById('moveRight');
-        const btnJump = document.getElementById('jump');
-        const btnThrow = document.getElementById('throw');
-
         const bind = (btn, key) => {
             btn.addEventListener('pointerdown', (e) => {
                 e.preventDefault();
-                this[key] = true;
+                this[key] = true; 
             });
-
             btn.addEventListener('pointerup', () => this[key] = false);
             btn.addEventListener('pointerleave', () => this[key] = false);
-            btn.addEventListener('pointercancel', () => this[key] = false);
+            btn.addEventListener('pointercancel', () => this[key] = false); 
         };
-
-        bind(btnLeft, 'LEFT');
-        bind(btnRight, 'RIGHT');
-        bind(btnJump, 'SPACE');
-        bind(btnThrow, 'D');
+        bind(this.btnLeft, 'LEFT');
+        bind(this.btnRight, 'RIGHT');
+        bind(this.btnJump, 'SPACE');
+        bind(this.btnThrow, 'D');
     }
 }

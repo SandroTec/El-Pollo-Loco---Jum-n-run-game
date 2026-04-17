@@ -65,20 +65,14 @@ class MoveableObject extends DrawableObject {
         let charRight = this.x + this.width - this.offset.right;
         let charTop = this.y + this.offset.top;
         let charBottom = this.y + this.height - this.offset.bottom;
-
         let moLeft = mo.x + mo.offset.left;
         let moRight = mo.x + mo.width - mo.offset.right;
         let moTop = mo.y + mo.offset.top;
         let moBottom = mo.y + mo.height - mo.offset.bottom;
-
-        // horizontale Überlappung
         let horizontalHit = charRight > moLeft && charLeft < moRight;
-
-        // vertikale Überlappung, nur Schaden wenn **nicht von oben gesprungen**
         let verticalHit = charBottom > moTop &&
                         charTop < moBottom &&
                         !(this.jumpOn(mo)); // hier ausschließen
-
         return horizontalHit && verticalHit;
     }
 
@@ -108,13 +102,10 @@ class MoveableObject extends DrawableObject {
     jumpOn(mo) {
         let charBottom = this.y + this.height - this.offset.bottom;
         let enemyTop = mo.y + mo.offset.top;
-
         let horizontalOverlap =
             this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
             this.x + this.offset.left < mo.x + mo.width - mo.offset.right;
-
         let verticalHit = charBottom - enemyTop;
-
         return this.y > this.lastY &&
             horizontalOverlap &&
             verticalHit >= -10 &&   // darf leicht reinrutschen

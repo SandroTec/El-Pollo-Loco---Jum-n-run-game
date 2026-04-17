@@ -37,47 +37,35 @@ class World {
    
 
     draw() {
-        if (!this.level) {
-            return;
-        }
+        if (!this.level) {return}
         if (this.level) {
-            // for clearing the canvas, so that you can draw the next frame without the previous one.
             this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
             this.ctx.translate(this.camera_x, 0);
-            // draw a array of objects on the canvas
-            this.addObjectsToMap(this.level.skyes);
-            this.addObjectsToMap(this.level.clouds);
-            this.addObjectsToMap(this.level.backgroundObjects);
-            this.addObjectsToMap(this.level.coins);
-            this.addToMap(this.level.bottle);
-
-            this.ctx.translate(-this.camera_x, 0); //moves camera back to draw static statusbar
-            this.addObjectsToMap(this.level.statusbar);
-            this.ctx.translate(this.camera_x, 0); // moves camera forward
-            
-            // draw the character and the enemies on the canvas
-            this.addToMap(this.character);
-            this.addObjectsToMap(this.throwableObjects);
-            this.addObjectsToMap(this.level.enemies);
-            // the function draw will be called as often as possible for your computer hardware, so that you have a smooth animation. 
-            this.ctx.translate(-this.camera_x, 0);
+            this.setUpLevel();
+            this.setUpStatusbars();
+            this.setUpCharacterAndEnemies();
         } 
         if (this.character.isDead()) {    
-            this.addToMap(this.endscreen);
-            this.isPlaying = false;
-            this.gameRestart.style.display = 'flex';
-            this.stop()
-            
+            this.gameOver();
         } else if (this.level && this.character.x >= this.level_end_x) {
-            this.addToMap(this.level.win);
-            this.isPlaying = false;
-            this.gameRestart.style.display = 'flex';
-            this.stop()
-        } 
-            
+            this.gameWin();
+        }
         requestAnimationFrame(this.draw.bind(this));
     }
 
+    gameOver() {
+        this.addToMap(this.endscreen);
+        this.isPlaying = false;
+        this.gameRestart.style.display = 'flex';
+        this.stop()
+    }
+
+    gameWin() {
+        this.addToMap(this.level.win);
+        this.isPlaying = false;
+        this.gameRestart.style.display = 'flex';
+        this.stop()
+    }
 
     addObjectsToMap(objects) {
         objects.forEach(object => {
@@ -112,27 +100,33 @@ class World {
     }
 
     checkCollisions() {
-        // check enemy
+        //check Collision with enemy for character and throwableObject
+        this.checkEnemies();
+        // check Coins
+        this.checkCoins();
+        // check SalsaBottle
+        this.checkBottle();
+    }
+
+    checkEnemies() {
         this.level.enemies.forEach(enemy => {
             let isJumpingOnEnemy = this.character.jumpOn(enemy);
             if (isJumpingOnEnemy) {
                 enemy.hit();
             } else if (this.character.isColiding(enemy) && !enemy.isDying && enemy.enemyDead == false) {
-                // Character wird nur getroffen, wenn er nicht von oben auf Enemy springt
                 this.character.hit();
                 this.level.statusbar[0].setPercentage(this.character.energy);
             }
-
-            //check if bottle hits enemy or ground
-            this.throwableObjects.forEach(throwableObject => {
+        this.throwableObjects.forEach(throwableObject => {
                 if (enemy.isColiding(throwableObject)) {
                     enemy.hit();
                     enemy.hit();
                     throwableObject.hasSplashed = true;
             }    
         })});
+    }
 
-        // check Coins
+    checkCoins() {
         this.level.coins.forEach(coin => {
             if (this.character.isColiding(coin)) {
                 this.character.coinCount += 1;
@@ -140,7 +134,9 @@ class World {
                 this.level.statusbar[1].setCoinBar(this.character.coinCount)
             }
         });
-        // check SalsaBottle
+    }
+
+    checkBottle() {
         if (this.character.isColiding(this.level.bottle)) {
             bottle.collectBottle();
             this.character.bottleCollected = true;
@@ -160,6 +156,26 @@ class World {
         this.ctx.restore();
     }   
 
+    setUpLevel() {
+        this.addObjectsToMap(this.level.skyes);
+        this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.backgroundObjects);
+        this.addObjectsToMap(this.level.coins);
+        this.addToMap(this.level.bottle);
+    }
     
-    
+    setUpStatusbars() {
+        this.ctx.translate(-this.camera_x, 0); //moves camera back to draw static statusbar
+        this.addObjectsToMap(this.level.statusbar);
+        this.ctx.translate(this.camera_x, 0); // moves camera forward
+    }
+
+    setUpCharacterAndEnemies() {
+        // draw the character and the enemies on the canvas
+        this.addToMap(this.character);
+        this.addObjectsToMap(this.throwableObjects);
+        this.addObjectsToMap(this.level.enemies);
+        // the function draw will be called as often as possible for your computer hardware, so that you have a smooth animation. 
+        this.ctx.translate(-this.camera_x, 0);
+    }
 }

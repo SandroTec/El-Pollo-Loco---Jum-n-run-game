@@ -61,40 +61,40 @@ class Character extends MoveableObject {
     }
 
     animate() {
-        // moves the character if arrow key left or right is pressed.
+        this.setKeyboardMoves();
+        this.setAnimations();
+    }
+
+    setKeyboardMoves() {
         setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false; // if the character moves right, the image will not be mirrored.
             }
-
             if (this.world.keyboard.LEFT && this.x > -200) {
                 this.moveLeft();
                 this.otherDirection = true; // if the character moves left, the image will be mirrored.
             }
-
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.jump();
             }
-
             if (this.world.keyboard.F) {
                 this.setCanvasToFullscreen()
             }
             this.world.camera_x = -this.x + 150;
         }, 1000 / 60);
+    }
 
+    setAnimations() {
         setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
-                        //goToEndScreen();
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT)
             }
-
             if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
             }
-
             if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) { // if arrow keys left or right are pressed, the animation for walking will start.
                 this.playAnimation(this.IMAGES_WALKING);
         
