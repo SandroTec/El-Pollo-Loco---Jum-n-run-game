@@ -1,7 +1,8 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let mobileControlls = document.getElementById('mobileControllBtns');
+let controllPopUp = document.getElementById('controllPopUp');
+let controllInformation = document.getElementById('controllInformation');
 
 /**
  * Initializes the game by retrieving the canvas element
@@ -12,6 +13,14 @@ let mobileControlls = document.getElementById('mobileControllBtns');
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
+}
+
+function controllPopUpDialog() {
+    if (controllInformation.style.display === 'none') {
+        controllInformation.style.display = 'flex';
+    } else {
+        controllInformation.style.display = 'none';
+    }
 }
 
 /**
@@ -26,10 +35,6 @@ function gameStart() {
     world.isPlaying = true;      
     world.draw();
     world.run();
-    if (window.innerWidth <= 800)
-        {
-            mobileControlls.style.display = 'flex';
-        }
 }
 
 /**
@@ -52,6 +57,7 @@ function restart() {
             });
         world.character.coinCount = 0;
             
+        world.isPlaying = false;
         world.drawStartscreen();
         
     }

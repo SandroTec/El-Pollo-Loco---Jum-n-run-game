@@ -83,7 +83,6 @@ class World {
      */
     gameOver() {
         this.addToMap(this.endscreen);
-        this.isPlaying = false;
         this.gameRestart.style.display = 'flex';
         this.stop();
     }
@@ -94,7 +93,6 @@ class World {
      */
     gameWin() {
         this.addToMap(this.level.win);
-        this.isPlaying = false;
         this.gameRestart.style.display = 'flex';
         this.stop();
     }

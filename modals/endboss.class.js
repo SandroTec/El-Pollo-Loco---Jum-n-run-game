@@ -65,12 +65,12 @@ class Endboss extends MoveableObject {
         setInterval(() => {
             if (world.character.x >= 1000 && world.character.x <= 1400 && this.isAlerted <= 10 && !this.isDead()) {
                 this.bossIsAlerted();
-            } else if (world.character.isColiding(this)) {
+            } else if (world.character.isColiding(this) && !this.isDying && !this.isDead()) {
                 this.loadImages(this.IMAGES_ATTACK);
                 this.playAnimation(this.IMAGES_ATTACK);
-            } else if (this.isDead() && !this.isDying) {
+            } else if (this.isDying) {
                 this.startDying();
-            } else if (this.isDying){
+            } else if (this.isDead()){
                 this.bossIsDead();
             }else {
                 this.bossMoves();

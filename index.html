@@ -32,10 +32,13 @@
 <body onload="init()">
     <canvas id="canvas" width="720" height="480">
     </canvas>
-    <div class="controlling-information">
+
+    <button onclick="controllPopUpDialog()" id="controllPopUp">C</button>
+    <div id="controllInformation" class="controlling-information">
         <h2>Controlling:</h2> 
         <article>
             <ul>
+                <li>Click on screen to start game!</li>
                 <li>Arrow-Left: Character moves left.</li>
                 <li>Arrow-Right: Character moves right.</li>
                 <li>Space-bar: Character Jumps. Jump on character to kill them.</li>
