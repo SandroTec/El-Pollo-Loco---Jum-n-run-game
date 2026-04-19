@@ -3,15 +3,14 @@
     padding: 0;
 }
 
-html {
-    background-image: url('img/5_background/layers/air.png');
-    background-size: cover;
-}
-
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    background-image: url('img/5_background/layers/air.png');
+    background-size: cover;
+    background-repeat: repeat-y;
     
     font-family: "Josefin Sans", sans-serif;
 }
@@ -38,6 +37,8 @@ canvas {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    box-shadow: inset;
 }
 
 button {
@@ -89,15 +90,33 @@ button {
     text-align: left;
     color: goldenrod;
     background-color: black;
+    padding-top: 8px;
 }
 
 ul {
     padding-left: 25px;
 }
 
-@media (max-width: 780px) {
+@media (max-width: 750px) {
     .game-btn-container {
         display: flex;
+        top: 90%;
+        width: 100%;
+    }
+    
+    canvas {
+        width: 100dvw;
+        height: 100dvh;
+    }
+
+    #controllPopUp {
+        top: 90%;
+        margin-left: 80%;
+    }
+
+    .fullScreenContainer {
+        width: 80%;
+        justify-content: flex-end;
     }
 }
 
