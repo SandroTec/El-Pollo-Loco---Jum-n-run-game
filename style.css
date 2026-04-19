@@ -4,20 +4,24 @@
 }
 
 html {
-    background-image: url('img/5_background/complete_background.png');
-    background-repeat: no-repeat;
+    background-image: url('img/5_background/layers/air.png');
+    background-size: cover;
 }
 
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    
+    font-family: "Josefin Sans", sans-serif;
 }
 
 canvas {
     background-color: black;
     z-index: 0;
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 button {
