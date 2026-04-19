@@ -15,6 +15,10 @@ function init() {
     world = new World(canvas, keyboard);
 }
 
+/**
+ * used when button on the right corner of the canvas is clicked.
+ * opens a pop-up dialog, by edit display.
+ * */ 
 function controllPopUpDialog() {
     if (controllInformation.style.display === 'none') {
         controllInformation.style.display = 'flex';
