@@ -12,8 +12,8 @@
     
     <script defer src="./modals/drawable-object.class.js"></script>
     <script defer src="./modals/moveable-objects.class.js"></script>
-    
     <script defer src="./modals/startscreen.class.js"></script>
+    <script defer src="./modals/sound_manager.class.js"></script>
     <script defer src="./modals/statusbar.class.js"></script>
     <script defer src="./modals/throwable-object.class.js"></script>
     <script defer src="./modals/character.class.js"></script>
@@ -31,25 +31,28 @@
     <script defer src="./levels/level1.js"></script>
     <script defer src="./modals/world.class.js"></script>
     <script defer src="./js/game.js"></script>
-    
 </head>
 <body onload="init()">
-
     <div id="rotate-message">
         <p>please turn your device!</p>
     </div>
     <div class="fullScreenContainer">
-        <button onclick="controllPopUpDialog()" id="controllPopUp">C</button>
+        <div class="top-btn-right">
+            <button onclick="controllPopUpDialog()" id="controllPopUp">C</button>
+            <button onclick="world.soundManager.toggleMute()" id="muteBtn">
+                <img id="muteIcon" src="./img/sound-icon.png" alt="sound">
+            </button>
+        </div>
         <h1>El Pollo Loco</h1>
         <div class="top-btn-right">
-            <button class="fullscreen-btn" id="fullscreenBtn" onclick="setCanvasToFullscreen()">F</button>
-            <button class="restart-btn" id="restartBtn" onclick="restart()">Restart</button>
+            <button class="fullscreen-btn" id="fullscreenBtn" onclick="setCanvasToFullscreen()">
+                <img src="./img/fullscreen-icon.png" alt="fullscreen-icon">
+            </button>
+            <button class="restart-btn" id="restartBtn" onclick="restart()">R</button>
         </div>
     </div>
     <canvas id="canvas" width="720" height="480">
     </canvas>
-
-    
     <div id="controllInformation" class="controlling-information">
         <h2>Controlling:</h2> 
         <article>
@@ -63,19 +66,16 @@
             </ul>
         </article>
     </div>
-    
     <div id="mobileControllBtns" class="game-btn-container">
         <div>
             <button id="moveLeft"><-</button>
             <button id="moveRight">-></button>
-            
         </div>
         <div>
             <button id="throw">throw</button>
             <button id="jump">jump</button>
         </div>
     </div>
-
     <footer>
         <a target="_blank" href="./impressum.html">Impressum</a>
     </footer>

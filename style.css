@@ -9,11 +9,16 @@ body {
     justify-content: center;
     align-items: center;
 
-    background-image: url('img/5_background/layers/air.png');
+    background-image: url('img/bg-image.jpg');
     background-size: cover;
     background-repeat: repeat-y;
     
     font-family: "Josefin Sans", sans-serif;
+}
+
+h1 {
+    color: black;
+    text-shadow: 10vh;
 }
 
 #rotate-message {
@@ -43,11 +48,15 @@ canvas {
 }
 
 button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 50px;
     width: 50px;
     z-index: 1000;
     cursor: pointer;
-    color: white;
+    font-size: 32px;
+    color: black;
     background-color: goldenrod;
     box-shadow: inset;
 }
@@ -62,6 +71,16 @@ button {
 
 .top-btn-right {
     display: flex;
+}
+
+.top-btn-right {
+    display: flex;
+}
+
+#muteBtn img {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
 }
 
 .restart-btn {
@@ -102,17 +121,19 @@ ul {
 
 a {
     text-decoration: none;
-    color: gray;
-    padding-right: 25px;
+    color: black;
+}
+
+a:hover {
+    color: aquamarine;
 }
 
 footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: flex-end;
-    height: 100%;
-    width: 100%;
-    margin: 25px;
+    height: 50px;
+    width: 720px;
 }
 
 @media (max-height: 750px) {

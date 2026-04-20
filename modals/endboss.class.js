@@ -98,7 +98,7 @@ class Endboss extends MoveableObject {
         this.playAnimation(this.IMAGES_DEAD);
         this.enemyDead = true;
         let timePassed = new Date().getTime() - this.deathStartTime;
-        if (timePassed >= 4000) { // 4 Sekunden
+        if (timePassed >= 5000) { 
             world.level.enemies = world.level.enemies.filter(obj => !obj.enemyDead);
         }
     }

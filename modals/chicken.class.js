@@ -17,6 +17,7 @@ class Chicken extends MoveableObject {
         bottom: 0
     };
     enemyDead = false;
+    
     constructor() {
        super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/2_w.png');
        this.loadImages(this.IMAGES_WALKING);
@@ -57,7 +58,7 @@ class Chicken extends MoveableObject {
                 this.enemyDead = true;
                 this.loadImage(this.IMAGES_DEAD[0]);
                 let timePassed = new Date().getTime() - this.deathStartTime;
-                if (timePassed >= 3000) { // 3 Sekunden
+                if (timePassed >= 5000) { 
                     world.level.enemies = world.level.enemies.filter(obj => !obj.enemyDead);
                 }
             } else {
