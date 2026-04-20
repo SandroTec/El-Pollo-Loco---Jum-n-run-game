@@ -13,6 +13,7 @@ let controllInformation = document.getElementById('controllInformation');
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
+    controllInformation.style.display = 'none';
 }
 
 /**

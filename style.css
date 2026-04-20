@@ -6,6 +6,7 @@
 body {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
 
     background-image: url('img/5_background/layers/air.png');
@@ -52,11 +53,15 @@ button {
 }
 
 .fullScreenContainer {
-    position: absolute;
-    top: 35px;
+    position: relative;
     width: 720px;
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.top-btn-right {
+    display: flex;
 }
 
 .restart-btn {
@@ -75,12 +80,10 @@ button {
 }
 
 #controllPopUp {
-    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 600px;
-    top: 480px;
+    
 }
 
 .controlling-information {
@@ -97,7 +100,22 @@ ul {
     padding-left: 25px;
 }
 
-@media (max-width: 750px) {
+a {
+    text-decoration: none;
+    color: gray;
+    padding-right: 25px;
+}
+
+footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: 100%;
+    width: 100%;
+    margin: 25px;
+}
+
+@media (max-height: 750px) {
     .game-btn-container {
         display: flex;
         top: 90%;
@@ -105,18 +123,17 @@ ul {
     }
     
     canvas {
-        width: 100dvw;
-        height: 100dvh;
-    }
-
-    #controllPopUp {
-        top: 90%;
-        margin-left: 80%;
+        width: 90dvw;
+        height: 90dvh;
     }
 
     .fullScreenContainer {
-        width: 80%;
-        justify-content: flex-end;
+        width: 90%;
+    }
+
+    .controlling-information {
+        width: 90%;
+        height: fit-content;
     }
 }
 
@@ -124,10 +141,12 @@ ul {
   #rotate-message {
     display: flex;
   }
+
 }
 
 @media screen and (orientation: landscape) {
   #rotate-message {
     display: none;
   }
+
 }

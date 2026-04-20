@@ -38,10 +38,18 @@
     <div id="rotate-message">
         <p>please turn your device!</p>
     </div>
+    <div class="fullScreenContainer">
+        <button onclick="controllPopUpDialog()" id="controllPopUp">C</button>
+        <h1>El Pollo Loco</h1>
+        <div class="top-btn-right">
+            <button class="fullscreen-btn" id="fullscreenBtn" onclick="setCanvasToFullscreen()">F</button>
+            <button class="restart-btn" id="restartBtn" onclick="restart()">Restart</button>
+        </div>
+    </div>
     <canvas id="canvas" width="720" height="480">
     </canvas>
 
-    <button onclick="controllPopUpDialog()" id="controllPopUp">C</button>
+    
     <div id="controllInformation" class="controlling-information">
         <h2>Controlling:</h2> 
         <article>
@@ -55,17 +63,21 @@
             </ul>
         </article>
     </div>
-    <div class="fullScreenContainer">
-        <button class="fullscreen-btn" id="fullscreenBtn" onclick="setCanvasToFullscreen()">F</button>
-        <button class="restart-btn" id="restartBtn" onclick="restart()">Restart</button>
-    </div>
+    
     <div id="mobileControllBtns" class="game-btn-container">
         <div>
             <button id="moveLeft"><-</button>
             <button id="moveRight">-></button>
+            
+        </div>
+        <div>
+            <button id="throw">throw</button>
             <button id="jump">jump</button>
         </div>
-        <button id="throw">throw</button>
     </div>
+
+    <footer>
+        <a target="_blank" href="./impressum.html">Impressum</a>
+    </footer>
 </body>
 </html>
