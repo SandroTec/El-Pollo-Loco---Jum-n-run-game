@@ -4,6 +4,7 @@ class World {
     startscreen = new Startscreen();
     character = new Character();
     endscreen = new Endscreen();
+    soundManager = new SoundManager();
     throwableObjects = [];
     level;
     level_end_x = 720*2.5;
@@ -24,6 +25,7 @@ class World {
         this.setWorld(keyboard);
         this.drawStartscreen();
         this.animationId = null;
+        
     }
 
     /**

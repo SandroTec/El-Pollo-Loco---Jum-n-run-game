@@ -37,7 +37,7 @@ class Character extends MoveableObject {
 
     ];
     world;
-    walking_sound = new Audio('')
+    isWalking = false;
     offset = {
         top: 100,
         left: 18,
@@ -76,7 +76,7 @@ class Character extends MoveableObject {
         setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level_end_x) {
                 this.moveRight();
-                this.otherDirection = false; // if the character moves right, the image will not be mirrored.
+                this.otherDirection = false; // if the character moves right, the image will not be mirrored.                
             }
             if (this.world.keyboard.LEFT && this.x > -200) {
                 this.moveLeft();
@@ -88,6 +88,7 @@ class Character extends MoveableObject {
             if (this.world.keyboard.F) {
                 this.setCanvasToFullscreen()
             }
+            this.updatePlayer();
             this.world.camera_x = -this.x + 150;
         }, 1000 / 60);
     }
@@ -108,7 +109,32 @@ class Character extends MoveableObject {
             }
             if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) { // if arrow keys left or right are pressed, the animation for walking will start.
                 this.playAnimation(this.IMAGES_WALKING);
-        
             }}, 100);
     }
+
+  
+
+    updatePlayer() {
+        const isMoving = this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
+
+        if (isMoving && !this.isWalking) {
+            this.isWalking = true;
+            this.walkLoop();
+        }
+
+        if (!isMoving) {
+            this.isWalking = false;
+        }
+    }
+
+    walkLoop() {
+        if (!this.isWalking) return;
+
+        this.world.soundManager.play('walkSounds')
+        setTimeout(() => {
+            this.walkLoop();
+        }, 300);
+    }
+
+
 }
