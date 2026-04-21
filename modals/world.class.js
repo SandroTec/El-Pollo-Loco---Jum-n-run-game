@@ -147,6 +147,7 @@ class World {
         if (this.keyboard.D && this.character.bottleCollected == true) {
             let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 10, this.character);
             this.throwableObjects.push(bottle);
+            this.soundManager.play('bottle');
         }
     }
 
@@ -174,10 +175,12 @@ class World {
             let isJumpingOnEnemy = this.character.jumpOn(enemy);
             if (isJumpingOnEnemy) {
                 enemy.hit();
+                 this.soundManager.play('hit');
                 this.character.speedY = -10; // Bounce top
                 return;
             } else if (this.character.isColiding(enemy) && !enemy.isDying && enemy.enemyDead == false) {
                 this.character.hit();
+                 this.soundManager.play('hit');
                 this.level.statusbar[0].setPercentage(this.character.energy);
             }
         this.throwableObjects.forEach(throwableObject => {
@@ -279,6 +282,7 @@ class World {
         if (this.animationId) {
             cancelAnimationFrame(this.animationId);
             this.animationId = null;
+            this.soundManager.stopAll();
         }
     }
 }

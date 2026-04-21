@@ -82,15 +82,20 @@ class Character extends MoveableObject {
                 this.moveLeft();
                 this.otherDirection = true; // if the character moves left, the image will be mirrored.
             }
+            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                this.world.soundManager.playWalk();
+            }
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.jump();
+                this.world.soundManager.play('jump');
             }
             if (this.world.keyboard.F) {
                 this.setCanvasToFullscreen()
             }
-            this.updatePlayer();
             this.world.camera_x = -this.x + 150;
         }, 1000 / 60);
+
+    
     }
 
     /**
@@ -111,30 +116,5 @@ class Character extends MoveableObject {
                 this.playAnimation(this.IMAGES_WALKING);
             }}, 100);
     }
-
-  
-
-    updatePlayer() {
-        const isMoving = this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
-
-        if (isMoving && !this.isWalking) {
-            this.isWalking = true;
-            this.walkLoop();
-        }
-
-        if (!isMoving) {
-            this.isWalking = false;
-        }
-    }
-
-    walkLoop() {
-        if (!this.isWalking) return;
-
-        this.world.soundManager.play('walkSounds')
-        setTimeout(() => {
-            this.walkLoop();
-        }, 300);
-    }
-
 
 }

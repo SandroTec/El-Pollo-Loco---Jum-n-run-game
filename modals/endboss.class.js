@@ -68,6 +68,7 @@ class Endboss extends MoveableObject {
             } else if (world.character.isColiding(this) && !this.isDying && !this.isDead()) {
                 this.loadImages(this.IMAGES_ATTACK);
                 this.playAnimation(this.IMAGES_ATTACK);
+                this.world.soundManager.play('hit')
             } else if (this.isDying) {
                 this.startDying();
             } else if (this.isDead()){
@@ -94,11 +95,18 @@ class Endboss extends MoveableObject {
      * certain time has passed.
      */
     bossIsDead() {
-        this.loadImages(this.IMAGES_DEAD)
+        if (!this.soundPlayed) {
+            this.soundPlayed = true;
+            this.world.soundManager.play('stomp');
+        }
+
+        this.loadImages(this.IMAGES_DEAD);
         this.playAnimation(this.IMAGES_DEAD);
+
         this.enemyDead = true;
+
         let timePassed = new Date().getTime() - this.deathStartTime;
-        if (timePassed >= 5000) { 
+        if (timePassed >= 5000) {
             world.level.enemies = world.level.enemies.filter(obj => !obj.enemyDead);
         }
     }

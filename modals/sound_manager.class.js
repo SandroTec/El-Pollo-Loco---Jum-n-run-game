@@ -17,15 +17,17 @@ class SoundManager {
 
         /** @type {Record<string, HTMLAudioElement>} */
         this.sounds = {
-            jump: this.createAudio('./sounds/jump.mp3'),
-            stomp: this.createAudio('./sounds/stomp.mp3'),
-            hit: this.createAudio('./sounds/splat.mp3'),
+            jump: this.createAudio('./sounds/character/assets_audio_character_characterJump.wav'),
+            stomp: this.createAudio('./sounds/character/stomp.mp3'),
+            hit: this.createAudio('./sounds/character/assets_audio_character_characterDamage.mp3'),
+            bottle: this.createAudio('./sounds/assets_audio_throwable_bottleBreak.mp3'),
         };
 
         /** @type {HTMLAudioElement[]} */
-        this.walkSounds = [
-            this.createAudio('./sounds/walking1.mp3'),
-        ];
+        this.walk = new Audio('./sounds/character/assets_audio_character_characterRun.mp3');
+
+
+         this.allSounds = [this.walk, this.jump, this.stomp, this.hit, this.bottle];
     }
 
     /**
@@ -54,19 +56,9 @@ class SoundManager {
         sound.play().catch(() => {}); // verhindert Promise-Fehler im Browser
     }
 
-    /**
-     * Spielt zufällig einen Laufsound ab.
-     */
     playWalk() {
-        if (this.isMuted) return;
-
-        if (this.walkSounds.length === 0) return;
-
-        const index = Math.floor(Math.random() * this.walkSounds.length);
-        const sound = this.walkSounds[index];
-
-        sound.currentTime = 0;
-        sound.play().catch(() => {});
+        this.walk.currentTime = 0;
+        this.walk.play().catch(() => {});
     }
 
     /**
@@ -105,5 +97,12 @@ class SoundManager {
         this.muteIcon.src = this.isMuted
             ? './img/mute-icon.png'
             : './img/sound-icon.png';
+    }
+
+    stopAll() {
+        this.allSounds.forEach(sound => {
+            sound.pause();
+            sound.currentTime = 0;
+        });
     }
 }

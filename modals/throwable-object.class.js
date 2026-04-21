@@ -48,6 +48,7 @@ class ThrowableObject extends MoveableObject {
                     this.hasSplashed = true;
                     this.splashStartTime = new Date().getTime();
                     this.stopGravity();
+                    
                 }} else {
                     this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
                     let timePassed = (new Date().getTime() - this.splashStartTime) / 1000;
