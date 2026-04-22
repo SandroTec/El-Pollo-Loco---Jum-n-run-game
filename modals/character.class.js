@@ -82,15 +82,26 @@ class Character extends MoveableObject {
                 this.moveLeft();
                 this.otherDirection = true; // if the character moves left, the image will be mirrored.
             }
-            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            const isMoving = this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
+
+            if (isMoving) {
                 this.world.soundManager.playWalk();
+            } else {
+                this.world.soundManager.stopWalk();
             }
+            
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.jump();
                 this.world.soundManager.play('jump');
             }
             if (this.world.keyboard.F) {
                 this.setCanvasToFullscreen()
+            }
+            if (this.world.keyboard.R && !this.world.isPlaying) {
+                this.restart();
+            }
+            if (this.world.keyboard.C) {
+                this.controllPopUpDialog();
             }
             this.world.camera_x = -this.x + 150;
         }, 1000 / 60);

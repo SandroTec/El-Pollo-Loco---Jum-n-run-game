@@ -1,39 +1,46 @@
 /**
- * Verwaltet alle Soundeffekte des Spiels.
+ * Manages all game sound effects and mute functionality.
  */
 class SoundManager {
 
     /**
-     * @param {string} muteBtnId - ID des Mute-Buttons im DOM
+     * Creates a new SoundManager instance, initializes audio assets and mute button.
      */
-    constructor(muteBtnId = 'muteBtn') {
-        /** @type {HTMLElement|null} */
+    constructor() {
+        /** @type {HTMLButtonElement | null} */
         this.muteBtn = document.getElementById('muteBtn');
 
+        /** @type {HTMLImageElement | null} */
         this.muteIcon = document.getElementById('muteIcon');
 
         /** @type {boolean} */
-        this.isMuted = false;
+        this.isMuted = sessionStorage.getItem('mute');
 
-        /** @type {Record<string, HTMLAudioElement>} */
+        this.updateMuteButton();
+        /**
+         * Collection of all game sounds.
+         * @type {Object.<string, HTMLAudioElement>}
+         */
         this.sounds = {
             jump: this.createAudio('./sounds/character/assets_audio_character_characterJump.wav'),
             stomp: this.createAudio('./sounds/character/stomp.mp3'),
             hit: this.createAudio('./sounds/character/assets_audio_character_characterDamage.mp3'),
             bottle: this.createAudio('./sounds/assets_audio_throwable_bottleBreak.mp3'),
+            walk: this.createAudio('./sounds/character/assets_audio_character_characterRun.mp3')
         };
 
-        /** @type {HTMLAudioElement[]} */
-        this.walk = new Audio('./sounds/character/assets_audio_character_characterRun.mp3');
-
-
-         this.allSounds = [this.walk, this.jump, this.stomp, this.hit, this.bottle];
+        /**
+         * Array of all audio elements for global control.
+         * @type {HTMLAudioElement[]}
+         */
+        this.allSounds = Object.values(this.sounds);
     }
 
     /**
-     * Erstellt ein Audio-Element mit Standard-Settings.
-     * @param {string} src
-     * @returns {HTMLAudioElement}
+     * Creates and configures an audio element.
+     *
+     * @param {string} src - Path to the audio file.
+     * @returns {HTMLAudioElement} The created audio element.
      */
     createAudio(src) {
         const audio = new Audio(src);
@@ -43,8 +50,9 @@ class SoundManager {
     }
 
     /**
-     * Spielt einen bestimmten Sound ab.
-     * @param {string} name
+     * Plays a one-shot sound effect by name.
+     *
+     * @param {string} name - Name of the sound in the sounds object.
      */
     play(name) {
         if (this.isMuted) return;
@@ -53,43 +61,55 @@ class SoundManager {
         if (!sound) return;
 
         sound.currentTime = 0;
-        sound.play().catch(() => {}); // verhindert Promise-Fehler im Browser
-    }
-
-    playWalk() {
-        this.walk.currentTime = 0;
-        this.walk.play().catch(() => {});
+        sound.play().catch(() => {});
     }
 
     /**
-     * Setzt den Mute-Zustand für ALLE Sounds korrekt.
-     * @param {boolean} muted
+     * Starts playing the walking sound in a loop.
+     */
+    playWalk() {
+        const sound = this.sounds.walk;
+        sound.loop = true;
+
+        sound.play().catch(() => {});
+    }
+
+    /**
+     * Stops the walking sound and resets its playback position.
+     */
+    stopWalk() {
+        const sound = this.sounds.walk;
+
+        sound.pause();
+        sound.currentTime = 0;
+    }
+
+    /**
+     * Sets mute state for all sounds and persists it in sessionStorage.
+     *
+     * @param {boolean} muted - Whether sound should be muted.
      */
     setMuted(muted) {
         this.isMuted = muted;
 
-        // Alle Einzelsounds
-        Object.values(this.sounds).forEach(sound => {
-            sound.muted = muted;
-        });
-
-        // Alle Walk-Sounds
-        this.walkSounds.forEach(sound => {
+        this.allSounds.forEach(sound => {
             sound.muted = muted;
         });
 
         this.updateMuteButton();
+
+        sessionStorage.setItem('mute', muted);
     }
 
     /**
-     * Toggle für Mute
+     * Toggles mute state.
      */
     toggleMute() {
         this.setMuted(!this.isMuted);
     }
 
     /**
-     * Aktualisiert die UI des Mute-Buttons
+     * Updates the mute button icon based on current mute state.
      */
     updateMuteButton() {
         if (!this.muteIcon) return;
@@ -99,6 +119,9 @@ class SoundManager {
             : './img/sound-icon.png';
     }
 
+    /**
+     * Stops all currently playing sounds and resets them.
+     */
     stopAll() {
         this.allSounds.forEach(sound => {
             sound.pause();

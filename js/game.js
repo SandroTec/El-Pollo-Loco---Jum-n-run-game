@@ -98,6 +98,12 @@ window.addEventListener('keydown', (e) => {
     if (e.keyCode === 70) { // f
         keyboard.F = true;
     }
+    if (e.keyCode === 82) { // r
+        keyboard.R = true;
+    }
+    if (e.keyCode === 67) { // c
+        keyboard.C = true;
+    }
 });
 
 window.addEventListener('keyup', (e) => {
@@ -121,6 +127,12 @@ window.addEventListener('keyup', (e) => {
     }
     if (e.keyCode === 70) { // f
         keyboard.F = true;
+    }
+    if (e.keyCode === 82) { // r
+        keyboard.R = false;
+    }
+    if (e.keyCode === 67) { // c
+        keyboard.C = false;
     }
 });
 

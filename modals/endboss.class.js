@@ -44,6 +44,7 @@ class Endboss extends MoveableObject {
     };
     boss = true;
     enemyDead = false;
+    soundPlayed = false
 
     constructor() {
        super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
@@ -68,7 +69,6 @@ class Endboss extends MoveableObject {
             } else if (world.character.isColiding(this) && !this.isDying && !this.isDead()) {
                 this.loadImages(this.IMAGES_ATTACK);
                 this.playAnimation(this.IMAGES_ATTACK);
-                this.world.soundManager.play('hit')
             } else if (this.isDying) {
                 this.startDying();
             } else if (this.isDead()){
@@ -97,7 +97,6 @@ class Endboss extends MoveableObject {
     bossIsDead() {
         if (!this.soundPlayed) {
             this.soundPlayed = true;
-            this.world.soundManager.play('stomp');
         }
 
         this.loadImages(this.IMAGES_DEAD);

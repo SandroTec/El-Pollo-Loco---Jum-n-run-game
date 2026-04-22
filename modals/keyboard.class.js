@@ -4,6 +4,8 @@ class Keyboard {
     SPACE = false;
     D = false;
     F;
+    R;
+    C;
 
     btnLeft = document.getElementById('moveLeft');
     btnRight = document.getElementById('moveRight');
