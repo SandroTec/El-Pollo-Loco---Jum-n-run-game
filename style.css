@@ -55,7 +55,7 @@ button {
     width: 50px;
     z-index: 1000;
     cursor: pointer;
-    font-size: 32px;
+    font-size: 18px;
     color: black;
     background-color: goldenrod;
     box-shadow: inset;
@@ -96,6 +96,16 @@ button {
     width: 720px;
     justify-content: space-evenly;
 
+}
+
+.moves {
+    display: flex;
+    gap: 10px;
+}
+
+.throwAndJump {
+    display: flex;
+    gap: 10px;
 }
 
 #controllPopUp {

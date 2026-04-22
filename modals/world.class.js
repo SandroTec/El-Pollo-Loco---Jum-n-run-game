@@ -2,7 +2,7 @@
 elements on the canvas, handling collisions, and controlling game flow. */
 class World {
     startscreen = new Startscreen();
-    character = new Character();
+    character;
     endscreen = new Endscreen();
     soundManager = new SoundManager();
     throwableObjects = [];
@@ -18,14 +18,17 @@ class World {
     gameRestart = document.getElementById('restartBtn');
 
     animationId;
+
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.character = new Character(this); 
         this.setWorld(keyboard);
+        this.character.animate(); 
         this.drawStartscreen();
         this.animationId = null;
-        
+              
     }
 
     /**
@@ -52,7 +55,6 @@ class World {
         } else return;
     }
    
-
     /**
      * The draw function in JavaScript clears the canvas, translates the context, sets up the level,
      * status bars, characters, and enemies, checks for game over or win conditions, and requests
@@ -61,25 +63,37 @@ class World {
      * (undefined) or the result of calling `requestAnimationFrame(this.draw.bind(this))`.
      */
     draw() {
-        if (!this.level) {return}
-        if (this.level) {
-            this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-            this.ctx.translate(this.camera_x, 0);
-            this.setUpLevel();
-            this.setUpStatusbars();
-            this.setUpCharacterAndEnemies();
-        } 
-        if (this.character.isDead()) {    
+        if (!this.level) return;
+
+        this.camera_x = -this.character.x + 150;
+
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        this.ctx.save();
+        this.ctx.translate(this.camera_x, 0);
+
+        this.setUpLevel();
+        this.setUpCharacterAndEnemies();
+
+        this.ctx.restore();
+
+        this.setUpStatusbars();
+
+        // 🔥 HIER MUSS ES WIEDER HIN
+        if (this.character.isDead()) {
             this.gameOver();
             return;
-        } else if (this.level && this.character.x >= this.level_end_x) {
+        }
+
+        if (this.character.x >= this.level_end_x) {
             this.gameWin();
             return;
         }
+
         this.animationId = requestAnimationFrame(this.draw.bind(this));
     }
 
-    /**
+        /**
      * The `gameOver` function adds the end screen to the map, stops the game, and displays the game
      * restart button.
      */
@@ -87,6 +101,8 @@ class World {
         this.addToMap(this.endscreen);
         this.gameRestart.style.display = 'flex';
         this.stop();
+        this.soundManager.stopAll();
+        this.isPlaying = false;
     }
 
     /**
@@ -97,6 +113,8 @@ class World {
         this.addToMap(this.level.win);
         this.gameRestart.style.display = 'flex';
         this.stop();
+        this.soundManager.stopAll();
+        this.isPlaying = false;
     }
 
     /**
@@ -147,7 +165,7 @@ class World {
         if (this.keyboard.D && this.character.bottleCollected == true) {
             let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 10, this.character);
             this.throwableObjects.push(bottle);
-            this.soundManager.play('bottle');
+            
         }
     }
 
@@ -156,6 +174,7 @@ class World {
      * a game.
      */
     checkCollisions() {
+        if (!this.isPlaying) return;
         //check Collision with enemy for character and throwableObject
         this.checkEnemies();
         // check Coins
@@ -258,9 +277,7 @@ class World {
      * bar and then translates it back.
      */
     setUpStatusbars() {
-        this.ctx.translate(-this.camera_x, 0); //moves camera back to draw static statusbar
         this.addObjectsToMap(this.level.statusbar);
-        this.ctx.translate(this.camera_x, 0); // moves camera forward
     }
 
     /**
@@ -271,8 +288,7 @@ class World {
         this.addToMap(this.character);
         this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.level.enemies);
-        // the function draw will be called as often as possible for your computer hardware, so that you have a smooth animation. 
-        this.ctx.translate(-this.camera_x, 0);
+        
     }
 
     /**

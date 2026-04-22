@@ -126,7 +126,7 @@ window.addEventListener('keyup', (e) => {
         keyboard.D = false;
     }
     if (e.keyCode === 70) { // f
-        keyboard.F = true;
+        keyboard.F = false;
     }
     if (e.keyCode === 82) { // r
         keyboard.R = false;

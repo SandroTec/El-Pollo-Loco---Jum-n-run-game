@@ -26,7 +26,8 @@ class SoundManager {
             stomp: this.createAudio('./sounds/character/stomp.mp3'),
             hit: this.createAudio('./sounds/character/assets_audio_character_characterDamage.mp3'),
             bottle: this.createAudio('./sounds/assets_audio_throwable_bottleBreak.mp3'),
-            walk: this.createAudio('./sounds/character/assets_audio_character_characterRun.mp3')
+            walk: this.createAudio('./sounds/character/assets_audio_character_characterRun.mp3'),
+
         };
 
         /**
@@ -55,8 +56,6 @@ class SoundManager {
      * @param {string} name - Name of the sound in the sounds object.
      */
     play(name) {
-        if (this.isMuted) return;
-
         const sound = this.sounds[name];
         if (!sound) return;
 

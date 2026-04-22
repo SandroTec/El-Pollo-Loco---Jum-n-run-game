@@ -44,7 +44,7 @@ class Endboss extends MoveableObject {
     };
     boss = true;
     enemyDead = false;
-    soundPlayed = false
+    soundPlayed = false;
 
     constructor() {
        super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
@@ -53,7 +53,7 @@ class Endboss extends MoveableObject {
        this.height = 470;
        this.width = 150;
        this.speed = 15 * Math.random() + 5;
-       this.energy = 100;
+       this.energy = 50;
        this.isDying = false;
        this.animate();
     }
@@ -95,10 +95,6 @@ class Endboss extends MoveableObject {
      * certain time has passed.
      */
     bossIsDead() {
-        if (!this.soundPlayed) {
-            this.soundPlayed = true;
-        }
-
         this.loadImages(this.IMAGES_DEAD);
         this.playAnimation(this.IMAGES_DEAD);
 

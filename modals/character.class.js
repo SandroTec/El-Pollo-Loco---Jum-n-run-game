@@ -36,7 +36,6 @@ class Character extends MoveableObject {
         'img/2_character_pepe/5_dead/D-57.png',
 
     ];
-    world;
     isWalking = false;
     offset = {
         top: 100,
@@ -56,8 +55,8 @@ class Character extends MoveableObject {
         this.speed = 10;
         this.speed_y = 0;
 
+        this.startSoundLoop();
         this.applyGravity();
-        this.animate();
     }
 
     /**
@@ -74,41 +73,51 @@ class Character extends MoveableObject {
      */
     setKeyboardMoves() {
         setInterval(() => {
+            if (!this.world) return; 
+            if (!this.world.isPlaying) return; 
+
             if (this.world.keyboard.RIGHT && this.x < this.world.level_end_x) {
                 this.moveRight();
-                this.otherDirection = false; // if the character moves right, the image will not be mirrored.                
+                this.otherDirection = false;
             }
+
             if (this.world.keyboard.LEFT && this.x > -200) {
                 this.moveLeft();
-                this.otherDirection = true; // if the character moves left, the image will be mirrored.
+                this.otherDirection = true;
             }
-            const isMoving = this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
 
-            if (isMoving) {
+            if (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead()) {
+                this.jump();
+            }
+
+        }, 1000 / 60);
+    }
+
+    startSoundLoop() {
+        setInterval(() => {
+            if (!this.world || !this.world.isPlaying) return;
+
+            const moving =
+                this.world.keyboard.RIGHT ||
+                this.world.keyboard.LEFT;
+
+            if (moving && !this.isDead()) {
                 this.world.soundManager.playWalk();
             } else {
                 this.world.soundManager.stopWalk();
             }
+
+            if (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead()) {
+                    this.world.soundManager.play('jump');
+                }
             
-            if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-                this.jump();
-                this.world.soundManager.play('jump');
-            }
-            if (this.world.keyboard.F) {
-                this.setCanvasToFullscreen()
-            }
-            if (this.world.keyboard.R && !this.world.isPlaying) {
-                this.restart();
-            }
-            if (this.world.keyboard.C) {
-                this.controllPopUpDialog();
-            }
-            this.world.camera_x = -this.x + 150;
-        }, 1000 / 60);
+            let bottleBreak = this.world.throwableObjects.some(obj => obj.hasSplashed && !obj.removed);
 
-    
+            if (bottleBreak) {
+                this.world.soundManager.play('bottle');
+            }
+        }, 500);
     }
-
     /**
      * The setAnimations function sets intervals to play different animations based on the character's
      * state.
@@ -118,14 +127,13 @@ class Character extends MoveableObject {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
             } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT)
-            }
-            if (this.isAboveGround()) {
+                this.playAnimation(this.IMAGES_HURT);
+            } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
-            }
-            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) { // if arrow keys left or right are pressed, the animation for walking will start.
+            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimation(this.IMAGES_WALKING);
-            }}, 100);
+            }
+        }, 100);
     }
 
 }
