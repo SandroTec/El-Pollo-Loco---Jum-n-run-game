@@ -27,7 +27,9 @@ class SoundManager {
             hit: this.createAudio('./sounds/character/assets_audio_character_characterDamage.mp3'),
             bottle: this.createAudio('./sounds/assets_audio_throwable_bottleBreak.mp3'),
             walk: this.createAudio('./sounds/character/assets_audio_character_characterRun.mp3'),
-
+            characterDying: this.createAudio('./sounds/character/assets_audio_character_characterDead.wav'),
+            chickenDying: this.createAudio('./sounds/enemies/assets_audio_chicken_chickenDead.mp3'),
+            endbossAlert: this.createAudio('./sounds/enemies/assets_audio_endboss_endbossApproach.wav'),
         };
 
         /**

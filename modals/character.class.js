@@ -107,8 +107,9 @@ class Character extends MoveableObject {
                 this.world.soundManager.stopWalk();
             }
 
-            if (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead()) {
-                    this.world.soundManager.play('jump');
+            if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+                this.world.soundManager.play('jump');
+                console.log('Jump sound played');
                 }
             
             let bottleBreak = this.world.throwableObjects.some(obj => obj.hasSplashed && !obj.removed);
@@ -116,7 +117,11 @@ class Character extends MoveableObject {
             if (bottleBreak) {
                 this.world.soundManager.play('bottle');
             }
-        }, 500);
+
+            if (this.isDying) {
+                this.world.soundManager.play('characterDying');
+            }
+        }, 100);
     }
     /**
      * The setAnimations function sets intervals to play different animations based on the character's
@@ -124,7 +129,7 @@ class Character extends MoveableObject {
      */
     setAnimations() {
         setInterval(() => {
-            if (this.isDead()) {
+            if (this.isDying) {
                 this.playAnimation(this.IMAGES_DEAD);
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
@@ -133,7 +138,7 @@ class Character extends MoveableObject {
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimation(this.IMAGES_WALKING);
             }
-        }, 100);
+        }, 800);
     }
 
 }
