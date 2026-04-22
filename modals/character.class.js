@@ -109,20 +109,21 @@ class Character extends MoveableObject {
 
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.world.soundManager.play('jump');
-                console.log('Jump sound played');
-                }
+            }
             
             let bottleBreak = this.world.throwableObjects.some(obj => obj.hasSplashed && !obj.removed);
 
             if (bottleBreak) {
                 this.world.soundManager.play('bottle');
             }
-
+            if ( this.world.level.enemies.forEach(enemy => { if (this.jumpOn(enemy)) {
+                this.world.soundManager.play('splat');
+            }
             if (this.isDying) {
                 this.world.soundManager.play('characterDying');
             }
-        }, 100);
-    }
+        }, 100));   
+    })}
     /**
      * The setAnimations function sets intervals to play different animations based on the character's
      * state.

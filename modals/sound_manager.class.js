@@ -30,6 +30,8 @@ class SoundManager {
             characterDying: this.createAudio('./sounds/character/assets_audio_character_characterDead.wav'),
             chickenDying: this.createAudio('./sounds/enemies/assets_audio_chicken_chickenDead.mp3'),
             endbossAlert: this.createAudio('./sounds/enemies/assets_audio_endboss_endbossApproach.wav'),
+            collectSound: this.createAudio('./sounds/assets_audio_collectibles_collectSound.wav'),
+            splat: this.createAudio('./sounds/enemies/splat.mp3'),
         };
 
         /**

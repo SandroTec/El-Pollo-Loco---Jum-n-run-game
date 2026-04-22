@@ -22,4 +22,15 @@ class Coin extends MoveableObject {
 
             world.level.coins = world.level.coins.filter(obj => !obj.removed);
     };
+
+    startSoundLoop() {
+        setInterval(() => {
+            if (!this.world || !this.world.isPlaying) return;
+
+            if (this.collectCoin()) {
+                this.world.soundManager.play('collectSound');
+            }
+        }, 100);   
+    };
+
 }

@@ -29,4 +29,14 @@ class Bottle extends MoveableObject {
         }
      }
 
+     startSoundLoop() {
+        setInterval(() => {
+            if (!this.world || !this.world.isPlaying) return;
+
+            if (this.collectBottle()) {
+                this.world.soundManager.play('collectSound');
+            }
+        }, 100);   
+    }
+
 }

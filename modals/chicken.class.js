@@ -44,6 +44,16 @@ class Chicken extends MoveableObject {
         this.chickenDies()
     }
 
+    startSoundLoop() {
+        setInterval(() => {
+            if (!this.world || !this.world.isPlaying) return;
+
+            if (this.isDying) {
+                this.world.soundManager.play('chickenDying');
+            }
+        }, 100);   
+    }
+
     /**
      * The function `chickenDies` periodically checks if a chicken is dead and initiates the dying
      * process if it is not already dying, then removes the dead chicken after a certain time period,

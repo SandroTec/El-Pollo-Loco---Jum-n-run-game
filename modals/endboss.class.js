@@ -79,6 +79,20 @@ class Endboss extends MoveableObject {
         }, 200);
     }
 
+    startSoundLoop() {
+        setInterval(() => {
+            if (!this.world || !this.world.isPlaying) return;
+
+            if (this.bossIsAlerted  <= 15) {
+                this.world.soundManager.play('endbossAlert');
+            }
+            
+            if (this.isDying) {
+                this.world.soundManager.play('chickenDying');
+            }
+        }, 100);   
+    }
+
     /**
      * The function bossIsAlerted() loads alert images, plays an alert animation, and increments the
      * isAlerted counter.
