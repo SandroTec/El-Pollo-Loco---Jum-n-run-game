@@ -118,8 +118,8 @@ class SoundManager {
         if (!this.muteIcon) return;
 
         this.muteIcon.src = this.isMuted
-            ? './img/mute-icon.png'
-            : './img/sound-icon.png';
+            ? './img/mute-icon.svg'
+            : './img/sound-icon.svg';
     }
 
     /**

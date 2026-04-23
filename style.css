@@ -69,6 +69,11 @@ button {
     justify-content: space-between;
 }
 
+.fullscreen-icon {
+    width: 50px;
+    height: 50px;
+}
+
 .top-btn-right {
     display: flex;
 }
@@ -87,6 +92,11 @@ button {
     display: none;
     justify-content: center;
     align-items: center;
+}
+
+.restart-icon {
+    width: 50px;
+    height: 50px;
 }
 
 .game-btn-container {
