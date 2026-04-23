@@ -190,14 +190,17 @@ class World {
      */
     checkEnemies() {
         this.level.enemies.forEach(enemy => {
-            if (enemy.isDying || enemy.enemyDead) return;
+            if (enemy.isDying && !enemy.isDead()){
+                this.soundManager.play('chickenDying');
+                return
+            };
             let isJumpingOnEnemy = this.character.jumpOn(enemy);
             if (isJumpingOnEnemy) {
                 enemy.hit();
-                 this.soundManager.play('hit');
+                 this.soundManager.play('splat');
                 this.character.speedY = -10; // Bounce top
                 return;
-            } else if (this.character.isColiding(enemy) && !enemy.isDying && enemy.enemyDead == false) {
+            } else if (this.character.isColiding(enemy) && !enemy.isDying && !enemy.isDead()) {
                 this.character.hit();
                  this.soundManager.play('hit');
                 this.level.statusbar[0].setPercentage(this.character.energy);
@@ -218,12 +221,14 @@ class World {
     checkCoins() {
         this.level.coins.forEach(coin => {
             if (this.character.isColiding(coin)) {
-                this.character.coinCount += 1;
                 coin.collectCoin();
-                this.level.statusbar[1].setCoinBar(this.character.coinCount)
+                this.character.coinCount += 1;
+                this.level.statusbar[1].setCoinBar(this.character.coinCount);
+                this.soundManager.play('collectSound');
             }
         });
     }
+    
 
     /**
      * The function `checkBottle` checks if the character is colliding with a bottle in the level and
@@ -233,7 +238,8 @@ class World {
         if (this.character.isColiding(this.level.bottle)) {
             bottle.collectBottle();
             this.character.bottleCollected = true;
-            this.level.statusbar[2].setBottleBar(this.character.bottleCollected)
+            this.level.statusbar[2].setBottleBar(this.character.bottleCollected);
+            this.soundManager.play('collectSound');
         }
     }
 

@@ -1,7 +1,6 @@
 class Coin extends MoveableObject {
     height = 150;
     width = 150;
-    
     offset = {
         top: 50,
         left: 50,
@@ -18,19 +17,13 @@ class Coin extends MoveableObject {
     /* The `collectCoin()` method in the `Coin` class sets the `removed` property of the current `Coin`
     object to `true`, indicating that the coin has been collected. */
     collectCoin() {
-        this.removed = true;
-
-            world.level.coins = world.level.coins.filter(obj => !obj.removed);
-    };
-
-    startSoundLoop() {
-        setInterval(() => {
-            if (!this.world || !this.world.isPlaying) return;
-
-            if (this.collectCoin()) {
-                this.world.soundManager.play('collectSound');
+        world.level.coins.forEach(coin => {
+            if (world.character.isColiding(coin)) {
+                coin.removed = true;
             }
-        }, 100);   
-    };
+        });
+        world.level.coins = world.level.coins.filter(obj => !obj.removed);
+    }
+    
 
 }

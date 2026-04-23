@@ -53,6 +53,8 @@ function restart() {
         world.character.x = 0;
         world.character.isDying = false;
         world.character.energy = 100;
+        world.character.speed = 10;
+        world.character.coinCount = 0;
         world.level.enemies = world.level.enemies.filter(obj => obj.boss)
         world.level.enemies.forEach(enemy => {
             enemy.enemyDead = false;
@@ -60,8 +62,7 @@ function restart() {
             enemy.x = (200 + Math.random() * 500);
             
             });
-        world.character.coinCount = 0;
-            
+        
         world.isPlaying = false;
         world.drawStartscreen();
         

@@ -42,9 +42,9 @@ class Endboss extends MoveableObject {
         right: 10,
         bottom: 10
     };
-    boss = true;
-    enemyDead = false;
+    bossDead = false;
     soundPlayed = false;
+    deathStartTime;
 
     constructor() {
        super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
@@ -56,6 +56,7 @@ class Endboss extends MoveableObject {
        this.energy = 50;
        this.isDying = false;
        this.animate();
+       this.startSoundLoop();
     }
 
    /**
@@ -69,7 +70,7 @@ class Endboss extends MoveableObject {
             } else if (world.character.isColiding(this) && !this.isDying && !this.isDead()) {
                 this.loadImages(this.IMAGES_ATTACK);
                 this.playAnimation(this.IMAGES_ATTACK);
-            } else if (this.isDying) {
+            } else if (this.isDying && !this.isDead()) {
                 this.startDying();
             } else if (this.isDead()){
                 this.bossIsDead();
@@ -81,15 +82,13 @@ class Endboss extends MoveableObject {
 
     startSoundLoop() {
         setInterval(() => {
-            if (!this.world || !this.world.isPlaying) return;
+            if (!world.isPlaying) return;
 
             if (this.bossIsAlerted  <= 15) {
-                this.world.soundManager.play('endbossAlert');
-            }
-            
-            if (this.isDying) {
-                this.world.soundManager.play('chickenDying');
-            }
+                world.soundManager.play('endbossAlert');
+                console.log('alert sound played');
+            }else return
+ 
         }, 100);   
     }
 
@@ -109,15 +108,17 @@ class Endboss extends MoveableObject {
      * certain time has passed.
      */
     bossIsDead() {
-        this.loadImages(this.IMAGES_DEAD);
-        this.playAnimation(this.IMAGES_DEAD);
-
-        this.enemyDead = true;
-
-        let timePassed = new Date().getTime() - this.deathStartTime;
-        if (timePassed >= 5000) {
-            world.level.enemies = world.level.enemies.filter(obj => !obj.enemyDead);
-        }
+            if (!this.isDying && this.isDead()) {
+                this.loadImages(this.IMAGES_DEAD);
+                this.playAnimation(this.IMAGES_DEAD);
+                this.speed = 0;
+                let timePassed = new Date().getTime() - this.deathStartTime;
+                console.log(timePassed);
+                if (timePassed >= 5000) { 
+                    this.bossDead = true;
+                    world.level.enemies = world.level.enemies.filter(obj => !obj.bossDead);
+                }
+            }else return;
     }
 
     /**

@@ -109,8 +109,9 @@ class Character extends MoveableObject {
 
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.world.soundManager.play('jump');
+                 console.log('jump Sound');
             }
-            
+           
             let bottleBreak = this.world.throwableObjects.some(obj => obj.hasSplashed && !obj.removed);
 
             if (bottleBreak) {
@@ -118,9 +119,11 @@ class Character extends MoveableObject {
             }
             if ( this.world.level.enemies.forEach(enemy => { if (this.jumpOn(enemy)) {
                 this.world.soundManager.play('splat');
+                console.log('splat Sound')
             }
-            if (this.isDying) {
+            if (this.startDying() && !this.isDead()) {
                 this.world.soundManager.play('characterDying');
+                console.log('dying Sound')
             }
         }, 100));   
     })}
@@ -130,7 +133,7 @@ class Character extends MoveableObject {
      */
     setAnimations() {
         setInterval(() => {
-            if (this.isDying) {
+            if (this.startDying() && !this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
@@ -139,7 +142,7 @@ class Character extends MoveableObject {
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimation(this.IMAGES_WALKING);
             }
-        }, 800);
+        }, 80);
     }
 
 }

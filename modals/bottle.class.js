@@ -21,22 +21,11 @@ class Bottle extends MoveableObject {
      */
     collectBottle() {
         this.removed = true
-        
         if (world.level.bottle.removed == true ) {
                 this.img.src = '';
                 this.height = 0;
                 this.width = 0;
         }
      }
-
-     startSoundLoop() {
-        setInterval(() => {
-            if (!this.world || !this.world.isPlaying) return;
-
-            if (this.collectBottle()) {
-                this.world.soundManager.play('collectSound');
-            }
-        }, 100);   
-    }
 
 }

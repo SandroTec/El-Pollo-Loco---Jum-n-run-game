@@ -17,7 +17,7 @@ class Chicken extends MoveableObject {
         bottom: 0
     };
     enemyDead = false;
-    
+
     constructor() {
        super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/2_w.png');
        this.loadImages(this.IMAGES_WALKING);
@@ -37,21 +37,11 @@ class Chicken extends MoveableObject {
      */
     animate() {
         setInterval(() => {
-            if (!this.isDying) {
+            if (!this.isDead()) {
                 this.moveLeft();
             }
         }, 1000 / 60);
         this.chickenDies()
-    }
-
-    startSoundLoop() {
-        setInterval(() => {
-            if (!this.world || !this.world.isPlaying) return;
-
-            if (this.isDying) {
-                this.world.soundManager.play('chickenDying');
-            }
-        }, 100);   
     }
 
     /**
@@ -60,13 +50,12 @@ class Chicken extends MoveableObject {
      * while also handling animations.
      */
     chickenDies() {
+        this.deathStartTime = new Date().getTime();
         setInterval(() => {
-            if (this.isDead() && !this.isDying) {
-                this.startDying();
-            }
-            if (this.isDying) {
-                this.enemyDead = true;
+            if (this.isDead()) {
                 this.loadImage(this.IMAGES_DEAD[0]);
+                this.speed = 0;
+                this.enemyDead = true;
                 let timePassed = new Date().getTime() - this.deathStartTime;
                 if (timePassed >= 5000) { 
                     world.level.enemies = world.level.enemies.filter(obj => !obj.enemyDead);
@@ -77,7 +66,4 @@ class Chicken extends MoveableObject {
         }, 200);
     }
 
-    
-
-    
 }

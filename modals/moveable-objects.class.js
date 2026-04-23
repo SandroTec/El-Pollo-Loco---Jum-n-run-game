@@ -160,9 +160,16 @@ class MoveableObject extends DrawableObject {
      * death, and sets the speed to 0.
      */
     startDying() {
+        if (this.energy != 0) return;
         this.isDying = true;
         this.deathStartTime = new Date().getTime();
         this.speed = 0;
+        let timePassed = new Date().getTime() - this.deathStartTime;
+        if (timePassed  > 2000) {
+            return true;
+        }
+        return false;
+
     }
 
     /**
