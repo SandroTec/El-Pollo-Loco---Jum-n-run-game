@@ -44,7 +44,6 @@ class Endboss extends MoveableObject {
     };
     bossDead = false;
     soundPlayed = false;
-    deathStartTime;
 
     constructor() {
        super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
@@ -70,23 +69,21 @@ class Endboss extends MoveableObject {
             } else if (world.character.isColiding(this) && !this.isDying && !this.isDead()) {
                 this.loadImages(this.IMAGES_ATTACK);
                 this.playAnimation(this.IMAGES_ATTACK);
-            } else if (this.isDying && !this.isDead()) {
-                this.startDying();
             } else if (this.isDead()){
+                this.bossStartsDying();
                 this.bossIsDead();
             }else {
                 this.bossMoves();
             }
         }, 200);
     }
-
+ 
     startSoundLoop() {
         setInterval(() => {
             if (!world.isPlaying) return;
 
             if (this.bossIsAlerted  <= 15) {
                 world.soundManager.play('endbossAlert');
-                console.log('alert sound played');
             }else return
  
         }, 100);   
@@ -108,17 +105,26 @@ class Endboss extends MoveableObject {
      * certain time has passed.
      */
     bossIsDead() {
-            if (!this.isDying && this.isDead()) {
+            if (this.isDying && this.isDead()) {
                 this.loadImages(this.IMAGES_DEAD);
                 this.playAnimation(this.IMAGES_DEAD);
                 this.speed = 0;
                 let timePassed = new Date().getTime() - this.deathStartTime;
-                console.log(timePassed);
-                if (timePassed >= 5000) { 
+                if (timePassed >= 3000) { 
                     this.bossDead = true;
                     world.level.enemies = world.level.enemies.filter(obj => !obj.bossDead);
                 }
             }else return;
+    }
+
+    bossStartsDying() {
+        if (!this.isDying && this.isDead()) {
+            const deathStartTime = new Date().getTime();
+            this.isDying = true;
+            this.deathStartTime = deathStartTime;
+
+            return deathStartTime;
+        } else return;
     }
 
     /**

@@ -109,7 +109,6 @@ class Character extends MoveableObject {
 
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.world.soundManager.play('jump');
-                 console.log('jump Sound');
             }
            
             let bottleBreak = this.world.throwableObjects.some(obj => obj.hasSplashed && !obj.removed);
@@ -119,11 +118,9 @@ class Character extends MoveableObject {
             }
             if ( this.world.level.enemies.forEach(enemy => { if (this.jumpOn(enemy)) {
                 this.world.soundManager.play('splat');
-                console.log('splat Sound')
             }
             if (this.startDying() && !this.isDead()) {
                 this.world.soundManager.play('characterDying');
-                console.log('dying Sound')
             }
         }, 100));   
     })}
