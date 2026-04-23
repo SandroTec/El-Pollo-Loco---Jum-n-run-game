@@ -161,10 +161,13 @@ class MoveableObject extends DrawableObject {
      */
     startDying() {
         if (this.energy != 0) return;
-        this.isDying = true;
-        this.deathStartTime = new Date().getTime();
-        this.speed = 0;
-        return this.deathStartTime;
+        if (!this.isDying && this.isDead()) {
+            const deathStartTime = new Date().getTime();
+            this.isDying = true;
+            this.deathStartTime = deathStartTime;
+
+            return deathStartTime;
+        } else return;
 
     }
 

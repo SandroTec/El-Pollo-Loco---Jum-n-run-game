@@ -130,8 +130,9 @@ class Character extends MoveableObject {
      */
     setAnimations() {
         setInterval(() => {
-            if (this.startDying() && !this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD);
+            if (this.isDead()) {
+                this.startDying();
+                this.characterDying();
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
@@ -140,6 +141,17 @@ class Character extends MoveableObject {
                 this.playAnimation(this.IMAGES_WALKING);
             }
         }, 80);
+    }
+
+    characterDying() {
+        if (this.isDying && this.isDead()) {
+                this.playAnimation(this.IMAGES_DEAD);
+                this.speed = 0;
+                let timePassed = new Date().getTime() - this.deathStartTime;
+                if (timePassed >= 3000) { 
+                    world.gameOver();
+                }
+            }else return;
     }
 
 }

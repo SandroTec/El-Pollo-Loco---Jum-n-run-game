@@ -64,6 +64,7 @@ function restart() {
             });
         
         world.isPlaying = false;
+        world.youWon = false;
         world.drawStartscreen();
         
     }
@@ -96,12 +97,6 @@ window.addEventListener('keydown', (e) => {
     if (e.keyCode === 68) { // d
         keyboard.D = true;
     }
-    if (e.keyCode === 70) { // f
-        keyboard.F = true;
-    }
-    if (e.keyCode === 82) { // r
-        keyboard.R = true;
-    }
     if (e.keyCode === 67) { // c
         keyboard.C = true;
     }
@@ -126,12 +121,6 @@ window.addEventListener('keyup', (e) => {
     if (e.keyCode === 68) { // d
         keyboard.D = false;
     }
-    if (e.keyCode === 70) { // f
-        keyboard.F = false;
-    }
-    if (e.keyCode === 82) { // r
-        keyboard.R = false;
-    }
     if (e.keyCode === 67) { // c
         keyboard.C = false;
     }
@@ -154,7 +143,7 @@ canvas.addEventListener("click", (event) => {
  * will return `undefined`.
  */
 function handleClick(event) {
-    if (!world.isPlaying && !world.character.isDying) {
+    if (!world.isPlaying && !world.youWon && !world.character.isDead()) {
         gameStart();
     } else return;
 }

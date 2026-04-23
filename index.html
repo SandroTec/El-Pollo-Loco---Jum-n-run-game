@@ -38,18 +38,18 @@
         <p>please turn your device!</p>
     </div>
     <div class="fullScreenContainer">
-        <div class="top-btn-right">
-            <button onclick="controllPopUpDialog()" id="controllPopUp">C</button>
+        <div class="top-btn-left">
+            <button onclick="controllPopUpDialog()" id="controllPopUp"><img src="./img/help-icon.svg" alt="controlls" class="icon"></button>
             <button onclick="world.soundManager.toggleMute()" id="muteBtn">
-                <img id="muteIcon" src="./img/sound-icon.svg" alt="sound">
+                <img class="icon" id="muteIcon" src="./img/sound-icon.svg" alt="sound">
             </button>
         </div>
         <h1>El Pollo Loco</h1>
         <div class="top-btn-right">
             <button class="fullscreen-btn" id="fullscreenBtn" onclick="setCanvasToFullscreen()">
-                <img src="./img/fullscreen-icon.svg" class="fullscreen-icon" alt="fullscreen-icon">
+                <img src="./img/fullscreen-icon.svg" class="icon" alt="fullscreen-icon">
             </button>
-            <button class="restart-btn" id="restartBtn" onclick="restart()"><img src="./img/restart-icon.svg" alt="restart icon" class="restart-icon"></button>
+            <button class="restart-btn" id="restartBtn" onclick="restart()"><img src="./img/restart-icon.svg" alt="restart icon" class="icon"></button>
         </div>
     </div>
     <canvas id="canvas" width="720" height="480">
@@ -63,18 +63,17 @@
                 <li>Arrow-Right: Character moves right.</li>
                 <li>Space-bar: Character Jumps. Jump on enemy to kill them.</li>
                 <li>Keyboard-key D: Character throws Salsa-bottle, if collected.</li>
-                <li>Keyboard-key F: Fullscreen.</li>
             </ul>
         </article>
     </div>
     <div id="mobileControllBtns" class="game-btn-container">
         <div class="moves">
-            <button id="moveLeft"><-</button>
-            <button id="moveRight">-></button>
+            <button id="moveLeft"><img class="icon" src="./img/move-left-icon.svg" alt="arrow left"></button>
+            <button id="moveRight"><img class="icon" src="./img/move-right-icon.svg" alt="arrow right"></button>
         </div>
         <div class="throwAndJump">
-            <button id="throw">throw</button>
-            <button id="jump">jump</button>
+            <button id="throw"><img class="icon" src="./img/throw-icon.svg" alt="throw"></button>
+            <button id="jump"><img class="icon" src="./img/jump-icon .svg" alt="jump"></button>
         </div>
     </div>
     <footer>

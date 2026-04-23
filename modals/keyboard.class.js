@@ -3,9 +3,7 @@ class Keyboard {
     RIGHT = false;
     SPACE = false;
     D = false;
-    F;
-    R;
-    C;
+    C = false;
 
     btnLeft = document.getElementById('moveLeft');
     btnRight = document.getElementById('moveRight');
@@ -27,12 +25,14 @@ class Keyboard {
             if (e.code === 'ArrowRight') this.RIGHT = true;
             if (e.code === 'Space') this.SPACE = true;
             if (e.code === 'KeyD') this.D = true;
+            if (e.code === 'KeyC') this.C = true;
         });
         window.addEventListener('keyup', (e) => {
             if (e.code === 'ArrowLeft') this.LEFT = false;
             if (e.code === 'ArrowRight') this.RIGHT = false;
             if (e.code === 'Space') this.SPACE = false;
             if (e.code === 'KeyD') this.D = false;
+            if (e.code === 'KeyC') this.C = false;
         });
     }
 

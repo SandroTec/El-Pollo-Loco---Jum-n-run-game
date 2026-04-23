@@ -15,6 +15,7 @@ class World {
     keyboard;
     camera_x = -100;
 
+    youWon = false;
     gameRestart = document.getElementById('restartBtn');
 
     animationId;
@@ -79,8 +80,8 @@ class World {
 
         this.setUpStatusbars();
 
-        // 🔥 HIER MUSS ES WIEDER HIN
-        if (this.character.isDead()) {
+        if (!this.character.isDying && this.character.isDead()) {
+
             this.gameOver();
             return;
         }
@@ -115,6 +116,8 @@ class World {
         this.stop();
         this.soundManager.stopAll();
         this.isPlaying = false;
+        this.youWon = true;
+
     }
 
     /**

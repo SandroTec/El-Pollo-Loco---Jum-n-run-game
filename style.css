@@ -69,23 +69,21 @@ button {
     justify-content: space-between;
 }
 
+.fullScreenContainer h1 {
+    display: none;
+}
+
 .fullscreen-icon {
     width: 50px;
     height: 50px;
 }
 
-.top-btn-right {
+.top-btn-left {
     display: flex;
 }
 
 .top-btn-right {
     display: flex;
-}
-
-#muteBtn img {
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
 }
 
 .restart-btn {
@@ -94,7 +92,7 @@ button {
     align-items: center;
 }
 
-.restart-icon {
+.icon {
     width: 50px;
     height: 50px;
 }
@@ -104,18 +102,20 @@ button {
     position: absolute;
     top: 430px;
     width: 720px;
-    justify-content: space-evenly;
+    justify-content:center;
+    gap: 50%;
+
 
 }
 
 .moves {
     display: flex;
-    gap: 10px;
+    gap: 60px;
 }
 
 .throwAndJump {
     display: flex;
-    gap: 10px;
+    gap: 60px;
 }
 
 #controllPopUp {
@@ -164,17 +164,35 @@ footer {
     }
     
     canvas {
-        width: 90dvw;
-        height: 90dvh;
+        width: 100dvw;
+        height: 100dvh;
+        overflow: hidden;
     }
 
     .fullScreenContainer {
+        position: absolute;
+        justify-content: flex-end;
+        top: 0;
         width: 90%;
     }
 
     .controlling-information {
         width: 90%;
         height: fit-content;
+    }
+
+    footer {
+        position: absolute;
+        align-items: flex-start;
+        top: 0;
+        width: 90%;
+
+    }
+
+    @media (max-width: 700px) {
+        .game-btn-container {
+            gap: 30%;
+        }
     }
 }
 
@@ -190,4 +208,26 @@ footer {
     display: none;
   }
 
+}
+
+@media (max-height: 550px) {
+    .game-btn-container {
+        top: 86%;
+    }
+
+    button {
+        height: 35px;
+        width: 35px;
+    }
+    .icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    @media (max-width: 700px) {
+        .game-btn-container {
+            gap: 20%;
+        }
+    }
+ 
 }
