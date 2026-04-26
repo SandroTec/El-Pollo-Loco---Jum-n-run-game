@@ -43,8 +43,6 @@ canvas {
     display: flex;
     justify-content: center;
     align-items: center;
-
-    box-shadow: inset;
 }
 
 button {
@@ -58,7 +56,6 @@ button {
     font-size: 18px;
     color: black;
     background-color: goldenrod;
-    box-shadow: inset;
 }
 
 .fullScreenContainer {
@@ -156,7 +153,7 @@ footer {
     width: 720px;
 }
 
-@media (max-height: 750px) {
+@media (max-height: 1100px) {
     .game-btn-container {
         display: flex;
         top: 90%;

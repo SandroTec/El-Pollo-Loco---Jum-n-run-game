@@ -38,8 +38,8 @@ class Endboss extends MoveableObject {
     isAlerted = 0;
     offset = {
         top: 60,
-        left: 15,
-        right: 10,
+        left: 25,
+        right: 20,
         bottom: 10
     };
     bossDead = false;
@@ -81,6 +81,10 @@ class Endboss extends MoveableObject {
     startSoundLoop() {
         setInterval(() => {
             if (!world.isPlaying) return;
+
+            if (this.bossStartsDying()) {
+                world.soundManager.play('chickenDying');
+            }
 
             if (this.bossIsAlerted  <= 15) {
                 world.soundManager.play('endbossAlert');

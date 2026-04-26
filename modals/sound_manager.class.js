@@ -14,9 +14,8 @@ class SoundManager {
         this.muteIcon = document.getElementById('muteIcon');
 
         /** @type {boolean} */
-        this.isMuted = sessionStorage.getItem('mute');
-
-        this.updateMuteButton();
+        this.isMuted = sessionStorage.getItem('mute') === 'true';
+        
         /**
          * Collection of all game sounds.
          * @type {Object.<string, HTMLAudioElement>}
@@ -39,6 +38,9 @@ class SoundManager {
          * @type {HTMLAudioElement[]}
          */
         this.allSounds = Object.values(this.sounds);
+
+        this.updateMuteButton();
+        this.setMuted(this.isMuted);
     }
 
     /**
@@ -50,7 +52,6 @@ class SoundManager {
     createAudio(src) {
         const audio = new Audio(src);
         audio.preload = 'auto';
-        audio.muted = this.isMuted;
         return audio;
     }
 
@@ -59,12 +60,20 @@ class SoundManager {
      *
      * @param {string} name - Name of the sound in the sounds object.
      */
-    play(name) {
+    async play(name) {
         const sound = this.sounds[name];
         if (!sound) return;
 
+        sound.pause();
         sound.currentTime = 0;
-        sound.play().catch(() => {});
+        sound.volume = 0.3;
+        await sound.play().catch(() => {});
+        
+
+        setTimeout(() => {
+            sound.pause();
+            sound.currentTime = 0;
+        }, 3000);
     }
 
     /**
@@ -73,7 +82,7 @@ class SoundManager {
     playWalk() {
         const sound = this.sounds.walk;
         sound.loop = true;
-
+        sound.volume = 0.25;
         sound.play().catch(() => {});
     }
 

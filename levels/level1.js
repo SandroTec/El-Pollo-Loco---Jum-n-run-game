@@ -47,7 +47,7 @@ function initLevel() {
             new Coin((1000 * Math.random() + 720)),
             new Coin((100 * Math.random() + 720*2))
         ],
-        bottle = new Bottle(1000 * Math.random() + 400), 
+        bottle = new Bottle(500 * Math.random() + 300), 
         [
             new Statusbar_health(),
             new Statusbar_coin(),
