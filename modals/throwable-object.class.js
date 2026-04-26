@@ -41,30 +41,22 @@ class ThrowableObject extends MoveableObject {
     animate() {
         this.loadImages(this.IMAGES_BOTTLE);
         this.loadImages(this.IMAGES_BOTTLE_SPLASH);
-
         setInterval(() => {
             if (!this.hasSplashed) {
-
                 this.playAnimation(this.IMAGES_BOTTLE);
-
                 if (this.bottleHitGround() || world.level.enemies.forEach(enemy => {this.isColiding(enemy)})) {
                     this.hasSplashed = true;
                     this.splashStartTime = new Date().getTime();
                     this.stopGravity();
+                    world.soundManager.play('bottle');
                 }
-
             } else {
-
                 this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
-
                 let timePassed =
                     (new Date().getTime() - this.splashStartTime) / 1000;
-
                 if (timePassed > 3) {
                     this.removed = true;
-
-                    world.throwableObjects =
-                        world.throwableObjects.filter(obj => !obj.removed);
+                    world.throwableObjects = world.throwableObjects.filter(obj => !obj.removed);
                 }
             }
         }, 1000/60);

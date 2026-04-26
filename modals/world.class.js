@@ -201,7 +201,6 @@ class World {
             if (isJumpingOnEnemy) {
                 enemy.hit();
                  this.soundManager.play('splat');
-                this.character.speedY = -10; // Bounce top
                 return;
             } else if (this.character.isColiding(enemy) && !enemy.isDying && !enemy.isDead()) {
                 this.character.hit();
@@ -232,7 +231,6 @@ class World {
         });
     }
     
-
     /**
      * The function `checkBottle` checks if the character is colliding with a bottle in the level and
      * collects it if so.

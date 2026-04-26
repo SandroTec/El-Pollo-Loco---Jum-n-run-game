@@ -81,16 +81,13 @@ class Endboss extends MoveableObject {
     startSoundLoop() {
         setInterval(() => {
             if (!world.isPlaying) return;
-
-            if (this.bossStartsDying()) {
+            if (this.isDead() && this.bossDead === false) {
                 world.soundManager.play('chickenDying');
             }
-
-            if (this.bossIsAlerted  <= 15) {
+            if (this.bossIsAlerted  <= 10) {
                 world.soundManager.play('endbossAlert');
             }else return
- 
-        }, 100);   
+        }, 1000);   
     }
 
     /**
@@ -126,7 +123,6 @@ class Endboss extends MoveableObject {
             const deathStartTime = new Date().getTime();
             this.isDying = true;
             this.deathStartTime = deathStartTime;
-
             return deathStartTime;
         } else return;
     }

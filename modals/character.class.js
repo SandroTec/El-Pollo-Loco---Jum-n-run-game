@@ -75,17 +75,14 @@ class Character extends MoveableObject {
         setInterval(() => {
             if (!this.world) return; 
             if (!this.world.isPlaying) return; 
-
             if (this.world.keyboard.RIGHT && this.x < this.world.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false;
             }
-
             if (this.world.keyboard.LEFT && this.x > -200) {
                 this.moveLeft();
                 this.otherDirection = true;
             }
-
             if (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead()) {
                 this.jump();
             }
@@ -96,33 +93,23 @@ class Character extends MoveableObject {
     startSoundLoop() {
         setInterval(() => {
             if (!this.world || !this.world.isPlaying) return;
-
-            const moving =
-                this.world.keyboard.RIGHT ||
-                this.world.keyboard.LEFT;
-
+            const moving = this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
             if (moving && !this.isDead()) {
                 this.world.soundManager.playWalk();
             } else {
                 this.world.soundManager.stopWalk();
             }
-
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.world.soundManager.play('jump');
             }
-           
-            let bottleBreak = this.world.throwableObjects.some(obj => obj.hasSplashed && !obj.removed);
-
-            if (bottleBreak) {
-                this.world.soundManager.play('bottle');
-            }
-            if ( this.world.level.enemies.forEach(enemy => { if (this.jumpOn(enemy)) {
+            if ( this.world.level.enemies.forEach(enemy => { if (enemy.isDead() && enemy.removed === false) {
                 this.world.soundManager.play('splat');
             }
-            if (this.startDying() && !this.isDead()) {
+            if (this.characterDying()) {
                 this.world.soundManager.play('characterDying');
+                console.log('characterDying sound played');
             }
-        }, 100));   
+        }, 2000));   
     })}
     /**
      * The setAnimations function sets intervals to play different animations based on the character's
@@ -140,7 +127,7 @@ class Character extends MoveableObject {
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimation(this.IMAGES_WALKING);
             }
-        }, 80);
+        }, 80 );
     }
 
     characterDying() {
@@ -148,7 +135,7 @@ class Character extends MoveableObject {
                 this.playAnimation(this.IMAGES_DEAD);
                 this.speed = 0;
                 let timePassed = new Date().getTime() - this.deathStartTime;
-                if (timePassed >= 3000) { 
+                if (timePassed >= 2000) { 
                     world.gameOver();
                 }
             }else return;

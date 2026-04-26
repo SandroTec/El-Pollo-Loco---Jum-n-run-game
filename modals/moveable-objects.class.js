@@ -110,15 +110,12 @@ class MoveableObject extends DrawableObject {
         let charRight = this.x + this.width - this.offset.right;
         let charTop = this.y + this.offset.top;
         let charBottom = this.y + this.height - this.offset.bottom;
-
         let moLeft = mo.x + mo.offset.left;
         let moRight = mo.x + mo.width - mo.offset.right;
         let moTop = mo.y + mo.offset.top;
         let moBottom = mo.y + mo.height - mo.offset.bottom;
-
         let horizontalHit = charRight > moLeft && charLeft < moRight;
         let verticalHit = charBottom > moTop && charTop < moBottom;
-
         return horizontalHit && verticalHit;
     }
 
@@ -187,22 +184,14 @@ class MoveableObject extends DrawableObject {
         let charLeft = this.x;
         let charRight = this.x + this.width;
         let charBottom = this.y + this.height - this.offset.bottom;
-
         let enemyLeft = mo.x + mo.offset.left;
         let enemyRight = mo.x + mo.width - mo.offset.right;
         let enemyTop = mo.y + mo.offset.top;
-
         let falling = this.speed_y < 0;
         let horizontalOverlap =
             charRight > enemyLeft &&
             charLeft < enemyRight;
-
         let verticalDistance = charBottom - enemyTop;
-
-        return falling && 
-            horizontalOverlap &&
-            verticalDistance >= -25 &&   // leicht drüber
-            verticalDistance <= 25;      // nicht zu tief drin
-
+        return falling && horizontalOverlap && verticalDistance >= -25 && verticalDistance <= 25;
     }
 }
