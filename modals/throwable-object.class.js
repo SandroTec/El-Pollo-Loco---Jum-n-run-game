@@ -59,7 +59,7 @@ class ThrowableObject extends MoveableObject {
                     world.throwableObjects = world.throwableObjects.filter(obj => !obj.removed);
                 }
             }
-        }, 1000/60);
+        }, 60);
     }
 
     /**

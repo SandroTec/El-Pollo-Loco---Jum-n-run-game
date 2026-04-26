@@ -60,21 +60,21 @@ class SoundManager {
      *
      * @param {string} name - Name of the sound in the sounds object.
      */
-    async play(name) {
+    play(name) {
         const sound = this.sounds[name];
         if (!sound) return;
 
+        if (!sound.paused) return; // läuft schon
+
+        sound.volume = 0.1;
+        sound.play().catch(()=>{});
+    
+        setTimeout(() => {
         sound.pause();
         sound.currentTime = 0;
-        sound.volume = 0.3;
-        await sound.play().catch(() => {});
-        
-
-        setTimeout(() => {
-            sound.pause();
-            sound.currentTime = 0;
-        }, 3000);
+    }, 3000);
     }
+
 
     /**
      * Starts playing the walking sound in a loop.

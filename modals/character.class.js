@@ -44,6 +44,11 @@ class Character extends MoveableObject {
         bottom: 10
     };
 
+    isDying = false;
+    deathStartTime = null;
+    deathSoundPlayed = false;
+    deathSequenceStarted = false;
+
     constructor() {        
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
@@ -92,6 +97,10 @@ class Character extends MoveableObject {
 
     startSoundLoop() {
         setInterval(() => {
+            if (this.isDead() && !this.isDying && !this.deathSoundPlayed) {
+                this.deathSoundPlayed = true;
+                this.world.soundManager.play('characterDying');
+            }
             if (!this.world || !this.world.isPlaying) return;
             const moving = this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
             if (moving && !this.isDead()) {
@@ -102,43 +111,36 @@ class Character extends MoveableObject {
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.world.soundManager.play('jump');
             }
-            if ( this.world.level.enemies.forEach(enemy => { if (enemy.isDead() && enemy.removed === false) {
-                this.world.soundManager.play('splat');
-            }
-            if (this.characterDying()) {
-                this.world.soundManager.play('characterDying');
-                console.log('characterDying sound played');
-            }
-        }, 2000));   
-    })}
+            this.world.level.enemies.forEach(enemy => {
+                if (enemy.isDead() && enemy.removed === false) {
+                    this.world.soundManager.play('splat');
+                }
+            });
+        }, 100);   
+    }
     /**
      * The setAnimations function sets intervals to play different animations based on the character's
      * state.
      */
     setAnimations() {
         setInterval(() => {
-            if (this.isDead()) {
-                this.startDying();
-                this.characterDying();
-            } else if (this.isHurt()) {
+            if (this.isDead() && !this.deathSequenceStarted) {
+                this.playAnimation(this.IMAGES_DEAD);
+                this.deathSequenceStarted = true
+                this.speed = 0;
+                if (!this.isDying) {
+                    this.startDying();
+                }
+            } else if (this.isHurt() && !this.isDead()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimation(this.IMAGES_WALKING);
-            }
-        }, 80 );
+            }  
+        }, 100 );
     }
 
-    characterDying() {
-        if (this.isDying && this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD);
-                this.speed = 0;
-                let timePassed = new Date().getTime() - this.deathStartTime;
-                if (timePassed >= 2000) { 
-                    world.gameOver();
-                }
-            }else return;
-    }
+
 
 }

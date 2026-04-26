@@ -55,6 +55,9 @@ function restart() {
         world.character.energy = 100;
         world.character.speed = 10;
         world.character.coinCount = 0;
+        world.character.deathStartTime = null;
+        world.character.deathSoundPlayed = false;
+        world.character.deathSequenceStarted = false;
         world.level.enemies = world.level.enemies.filter(obj => obj.boss)
         world.level.enemies.forEach(enemy => {
             enemy.enemyDead = false;

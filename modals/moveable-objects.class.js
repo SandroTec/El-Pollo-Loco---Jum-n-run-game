@@ -144,12 +144,12 @@ class MoveableObject extends DrawableObject {
      * The `isDead` function checks if the energy level of an object is zero to determine if it is
      * dead.
      * @returns The `isDead()` function is returning a boolean value based on the comparison
-     * `this.energy == 0`. If the energy property of the object calling the function is equal to 0,
+     * `this.energy <= 0`. If the energy property of the object calling the function is equal to 0,
      * then the function will return `true`, indicating that the object is dead. Otherwise, it will
      * return `false`.
      */
     isDead() {
-        return this.energy == 0;    
+        return this.energy <= 0;    
     }
 
     /**
@@ -157,16 +157,10 @@ class MoveableObject extends DrawableObject {
      * death, and sets the speed to 0.
      */
     startDying() {
-        if (this.energy != 0) return;
-        if (!this.isDying && this.isDead()) {
-            const deathStartTime = new Date().getTime();
-            this.isDying = true;
-            this.deathStartTime = deathStartTime;
-
-            return deathStartTime;
-        } else return;
-
+        this.isDying = true;
+        this.deathStartTime = new Date().getTime();
     }
+    
 
     /**
      * The function `jumpOn` checks if a character is jumping on top of an enemy in a game by comparing

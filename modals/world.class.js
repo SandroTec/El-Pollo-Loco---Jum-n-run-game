@@ -65,32 +65,23 @@ class World {
      */
     draw() {
         if (!this.level) return;
-
         this.camera_x = -this.character.x + 150;
-
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
         this.ctx.save();
         this.ctx.translate(this.camera_x, 0);
-
         this.setUpLevel();
         this.setUpCharacterAndEnemies();
-
         this.ctx.restore();
-
         this.setUpStatusbars();
-
-        if (!this.character.isDying && this.character.isDead()) {
+        if (this.character.isDead() && this.character.isDying) {
 
             this.gameOver();
             return;
         }
-
         if (this.character.x >= this.level_end_x) {
             this.gameWin();
             return;
         }
-
         this.animationId = requestAnimationFrame(this.draw.bind(this));
     }
 
@@ -99,11 +90,13 @@ class World {
      * restart button.
      */
     gameOver() {
-        this.addToMap(this.endscreen);
-        this.gameRestart.style.display = 'flex';
-        this.stop();
-        this.soundManager.stopAll();
-        this.isPlaying = false;
+    
+            this.addToMap(this.endscreen);
+            this.gameRestart.style.display = 'flex';
+            this.stop();
+            this.soundManager.stopAll();
+            this.isPlaying = false;   
+        
     }
 
     /**
