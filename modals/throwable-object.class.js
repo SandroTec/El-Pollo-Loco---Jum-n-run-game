@@ -48,11 +48,12 @@ class ThrowableObject extends MoveableObject {
         setInterval(() => {
             if (!this.hasSplashed) {
                 this.playAnimation(this.IMAGES_BOTTLE);
-                if (this.bottleHitGround() || world.level.enemies.forEach(enemy => {this.isColiding(enemy)})) {
+                if (this.bottleHitGround()) {
                     this.hasSplashed = true;
                     this.splashStartTime = new Date().getTime();
                     this.stopGravity();
                 }
+                
             } else {
                 this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
                 let timePassed =
@@ -68,11 +69,15 @@ class ThrowableObject extends MoveableObject {
     soundLoop() {
         setInterval(() => { 
             if (!this.soundPlayed) {
-                if (this.bottleHitGround() || world.level.enemies.forEach(enemy => {this.isColiding(enemy)})) {
+                if (this.bottleHitGround()) {
                     world.soundManager.play('bottle');
-                    console.log('bottle break sound!')
                     this.soundPlayed = true;
-        }}}, 100);
+        }
+        world.level.enemies.forEach(enemy => {this.isColiding(enemy)
+            world.soundManager.play('bottle');
+            this.soundPlayed = true;
+            });
+        }}, 100);
     };
     
     
