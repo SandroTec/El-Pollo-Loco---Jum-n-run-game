@@ -65,32 +65,38 @@ class World {
      */
     draw() {
         if (!this.level) return;
-        this.camera_x = -this.character.x + 150;
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.save();
-        this.ctx.translate(this.camera_x, 0);
-        this.setUpLevel();
-        this.setUpCharacterAndEnemies();
-        this.ctx.restore();
-        this.setUpStatusbars();
-        if (this.character.isDead() && this.character.isDying) {
+            this.camera_x = -this.character.x + 150;
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.ctx.save();
+            this.ctx.translate(this.camera_x, 0);
+            this.setUpLevel();
+            this.setUpCharacterAndEnemies();
+            this.ctx.restore();
+            this.setUpStatusbars();
+            if (this.character.isDead()) {
+                if (!this.character.isDying) {
+                    this.character.startDying();
+                }
+                let timePassed = new Date().getTime() - this.character.deathStartTime;
+                console.log(timePassed);
 
-            this.gameOver();
-            return;
-        }
-        if (this.character.x >= this.level_end_x) {
-            this.gameWin();
-            return;
-        }
+                if (timePassed > 500) {
+                    this.gameOver();
+                    return;
+                }
+            }
+            if (this.character.x >= this.level_end_x) {
+                this.gameWin();
+                return;
+            }
         this.animationId = requestAnimationFrame(this.draw.bind(this));
+            
     }
-
         /**
      * The `gameOver` function adds the end screen to the map, stops the game, and displays the game
      * restart button.
      */
     gameOver() {
-    
             this.addToMap(this.endscreen);
             this.gameRestart.style.display = 'flex';
             this.stop();

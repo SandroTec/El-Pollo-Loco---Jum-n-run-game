@@ -24,6 +24,8 @@ class ThrowableObject extends MoveableObject {
         right: 0,
         bottom: 0
     };
+    soundPlayed = false;
+
     constructor(x, y, mo) {
         super().loadImage('img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
         this.x = x;
@@ -31,6 +33,8 @@ class ThrowableObject extends MoveableObject {
         this.height = 75;
         this.width = 50;
         this.throw(mo);
+        this.soundPlayed = false;
+        
         
     }
 
@@ -48,7 +52,6 @@ class ThrowableObject extends MoveableObject {
                     this.hasSplashed = true;
                     this.splashStartTime = new Date().getTime();
                     this.stopGravity();
-                    world.soundManager.play('bottle');
                 }
             } else {
                 this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
@@ -61,6 +64,18 @@ class ThrowableObject extends MoveableObject {
             }
         }, 60);
     }
+
+    soundLoop() {
+        setInterval(() => { 
+            if (!this.soundPlayed) {
+                if (this.bottleHitGround() || world.level.enemies.forEach(enemy => {this.isColiding(enemy)})) {
+                    world.soundManager.play('bottle');
+                    console.log('bottle break sound!')
+                    this.soundPlayed = true;
+        }}}, 100);
+    };
+    
+    
 
     /**
      * The function applies gravity to a bottle, sets its speed and direction, moves it horizontally,
@@ -82,6 +97,7 @@ class ThrowableObject extends MoveableObject {
         world.character.bottleCollected = false;
         world.level.statusbar[2].setBottleBar(world.character.bottleCollected)
         this.animate();
+        this.soundLoop();
     }
 
     /**

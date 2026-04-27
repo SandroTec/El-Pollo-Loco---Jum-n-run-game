@@ -97,7 +97,7 @@ class Character extends MoveableObject {
 
     startSoundLoop() {
         setInterval(() => {
-            if (this.isDead() && !this.isDying && !this.deathSoundPlayed) {
+            if (this.isDead() && !this.deathSoundPlayed) {
                 this.deathSoundPlayed = true;
                 this.world.soundManager.play('characterDying');
             }
@@ -128,9 +128,6 @@ class Character extends MoveableObject {
                 this.playAnimation(this.IMAGES_DEAD);
                 this.deathSequenceStarted = true
                 this.speed = 0;
-                if (!this.isDying) {
-                    this.startDying();
-                }
             } else if (this.isHurt() && !this.isDead()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
