@@ -8,16 +8,13 @@ class World {
     throwableObjects = [];
     level;
     level_end_x = 720*2.5;
-
     isPlaying = false;
     canvas;
     ctx;
     keyboard;
     camera_x = -100;
-
     youWon = false;
     gameRestart = document.getElementById('restartBtn');
-
     animationId;
 
     constructor(canvas, keyboard) {
