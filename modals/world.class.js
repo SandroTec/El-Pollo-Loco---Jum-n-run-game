@@ -17,6 +17,7 @@ class World {
     gameRestart = document.getElementById('restartBtn');
     animationId;
 
+    homeBtn = document.getElementById('homeBtn');
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -73,7 +74,7 @@ class World {
             this.ctx.translate(this.camera_x, 0);
             this.setUpCharacterAndEnemies();
             this.ctx.restore();
-            
+            this.homeBtn.style.display = 'none';
             if (this.character.isDead()) {
                 if (!this.character.isDying) {
                     this.character.startDying();
@@ -81,11 +82,13 @@ class World {
                 let timePassed = new Date().getTime() - this.character.deathStartTime;
                 if (timePassed > 500) {
                     this.gameOver();
+                    this.homeBtn.style.display = 'block';
                     return;
                 }
             }
             if (this.character.x >= this.level_end_x) {
                 this.gameWin();
+                this.homeBtn.style.display = 'block';
                 return;
             }
         this.animationId = requestAnimationFrame(this.draw.bind(this));
@@ -155,7 +158,7 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowableObject()
-        }, 1000 / 60);
+        }, 125);
     }
 
     /**

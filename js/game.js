@@ -51,8 +51,8 @@ function gameStart() {
  */
 function restart() {
         resetCharacter();
-        
         world.youWon = false;
+        restartBtn.style.display = 'none';
         gameStart()
     }
 
@@ -126,11 +126,17 @@ window.addEventListener('keyup', (e) => {
 });
 
 canvas = document.getElementById('canvas');
-        
-canvas.addEventListener("click", (event) => {
+    
+startBtn = document.getElementById('startBtn');
+homeBtn = document.getElementById('homeBtn');
+
+
+startBtn.addEventListener("click", (event) => {
     this.handleClick(event);
 })
-
+homeBtn.addEventListener("click", (event) => {
+    this.handleHomeClick(event);
+})
 /**
  * The handleClick function starts the game if it is not already playing and the character is not
  * dying.
@@ -144,6 +150,16 @@ canvas.addEventListener("click", (event) => {
 function handleClick(event) {
     if (!world.isPlaying && !world.youWon && !world.character.isDead()) {
         gameStart();
+        startBtn.style.display = 'none';
+
+    } else return;
+}
+
+function handleHomeClick(event) {
+    if (world.youWon || world.character.isDead()) {
+        backToHome();
+        homeBtn.style.display = 'none';
+        startBtn.style.display = 'block';
     } else return;
 }
 
