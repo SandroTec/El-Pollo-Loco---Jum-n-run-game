@@ -77,7 +77,31 @@ class Endboss extends MoveableObject {
             }
         }, 200);
     }
- 
+
+    /**
+     * Starts a recurring sound loop for boss-related sound effects.
+     *
+     * Performs state checks every second and plays sounds depending
+     * on the boss status:
+     *
+     * - Plays a death sound when the boss is defeated.
+     * - Plays an alert/aggression sound while the boss is alerted.
+     *
+     * The loop only runs while the game is active (`world.isPlaying`).
+     *
+     * Requirements:
+     * - `world` must be available.
+     * - `world.soundManager` manages sound playback.
+     * - `this.bossDead` indicates whether the boss death was handled.
+     * - `this.bossIsAlerted` controls the boss alert state.
+     *
+     * Sounds used:
+     * - `chickenDying`
+     * - `endbossAlert`
+     *
+     * @method startSoundLoop
+     * @returns {void}
+     */
     startSoundLoop() {
         setInterval(() => {
             if (!world.isPlaying) return;
@@ -118,6 +142,27 @@ class Endboss extends MoveableObject {
             }else return;
     }
 
+    /**
+     * Initializes the boss death sequence and stores its start timestamp.
+     *
+     * Triggers only once when the boss is dead and has not entered
+     * the dying state yet.
+     *
+     * Actions:
+     * - Sets `isDying` to `true`.
+     * - Stores the current timestamp in `deathStartTime`.
+     * - Returns the death sequence start time.
+     *
+     * If the death sequence has already started or the boss is not dead,
+     * no action is performed.
+     *
+     * Requirements:
+     * - `this.isDead()` checks whether the boss has been defeated.
+     * - `this.isDying` prevents multiple initializations.
+     *
+     * @method bossStartsDying
+     * @returns {number|undefined} Timestamp of death sequence start, or `undefined`.
+     */
     bossStartsDying() {
         if (!this.isDying && this.isDead()) {
             const deathStartTime = new Date().getTime();

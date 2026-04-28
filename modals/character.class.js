@@ -95,6 +95,32 @@ class Character extends MoveableObject {
         }, 1000 / 60);
     }
 
+    /**
+     * Starts a recurring sound loop for character and gameplay sound effects.
+     *
+     * Runs checks every 100 ms and controls sound playback based on
+     * the current game state:
+     *
+     * - Plays the death sound once when the character dies.
+     * - Starts or stops walking sounds depending on movement.
+     * - Plays a jump sound when the character jumps.
+     * - Plays a "splat" sound for defeated enemies.
+     *
+     * Requirements:
+     * - `this.world` must exist.
+     * - `this.world.soundManager` handles audio playback.
+     * - `this.world.keyboard` contains current input states.
+     * - `this.world.level.enemies` contains all enemies.
+     *
+     * Sounds used:
+     * - `characterDying`
+     * - `jump`
+     * - `splat`
+     * - Walking loop via `playWalk()` / `stopWalk()`
+     *
+     * @method startSoundLoop
+     * @returns {void}
+     */
     startSoundLoop() {
         setInterval(() => {
             if (this.isDead() && !this.deathSoundPlayed) {

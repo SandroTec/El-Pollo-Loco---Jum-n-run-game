@@ -66,6 +66,31 @@ class ThrowableObject extends MoveableObject {
         }, 60);
     }
 
+    /**
+     * Starts a recurring sound loop for bottle collision sound effects.
+     *
+     * Performs collision checks at regular intervals and plays a sound
+     * when the bottle hits the ground or collides with an enemy.
+     *
+     * Actions:
+     * - Plays a bottle impact sound when the bottle hits the ground.
+     * - Plays a bottle impact sound when the bottle collides with an enemy.
+     * - Prevents the sound from playing multiple times using `soundPlayed`.
+     *
+     * Checks run every 100 ms until the sound has been triggered.
+     *
+     * Requirements:
+     * - `this.bottleHitGround()` detects ground impact.
+     * - `this.isColiding(enemy)` checks collision with enemies.
+     * - `world.level.enemies` contains all enemies.
+     * - `world.soundManager` manages sound playback.
+     *
+     * Sounds used:
+     * - `bottle`
+     *
+     * @method soundLoop
+     * @returns {void}
+     */
     soundLoop() {
         setInterval(() => { 
             if (!this.soundPlayed) {
@@ -80,8 +105,6 @@ class ThrowableObject extends MoveableObject {
         }}, 100);
     };
     
-    
-
     /**
      * The function applies gravity to a bottle, sets its speed and direction, moves it horizontally,
      * updates a status bar, and triggers an animation.
