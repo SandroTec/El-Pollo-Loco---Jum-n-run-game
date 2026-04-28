@@ -64,19 +64,21 @@ class World {
         if (!this.level) return;
             this.camera_x = -this.character.x + 150;
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            
             this.ctx.save();
             this.ctx.translate(this.camera_x, 0);
             this.setUpLevel();
+            this.ctx.translate(-this.camera_x, 0);
+            this.setUpStatusbars();
+            this.ctx.translate(this.camera_x, 0);
             this.setUpCharacterAndEnemies();
             this.ctx.restore();
-            this.setUpStatusbars();
+            
             if (this.character.isDead()) {
                 if (!this.character.isDying) {
                     this.character.startDying();
                 }
                 let timePassed = new Date().getTime() - this.character.deathStartTime;
-                console.log(timePassed);
-
                 if (timePassed > 500) {
                     this.gameOver();
                     return;

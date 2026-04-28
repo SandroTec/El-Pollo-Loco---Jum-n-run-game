@@ -59,7 +59,7 @@ class Statusbar_coin extends DrawableObject {
         this.loadImages(this.IMAGES_COIN);
         this.setCoinBar(0);
         this.x = 20;
-        this.y = 40;
+        this.y = 50;
         this.height = 75;
         this.width = 250;
     }
@@ -97,7 +97,7 @@ class Statusbar_bottle extends DrawableObject {
         this.loadImages(this.IMAGES_BOTTLE);
         this.setBottleBar(false)
         this.x = 20;
-        this.y = 80;
+        this.y = 100;
         this.height = 75;
         this.width = 250;
     }
