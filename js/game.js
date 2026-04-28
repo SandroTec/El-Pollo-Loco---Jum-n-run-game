@@ -50,26 +50,16 @@ function gameStart() {
  * @returns {void}
  */
 function restart() {
-        world.character.x = 0;
-        world.character.isDying = false;
-        world.character.energy = 100;
-        world.character.speed = 10;
-        world.character.coinCount = 0;
-        world.character.deathStartTime = null;
-        world.character.deathSoundPlayed = false;
-        world.character.deathSequenceStarted = false;
+        resetCharacter();
         world.level.enemies = world.level.enemies.filter(obj => obj.boss)
         world.level.enemies.forEach(enemy => {
             enemy.enemyDead = false;
             enemy.energy = 100;
             enemy.x = (200 + Math.random() * 500);
-            
             });
-        
         world.isPlaying = false;
         world.youWon = false;
         world.drawStartscreen();
-        
     }
 
 /**
@@ -149,6 +139,17 @@ function handleClick(event) {
     if (!world.isPlaying && !world.youWon && !world.character.isDead()) {
         gameStart();
     } else return;
+}
+
+function resetCharacter() {
+    world.character.x = 0;
+    world.character.isDying = false;
+    world.character.energy = 100;
+    world.character.speed = 10;
+    world.character.coinCount = 0;
+    world.character.deathStartTime = null;
+    world.character.deathSoundPlayed = false;
+    world.character.deathSequenceStarted = false;
 }
 
 

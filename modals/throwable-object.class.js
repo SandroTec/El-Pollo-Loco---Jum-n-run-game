@@ -53,7 +53,6 @@ class ThrowableObject extends MoveableObject {
                     this.splashStartTime = new Date().getTime();
                     this.stopGravity();
                 }
-                
             } else {
                 this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
                 let timePassed =
@@ -157,8 +156,7 @@ class ThrowableObject extends MoveableObject {
      * than or equal to 320.
      */
     bottleHitGround() {
-       
-            if (this.y >= 318) {return true;}
+        if (this.y >= 318) {return true;}
         
     }
 

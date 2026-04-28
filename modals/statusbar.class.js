@@ -40,7 +40,6 @@ class Statusbar_health extends DrawableObject {
             } else {
                 path = this.IMAGES_HEALTH[0];
             }
-
             this.img = this.imageCache[path]; 
         }
 }
@@ -80,11 +79,9 @@ class Statusbar_coin extends DrawableObject {
         } else if (this.coinCount == 3) {
             path = this.IMAGES_COIN[5];
         }
-
         this.img = this.imageCache[path]; 
-        }
     }
-
+}
 
 class Statusbar_bottle extends DrawableObject {
     IMAGES_BOTTLE = [

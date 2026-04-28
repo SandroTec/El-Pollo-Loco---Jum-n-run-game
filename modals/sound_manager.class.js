@@ -63,18 +63,14 @@ class SoundManager {
     play(name) {
         const sound = this.sounds[name];
         if (!sound) return;
-
-        if (!sound.paused) return; // läuft schon
-
+        if (!sound.paused) return; 
         sound.volume = 0.1;
         sound.play().catch(()=>{});
-    
         setTimeout(() => {
         sound.pause();
         sound.currentTime = 0;
     }, 3000);
     }
-
 
     /**
      * Starts playing the walking sound in a loop.

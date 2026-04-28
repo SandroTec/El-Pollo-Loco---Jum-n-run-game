@@ -124,12 +124,28 @@ button {
 
 .controlling-information {
     display: none;
+    flex-direction: column;
     width: 720px;
-    height: 120px;
+    height: fit-content;
     text-align: left;
     color: goldenrod;
     background-color: black;
     padding-top: 8px;
+}
+
+.game-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: underline;
+    padding-bottom: 10px;
+}
+
+.controlls-design {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 20px;
 }
 
 ul {
@@ -153,42 +169,43 @@ footer {
     width: 720px;
 }
 
-@media (max-height: 1050px) {
-    .game-btn-container {
-        display: flex;
-        top: 90%;
-        width: 100%;
-    }
-    
-    canvas {
-        width: 100dvw;
-        height: 100dvh;
-        overflow: hidden;
-    }
-
-    .fullScreenContainer {
-        position: absolute;
-        justify-content: flex-end;
-        top: 0;
-        width: 90%;
-    }
-
-    .controlling-information {
-        width: 90%;
-        height: fit-content;
-    }
-
-    footer {
-        position: absolute;
-        align-items: flex-start;
-        top: 0;
-        width: 90%;
-
-    }
-
-    @media (max-width: 700px) {
+@media (max-height: 1024px ) {
+    @media (max-width: 1400px) {
         .game-btn-container {
-            gap: 30%;
+            display: flex;
+            top: 90%;
+            width: 100%;
+        }
+        
+        canvas {
+            width: 100dvw;
+            height: 100dvh;
+            overflow: hidden;
+        }
+
+        .fullScreenContainer {
+            position: absolute;
+            justify-content: flex-end;
+            top: 0;
+            width: 90%;
+        }
+
+        .controlling-information {
+            width: 100%;
+        }
+
+        footer {
+            position: absolute;
+            align-items: flex-start;
+            top: 0;
+            width: 90%;
+
+        }
+
+        @media (max-width: 700px) {
+            .game-btn-container {
+                gap: 30%;
+            }
         }
     }
 }

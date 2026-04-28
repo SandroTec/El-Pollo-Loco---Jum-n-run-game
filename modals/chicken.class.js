@@ -40,7 +40,7 @@ class Chicken extends MoveableObject {
             if (!this.isDead()) {
                 this.moveLeft();
             }
-        }, 1000 / 60);
+        }, 100);
         this.chickenDies()
     }
 
