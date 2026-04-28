@@ -98,10 +98,11 @@ class ThrowableObject extends MoveableObject {
                     world.soundManager.play('bottle');
                     this.soundPlayed = true;
         }
-        world.level.enemies.forEach(enemy => {this.isColiding(enemy)
+        world.level.enemies.forEach(enemy => {
+            if (this.isColiding(enemy)) {
             world.soundManager.play('bottle');
             this.soundPlayed = true;
-            });
+            }});
         }}, 100);
     };
     
@@ -151,12 +152,14 @@ class ThrowableObject extends MoveableObject {
 
     /**
      * The function `bottleHitGround` checks if the bottle's y-coordinate is greater than or equal to
-     * 350.
+     * 320.
      * @returns The function `bottleHitGround()` will return `true` if the value of `this.y` is greater
-     * than or equal to 350.
+     * than or equal to 320.
      */
     bottleHitGround() {
-        if (this.y >= 350) {return true;}
+       
+            if (this.y >= 318) {return true;}
+        
     }
 
 }
