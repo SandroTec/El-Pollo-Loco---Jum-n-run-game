@@ -25,7 +25,7 @@ class Chicken extends MoveableObject {
        this.x = 200 + Math.random() * 500; // random position for the chicken;
        this.y = 370;
        this.energy = 25;
-       this.speed = 15 * Math.random() + 0.5;
+       this.speed = 10 * Math.random() + 0.5;
        this.isDying = false;
        this.applyGravity();
        this.animate();
@@ -40,7 +40,7 @@ class Chicken extends MoveableObject {
             if (!this.isDead()) {
                 this.moveLeft();
             }
-        }, 100);
+        }, 200);
         this.chickenDies()
     }
 

@@ -52,11 +52,22 @@ function gameStart() {
 function restart() {
         resetCharacter();
         
-        world.isPlaying = false;
         world.youWon = false;
         gameStart()
     }
 
+    function backToHome() {
+        resetCharacter();
+        world.level.enemies = world.level.enemies.filter(obj => obj.boss)
+        world.level.enemies.forEach(enemy => {
+            enemy.enemyDead = false;
+            enemy.energy = 100;
+            enemy.x = (200 + Math.random() * 500);
+            });
+        world.isPlaying = false;
+        world.youWon = false;
+        world.drawStartscreen();
+    }
 /**
  * Requests fullscreen mode for the game canvas.
  *
