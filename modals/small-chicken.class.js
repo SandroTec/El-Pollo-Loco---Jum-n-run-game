@@ -10,10 +10,11 @@ class SmallChicken extends MoveableObject {
     ];
     height = 35;
     width = 70;
+    dmg = 25;
     offset = {
-        top: 0,
-        left: 15,
-        right: 15,
+        top: 10,
+        left: 25,
+        right: 25,
         bottom: 0
     };
     enemyDead = false;
@@ -59,6 +60,7 @@ class SmallChicken extends MoveableObject {
                 let timePassed = new Date().getTime() - this.deathStartTime;
                 if (timePassed >= 5000) { 
                     world.level.enemies = world.level.enemies.filter(obj => !obj.enemyDead);
+                    timePassed = 0;
                 }
             } else {
                 this.playAnimation(this.IMAGES_WALKING);

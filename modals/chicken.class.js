@@ -10,6 +10,7 @@ class Chicken extends MoveableObject {
     ];
     height = 55;
     width = 70;
+    dmg = 25;
     offset = {
         top: 0,
         left: 15,
@@ -52,6 +53,7 @@ class Chicken extends MoveableObject {
     chickenDies() {
         this.deathStartTime = new Date().getTime();
         setInterval(() => {
+
             if (this.isDead()) {
                 this.loadImage(this.IMAGES_DEAD[0]);
                 this.speed = 0;
@@ -59,6 +61,7 @@ class Chicken extends MoveableObject {
                 let timePassed = new Date().getTime() - this.deathStartTime;
                 if (timePassed >= 5000) { 
                     world.level.enemies = world.level.enemies.filter(obj => !obj.enemyDead);
+                    timePassed = 0;
                 }
             } else {
                 this.playAnimation(this.IMAGES_WALKING);

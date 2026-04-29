@@ -122,8 +122,8 @@ class MoveableObject extends DrawableObject {
     /* The `hit()` function is reducing the `energy` property of an object by 25 units. It then checks
     if the `energy` has become negative and sets it to 0 if that's the case. Additionally, it
     records the current time in milliseconds using `new Date().getTime()` in the `lastHit` property. */
-    hit() {
-        this.energy -= 10;
+    hit(dmg) {
+        this.energy -= dmg;
         if (this.energy < 0) {
             this.energy = 0;
         } else {this.lastHit = new Date().getTime()};
@@ -136,7 +136,7 @@ class MoveableObject extends DrawableObject {
      */
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit; // new Date getTime -> get the milliseconds since 1970 to calculate the diffrences
-        timePassed = timePassed /1000 // in seconds
+        timePassed = timePassed /200 // in seconds
         return timePassed < 2;
     }
 

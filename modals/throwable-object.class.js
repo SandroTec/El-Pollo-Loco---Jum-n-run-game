@@ -56,8 +56,8 @@ class ThrowableObject extends MoveableObject {
             } else {
                 this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
                 let timePassed =
-                    (new Date().getTime() - this.splashStartTime) / 1000;
-                if (timePassed > 3) {
+                    (new Date().getTime() - this.splashStartTime);
+                if (timePassed > 750) {
                     this.removed = true;
                     world.throwableObjects = world.throwableObjects.filter(obj => !obj.removed);
                 }

@@ -158,7 +158,7 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowableObject()
-        }, 1000/20);
+        }, 100);
     }
 
     /**
@@ -203,8 +203,8 @@ class World {
                 enemy.energy = 0;;
                 this.soundManager.play('splat');
                 return;
-            } else if (this.character.isColiding(enemy) && !enemy.isDying && !enemy.isDead()) {
-                this.character.hit();
+            } else if (this.character.isColiding(enemy) && !enemy.isDying && !enemy.isDead() && !this.character.isHurt()) {
+                this.character.hit(enemy.dmg);
                 this.soundManager.play('hit');
                 this.level.statusbar[0].setPercentage(this.character.energy);
             }

@@ -36,6 +36,7 @@ class Endboss extends MoveableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png',
     ];
     isAlerted = 0;
+    dmg = 50;
     offset = {
         top: 60,
         left: 25,
