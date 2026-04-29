@@ -6,6 +6,19 @@ function initLevel() {
             new Chicken(),
             new SmallChicken(),
             new Chicken(),
+
+            new Chicken(),
+            new SmallChicken(),
+            new Chicken(),
+            new SmallChicken(),
+            new Chicken(),
+
+            new Chicken(),
+            new SmallChicken(),
+            new Chicken(),
+            new SmallChicken(),
+            new Chicken(),
+
             new Endboss()
         ],
         [
@@ -15,6 +28,18 @@ function initLevel() {
             new Cloud('img/5_background/layers/4_clouds/2.png', 750),
             new Cloud('img/5_background/layers/4_clouds/1.png', 720*2),
             new Cloud('img/5_background/layers/4_clouds/2.png', 720*2 + 350),
+
+            new Cloud('img/5_background/layers/4_clouds/2.png', 750*2),
+            new Cloud('img/5_background/layers/4_clouds/1.png', 720*3),
+            new Cloud('img/5_background/layers/4_clouds/2.png', 720*4 + 350),
+
+            new Cloud('img/5_background/layers/4_clouds/2.png', 750*4),
+            new Cloud('img/5_background/layers/4_clouds/1.png', 720*5),
+            new Cloud('img/5_background/layers/4_clouds/2.png', 720*6 + 350),
+
+            new Cloud('img/5_background/layers/4_clouds/2.png', 750*7),
+            new Cloud('img/5_background/layers/4_clouds/1.png', 720*9),
+            new Cloud('img/5_background/layers/4_clouds/2.png', 720*8 + 350),
         ],
         [
             new Background('img/5_background/layers/3_third_layer/2.png', -720),
@@ -70,14 +95,21 @@ function initLevel() {
             new Sky(0),
             new Sky(720),
             new Sky(720*2),
-            new Sky(720*3)
+            new Sky(720*3),
+            new Sky(720*4),
+            new Sky(720*5),
+            new Sky(720*6),
+            new Sky(720*7),
+            new Sky(720*8),
+            new Sky(720*9),
+            new Sky(720*10),        
         ],
         [
             new Coin(720),
-            new Coin((1000 * Math.random() + 720)),
+            new Coin((1000 * Math.random() + 720*9)),
             new Coin((100 * Math.random() + 720*2)),
-            new Coin((3000 * Math.random() + 720)),
-            new Coin((2000 * Math.random() + 720*2))
+            new Coin((3000 * Math.random() + 720*5)),
+            new Coin((2000 * Math.random() + 720*8))
         ],
         bottle = new Bottle(500 * Math.random() + 300), 
         [

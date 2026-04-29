@@ -48,7 +48,7 @@ class Endboss extends MoveableObject {
 
     constructor() {
        super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
-       this.x = 1820; // fixed position for the boss;
+       this.x = world.level_end_x; // fixed position for the boss;
        this.y = 0;
        this.height = 470;
        this.width = 150;

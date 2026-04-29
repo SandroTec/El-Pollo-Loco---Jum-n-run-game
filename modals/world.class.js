@@ -7,7 +7,7 @@ class World {
     soundManager = new SoundManager();
     throwableObjects = [];
     level;
-    level_end_x = 720*2.5;
+    level_end_x = 720*9.5;
     isPlaying = false;
     canvas;
     ctx;
