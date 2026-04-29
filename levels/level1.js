@@ -36,6 +36,34 @@ function initLevel() {
             new Background('img/5_background/layers/3_third_layer/2.png', 720*3),
             new Background('img/5_background/layers/2_second_layer/2.png', 720*3),
             new Background('img/5_background/layers/1_first_layer/2.png', 720*3), 
+
+            new Background('img/5_background/layers/3_third_layer/2.png', 720*4),
+            new Background('img/5_background/layers/2_second_layer/2.png', 720*4),
+            new Background('img/5_background/layers/1_first_layer/2.png', 720*4), 
+
+            new Background('img/5_background/layers/3_third_layer/2.png', 720*5),
+            new Background('img/5_background/layers/2_second_layer/2.png', 720*5),
+            new Background('img/5_background/layers/1_first_layer/2.png', 720*5), 
+
+            new Background('img/5_background/layers/3_third_layer/2.png', 720*6),
+            new Background('img/5_background/layers/2_second_layer/2.png', 720*6),
+            new Background('img/5_background/layers/1_first_layer/2.png', 720*6), 
+
+            new Background('img/5_background/layers/3_third_layer/2.png', 720*7),
+            new Background('img/5_background/layers/2_second_layer/2.png', 720*7),
+            new Background('img/5_background/layers/1_first_layer/2.png', 720*7), 
+
+            new Background('img/5_background/layers/3_third_layer/2.png', 720*8),
+            new Background('img/5_background/layers/2_second_layer/2.png', 720*8),
+            new Background('img/5_background/layers/1_first_layer/2.png', 720*8), 
+
+            new Background('img/5_background/layers/3_third_layer/2.png', 720*9),
+            new Background('img/5_background/layers/2_second_layer/2.png', 720*9),
+            new Background('img/5_background/layers/1_first_layer/2.png', 720*9), 
+
+            new Background('img/5_background/layers/3_third_layer/2.png', 720*10),
+            new Background('img/5_background/layers/2_second_layer/2.png', 720*10),
+            new Background('img/5_background/layers/1_first_layer/2.png', 720*10), 
         ],
         [
             new Sky(-720),
@@ -47,7 +75,9 @@ function initLevel() {
         [
             new Coin(720),
             new Coin((1000 * Math.random() + 720)),
-            new Coin((100 * Math.random() + 720*2))
+            new Coin((100 * Math.random() + 720*2)),
+            new Coin((3000 * Math.random() + 720)),
+            new Coin((2000 * Math.random() + 720*2))
         ],
         bottle = new Bottle(500 * Math.random() + 300), 
         [

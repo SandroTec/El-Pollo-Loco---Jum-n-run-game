@@ -12,9 +12,9 @@ class SmallChicken extends MoveableObject {
     width = 70;
     dmg = 25;
     offset = {
-        top: 10,
-        left: 25,
-        right: 25,
+        top: 0,
+        left: 5,
+        right: 5,
         bottom: 0
     };
     enemyDead = false;

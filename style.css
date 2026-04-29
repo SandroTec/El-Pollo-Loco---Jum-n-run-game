@@ -110,8 +110,7 @@ button {
 .controlls-btn-container {
     display: none;
     position: absolute;
-    top: 430px;
-    width: 720px;
+    bottom: 0;
     justify-content:center;
     gap: 50%;
 
@@ -184,10 +183,10 @@ footer {
 
 @media (max-height: 1024px ) {
     @media (max-width: 1400px) {
-        .game-btn-container {
+
+        .controlls-btn-container {
             display: flex;
-            top: 90%;
-            width: 100%;
+            max-width: 720px;
         }
         
         canvas {
@@ -216,8 +215,8 @@ footer {
         }
 
         @media (max-width: 700px) {
-            .game-btn-container {
-                gap: 30%;
+            .controlls-btn-container {
+                gap: 20%;
             }
         }
     }
