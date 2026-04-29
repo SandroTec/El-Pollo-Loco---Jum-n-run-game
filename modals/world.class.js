@@ -61,11 +61,11 @@ class World {
      * @returns In the provided code snippet, the `draw()` function is returning either nothing
      * (undefined) or the result of calling `requestAnimationFrame(this.draw.bind(this))`.
      */
+
     draw() {
         if (!this.level) return;
             this.camera_x = -this.character.x + 150;
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            
             this.ctx.save();
             this.ctx.translate(this.camera_x, 0);
             this.setUpLevel();
@@ -82,18 +82,16 @@ class World {
                 let timePassed = new Date().getTime() - this.character.deathStartTime;
                 if (timePassed > 500) {
                     this.gameOver();
-                    this.homeBtn.style.display = 'block';
                     return;
                 }
             }
             if (this.character.x >= this.level_end_x) {
                 this.gameWin();
-                this.homeBtn.style.display = 'block';
                 return;
             }
         this.animationId = requestAnimationFrame(this.draw.bind(this));
-            
     }
+
         /**
      * The `gameOver` function adds the end screen to the map, stops the game, and displays the game
      * restart button.
@@ -101,6 +99,7 @@ class World {
     gameOver() {
             this.addToMap(this.endscreen);
             this.gameRestart.style.display = 'flex';
+            this.homeBtn.style.display = 'block';
             this.stop();
             this.soundManager.stopAll();
             this.isPlaying = false;   
@@ -114,6 +113,7 @@ class World {
     gameWin() {
         this.addToMap(this.level.win);
         this.gameRestart.style.display = 'flex';
+        this.homeBtn.style.display = 'block';
         this.stop();
         this.soundManager.stopAll();
         this.isPlaying = false;
@@ -158,7 +158,7 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowableObject()
-        }, 125);
+        }, 1000/20);
     }
 
     /**
@@ -200,18 +200,17 @@ class World {
             };
             let isJumpingOnEnemy = this.character.jumpOn(enemy);
             if (isJumpingOnEnemy) {
-                enemy.hit();
-                 this.soundManager.play('splat');
+                enemy.energy = 0;;
+                this.soundManager.play('splat');
                 return;
             } else if (this.character.isColiding(enemy) && !enemy.isDying && !enemy.isDead()) {
                 this.character.hit();
-                 this.soundManager.play('hit');
+                this.soundManager.play('hit');
                 this.level.statusbar[0].setPercentage(this.character.energy);
             }
         this.throwableObjects.forEach(throwableObject => {
                 if (enemy.isColiding(throwableObject)) {
-                    enemy.hit();
-                    enemy.hit();
+                    enemy.energy -= 50;
                     throwableObject.hasSplashed = true;
             }    
         })});

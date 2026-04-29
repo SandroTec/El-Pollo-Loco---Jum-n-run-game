@@ -123,7 +123,7 @@ class MoveableObject extends DrawableObject {
     if the `energy` has become negative and sets it to 0 if that's the case. Additionally, it
     records the current time in milliseconds using `new Date().getTime()` in the `lastHit` property. */
     hit() {
-        this.energy -= 25;
+        this.energy -= 10;
         if (this.energy < 0) {
             this.energy = 0;
         } else {this.lastHit = new Date().getTime()};
