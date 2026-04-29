@@ -106,10 +106,10 @@ function initLevel() {
         ],
         [
             new Coin(720),
-            new Coin((1000 * Math.random() + 720*9)),
+            new Coin((100 * Math.random() + 720*9)),
             new Coin((100 * Math.random() + 720*2)),
-            new Coin((3000 * Math.random() + 720*5)),
-            new Coin((2000 * Math.random() + 720*8))
+            new Coin((300 * Math.random() + 720*5)),
+            new Coin( 720*8)
         ],
         bottle = new Bottle(500 * Math.random() + 300), 
         [
