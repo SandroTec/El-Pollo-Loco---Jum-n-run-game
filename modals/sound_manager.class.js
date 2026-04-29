@@ -64,7 +64,7 @@ class SoundManager {
         const sound = this.sounds[name];
         if (!sound) return;
         if (!sound.paused) return; 
-        sound.volume = 0.1;
+        sound.volume = 0.08;
         sound.play().catch(()=>{});
         setTimeout(() => {
         sound.pause();
@@ -78,7 +78,7 @@ class SoundManager {
     playWalk() {
         const sound = this.sounds.walk;
         sound.loop = true;
-        sound.volume = 0.25;
+        sound.volume = 0.025;
         sound.play().catch(() => {});
     }
 
