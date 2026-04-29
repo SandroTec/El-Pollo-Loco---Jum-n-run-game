@@ -68,6 +68,7 @@ function restart() {
         world.youWon = false;
         world.drawStartscreen();
     }
+
 /**
  * Requests fullscreen mode for the game canvas.
  *
@@ -155,6 +156,15 @@ function handleClick(event) {
     } else return;
 }
 
+/**
+ * Handles the click on the home button.
+ * Navigates back to the home screen only if the game is won
+ * or the character is dead. Also updates button visibility.
+ *
+ * @function handleHomeClick
+ * @param {Event} event - The click event triggered by the home button.
+ * @returns {void}
+ */
 function handleHomeClick(event) {
     if (world.youWon || world.character.isDead()) {
         backToHome();
@@ -163,6 +173,14 @@ function handleHomeClick(event) {
     } else return;
 }
 
+/**
+ * Resets the character to its initial default state.
+ * Restores position, status flags, attributes, counters,
+ * and death-related properties for a fresh game start.
+ *
+ * @function resetCharacter
+ * @returns {void}
+ */
 function resetCharacter() {
     world.character.x = 0;
     world.character.isDying = false;
