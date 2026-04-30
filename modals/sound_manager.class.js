@@ -31,7 +31,8 @@ class SoundManager {
             endbossAlert: this.createAudio('./sounds/enemies/assets_audio_endboss_endbossApproach.wav'), 
             collectSound: this.createAudio('./sounds/assets_audio_collectibles_collectSound.wav'),
             splat: this.createAudio('./sounds/enemies/splat.mp3'),
-        };
+            snoring: this.createAudio('./sounds/character/assets_audio_character_characterSnoring.mp3')
+        }
 
         /**
          * Array of all audio elements for global control.

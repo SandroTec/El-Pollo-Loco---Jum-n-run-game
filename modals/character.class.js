@@ -68,8 +68,9 @@ class Character extends MoveableObject {
         bottom: 10
     };
 
-    timerStartet;
-    startIdleTime;
+    timerStartet = false;
+    startIdleTime = null;
+    sleeping = false
     isDying = false;
     deathStartTime = null;
     deathSoundPlayed = false;
@@ -77,6 +78,7 @@ class Character extends MoveableObject {
 
     constructor() {        
         super().loadImages(this.IMAGES_IDLE);
+        this.loadImages(this.IMAGES_SLEEPING);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
@@ -168,6 +170,9 @@ class Character extends MoveableObject {
                     this.world.soundManager.play('splat');
                 }
             });
+            if (this.sleeping) {
+                this.world.soundManager.play('snoring')
+            }
         }, 100);   
     }
     /**
@@ -182,20 +187,22 @@ class Character extends MoveableObject {
                 this.speed = 0;
             } else if (this.isHurt() && !this.isDead()) {
                 this.playAnimation(this.IMAGES_HURT);
+                this.timerStartet = false;
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
+                this.timerStartet = false;
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimation(this.IMAGES_WALKING);
-                this.timnerStartet = false;
-            } else {
+                this.timerStartet = false;
+            } else if (this.world.isPlaying) {
                 this.playAnimation(this.IMAGES_IDLE);
                 if (!this.timerStartet) {
                 this.startIdleTime = new Date().getTime();
-                this.timnerStartet = true;
+                this.timerStartet = true;
                 }
                 let timePassed = new Date().getTime() - this.startIdleTime;
-                console.log(timePassed);
                 if (timePassed > 15000 && this.timerStartet) {
+                    this.sleeping = true
                     this.playAnimation(this.IMAGES_SLEEPING);
                 }
             }
