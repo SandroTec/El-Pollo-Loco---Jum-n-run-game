@@ -5,7 +5,6 @@ class World {
     character;
     endscreen = new Endscreen();
     soundManager = new SoundManager();
-    throwableObjects = [];
     level;
     level_end_x = 720*9.5;
     isPlaying = false;
@@ -17,6 +16,7 @@ class World {
     gameRestart = document.getElementById('restartBtn');
     animationId;
 
+    throwableObject = [];
     homeBtn = document.getElementById('homeBtn');
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -166,10 +166,9 @@ class World {
      * specific condition is met.
      */
     checkThrowableObject() {
-        if (this.keyboard.D && this.character.bottleCollected == true) {
-            let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 10, this.character);
-            this.throwableObjects.push(bottle);
-            
+        if (this.keyboard.D && this.character.bottleCount != 0) {
+            this.bottle = new ThrowableObject(this.character.x + 20, this.character.y + 10, this.character);
+            this.level.throwableObjects.push(this.bottle);
         }
     }
 
@@ -207,14 +206,20 @@ class World {
                 this.character.hit(enemy.dmg);
                 this.soundManager.play('hit');
                 this.level.statusbar[0].setPercentage(this.character.energy);
-            }
-        this.throwableObjects.forEach(throwableObject => {
-                if (enemy.isColiding(throwableObject)) {
-                    enemy.energy -= 50;
-                    throwableObject.hasSplashed = true;
-            }    
-        })});
+            }else if (this.character.bottleCount > 0) {
+                this.throwableObjects.forEach(throwableObject => {
+                    if (throwableObject.isColiding(enemy) && !enemy.isDying && !enemy.isDead()) {
+                        this.character.bottleCount--;
+                        this.level.statusbar[2].setBottleBar(this.character.bottleCount);
+                        throwableObject.hasSplashed = true;
+                        throwableObject.stopGravity();
+                        enemy.energy -= 50;
+                    
+                }    
+            })}
+        });
     }
+    
 
     /**
      * The `checkCoins` function iterates through coins in the level, increments the character's coin
@@ -238,8 +243,8 @@ class World {
     checkBottle() {
         if (this.character.isColiding(this.level.bottle)) {
             bottle.collectBottle();
-            this.character.bottleCollected = true;
-            this.level.statusbar[2].setBottleBar(this.character.bottleCollected);
+            this.character.bottleCount++;
+            this.level.statusbar[2].setBottleBar(this.character.bottleCount);
             this.soundManager.play('collectSound');
         }
     }
@@ -276,7 +281,7 @@ class World {
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.coins);
-        this.addToMap(this.level.bottle);
+        this.addObjectsToMap(this.level.bottle);
     }
     
     /**
@@ -293,7 +298,6 @@ class World {
     setUpCharacterAndEnemies() {
         // draw the character and the enemies on the canvas
         this.addToMap(this.character);
-        this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.level.enemies);
         
     }

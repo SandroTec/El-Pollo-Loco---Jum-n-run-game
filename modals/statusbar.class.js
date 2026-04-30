@@ -73,11 +73,17 @@ class Statusbar_coin extends DrawableObject {
         if (this.coinCount == 0) {
             path = this.IMAGES_COIN[0];
         } else if (this.coinCount == 1) {
-            path = this.IMAGES_COIN[2];
+            path = this.IMAGES_COIN[1];
         } else if (this.coinCount == 2) {
-            path = this.IMAGES_COIN[4];
+            path = this.IMAGES_COIN[2];
         } else if (this.coinCount == 3) {
+            path = this.IMAGES_COIN[3];
+        } else if (this.coinCount == 4) {
+            path = this.IMAGES_COIN[4];
+        } else if (this.coinCount == 5) {
             path = this.IMAGES_COIN[5];
+        } else if (this.coinCount == 6) {
+            path = this.IMAGES_COIN[6];
         }
         this.img = this.imageCache[path]; 
     }
@@ -111,10 +117,21 @@ class Statusbar_bottle extends DrawableObject {
     setBottleBar(bottle) {
         this.bottle = bottle;
         let path;
-        if (this.bottle == false) {
+        if (this.bottle == 0) {
             path = this.IMAGES_BOTTLE[0];
-        }else if (this.bottle == true) {
+        }else if (this.bottle == 1) {
+            path = this.IMAGES_BOTTLE[1];
+        }else if (this.bottle == 2) {
+            path = this.IMAGES_BOTTLE[2];
+        }else if (this.bottle == 3) {
+            path = this.IMAGES_BOTTLE[3];
+        }else if (this.bottle == 4) {
+            path = this.IMAGES_BOTTLE[4];
+        }else if (this.bottle == 5) {
             path = this.IMAGES_BOTTLE[5];
+        }
+        else if (this.bottle == 6) {
+            path = this.IMAGES_BOTTLE[6];
         }
         this.img = this.imageCache[path]; 
     }
