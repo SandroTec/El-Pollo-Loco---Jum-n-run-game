@@ -70,7 +70,10 @@ class Endboss extends MoveableObject {
             } else if (world.character.isColiding(this) && !this.isDying && !this.isDead()) {
                 this.loadImages(this.IMAGES_ATTACK);
                 this.playAnimation(this.IMAGES_ATTACK);
-            } else if (this.isDead()){
+            }else if (this.IMAGES_HURT()) {
+                this.loadImages(this.IMAGES_HURT);
+                this.playAnimation(this.IMAGES_HURT);
+            }else if (this.isDead()){
                 this.bossStartsDying();
                 this.bossIsDead();
             }else {
@@ -139,6 +142,7 @@ class Endboss extends MoveableObject {
                 if (timePassed >= 500) { 
                     this.bossDead = true;
                     world.level.enemies = world.level.enemies.filter(obj => !obj.bossDead);
+                    world.character.finalKill = true;
                 }
             }else return;
     }

@@ -67,7 +67,8 @@ class Character extends MoveableObject {
         right: 15,
         bottom: 10
     };
-
+    bottleCount = 0;
+    coinCount = 0;
     timerStartet = false;
     startIdleTime = null;
     sleeping = false
@@ -75,7 +76,7 @@ class Character extends MoveableObject {
     deathStartTime = null;
     deathSoundPlayed = false;
     deathSequenceStarted = false;
-
+    finalKill = false;
     constructor() {        
         super().loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_SLEEPING);
@@ -118,6 +119,9 @@ class Character extends MoveableObject {
             }
             if (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead()) {
                 this.jump();
+            }
+            if (this.world.keyboard.D && !this.isDead()) {
+                
             }
 
         }, 1000 / 60);
