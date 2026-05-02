@@ -25,6 +25,7 @@ class ThrowableObject extends MoveableObject {
         bottom: 0
     };
     soundPlayed = false;
+    activThrow = false
 
     constructor(x, y, mo) {
         super().loadImage('img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
@@ -114,20 +115,24 @@ class ThrowableObject extends MoveableObject {
      * for the bottle in the x and
      */
     throw(mo) {
-        this.applyGravityForBottle();
-        this.speed_y = 30;
-        this.speed_x = mo.otherDirection ? -20 : 20;
-        setInterval(() => {
-            if (this.isAboveGround() && !this.hasSplashed) {
-                this.x += this.speed_x;
-            }
-        }, 50);
-        world.character.bottleCount--;
-        world.level.statusbar[2].setBottleBar(world.character.bottleCount);
-        console.log(world.character.bottleCount)
-        world.throwableObjects.pop()
-        this.animate();
-        this.soundLoop();
+        if (!this.activThrow) {
+            this.activThrow = true;
+            this.applyGravityForBottle();
+            this.speed_y = 30;
+            this.speed_x = mo.otherDirection ? -20 : 20;
+            setInterval(() => {
+                if (this.isAboveGround() && !this.hasSplashed) {
+                    this.x += this.speed_x;
+                }
+            }, 50);
+            world.character.bottleCount--;
+            world.level.statusbar[2].setBottleBar(world.character.bottleCount);
+            console.log(world.character.bottleCount)
+            world.throwableObjects.pop()
+            this.animate();
+            this.soundLoop();
+        }
+        
     }
 
     /**

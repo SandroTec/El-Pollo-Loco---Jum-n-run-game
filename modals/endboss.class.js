@@ -70,7 +70,7 @@ class Endboss extends MoveableObject {
             } else if (world.character.isColiding(this) && !this.isDying && !this.isDead()) {
                 this.loadImages(this.IMAGES_ATTACK);
                 this.playAnimation(this.IMAGES_ATTACK);
-            }else if (this.IMAGES_HURT()) {
+            }else if (this.isHurt()) {
                 this.loadImages(this.IMAGES_HURT);
                 this.playAnimation(this.IMAGES_HURT);
             }else if (this.isDead()){
