@@ -125,10 +125,10 @@ class ThrowableObject extends MoveableObject {
                     this.x += this.speed_x;
                 }
             }, 50);
-            world.character.bottleCount--;
             world.level.statusbar[2].setBottleBar(world.character.bottleCount);
             console.log(world.character.bottleCount)
             world.throwableObjects.pop()
+            console.log(world.throwableObjects)
             this.animate();
             this.soundLoop();
         }

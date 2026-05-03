@@ -128,6 +128,18 @@ class SoundManager {
             : './img/sound-icon.svg';
     }
 
+    playSnoring() {
+        let snoringSound = this.sounds.snoring
+        snoringSound.loop = true;
+        snoringSound.play().catch(() => {});
+    }
+
+    stopSnoring() {
+        let snoringSound = this.sounds.snoring
+        snoringSound.pause();
+        snoringSound.currentTime = 0;
+    }
+
     /**
      * Stops all currently playing sounds and resets them.
      */

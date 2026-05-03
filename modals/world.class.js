@@ -167,8 +167,12 @@ class World {
      */
     checkThrowableObject() {
         if (this.keyboard.D && this.character.bottleCount != 0) {
-            let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 10, this.character);
-            this.throwableObjects.push(bottle);
+            for (let index = 0; index == this.character.bottleCount; index++) {
+                let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 10, this.character);
+                this.throwableObjects.push(bottle);
+                
+            }
+            
         }
     }
 

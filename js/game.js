@@ -187,6 +187,8 @@ function resetCharacter() {
     world.character.energy = 100;
     world.character.speed = 10;
     world.character.coinCount = 0;
+    world.character.bottleCount = 0;
+    world.character.sleeping = false;
     world.character.deathStartTime = null;
     world.character.deathSoundPlayed = false;
     world.character.deathSequenceStarted = false;

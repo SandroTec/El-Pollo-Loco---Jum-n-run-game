@@ -121,6 +121,7 @@ class Character extends MoveableObject {
                 this.jump();
             }
             if (this.world.keyboard.D && !this.isDead()) {
+               world.checkThrowableObject
                 
             }
 
@@ -163,20 +164,24 @@ class Character extends MoveableObject {
             const moving = this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
             if (moving && !this.isDead()) {
                 this.world.soundManager.playWalk();
+                this.world.soundManager.stopSnoring();
+                this.sleeping = false;
             } else {
                 this.world.soundManager.stopWalk();
             }
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.world.soundManager.play('jump');
+                this.world.soundManager.stopSnoring()
+                this.sleeping = false;
             }
             this.world.level.enemies.forEach(enemy => {
                 if (enemy.isDead() && enemy.removed === false) {
                     this.world.soundManager.play('splat');
                 }
             });
-            if (this.sleeping) {
-                this.world.soundManager.play('snoring')
-            }
+            if (this.sleeping && !moving) {
+                this.world.soundManager.playSnoring()
+            } 
         }, 100);   
     }
     /**
