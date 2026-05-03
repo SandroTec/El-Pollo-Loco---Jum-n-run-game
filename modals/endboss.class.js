@@ -52,8 +52,8 @@ class Endboss extends MoveableObject {
        this.y = 0;
        this.height = 470;
        this.width = 150;
-       this.speed = 15 * Math.random() + 5;
-       this.energy = 50;
+       this.speed = 15 * Math.random() + 25;
+       this.energy = 250;
        this.isDying = false;
        this.animate();
        this.startSoundLoop();
@@ -70,7 +70,7 @@ class Endboss extends MoveableObject {
             } else if (world.character.isColiding(this) && !this.isDying && !this.isDead()) {
                 this.loadImages(this.IMAGES_ATTACK);
                 this.playAnimation(this.IMAGES_ATTACK);
-            }else if (this.isHurt()) {
+            }else if (this.isHurt() && !this.isDead()) {
                 this.loadImages(this.IMAGES_HURT);
                 this.playAnimation(this.IMAGES_HURT);
             }else if (this.isDead()){

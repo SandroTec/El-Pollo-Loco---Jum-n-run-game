@@ -77,6 +77,8 @@ class Character extends MoveableObject {
     deathSoundPlayed = false;
     deathSequenceStarted = false;
     finalKill = false;
+    dmg = 50;
+    
     constructor() {        
         super().loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_SLEEPING);

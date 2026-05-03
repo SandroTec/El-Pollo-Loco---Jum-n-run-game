@@ -7,6 +7,7 @@ class MoveableObject extends DrawableObject {
     acceleration = 5;
     lastHit = 0;
     soundPlayed = false;
+    dmg;
     // object used for collision check.
     offset = {
         top: 0,
@@ -103,7 +104,7 @@ class MoveableObject extends DrawableObject {
      * @returns The function is checking for collision between two objects based on their positions and
      * dimensions. It calculates the boundaries of each object taking into account any offsets, and
      * then checks if the objects are overlapping both horizontally and vertically. The function
-     * returns a boolean value indicating whether the two objects are colliding or not.
+     * returns a boolean value indicating whether the two objects are colliding or fnot.
      */
     isColiding(mo) {
         let charLeft = this.x + this.offset.left;
