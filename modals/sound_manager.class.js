@@ -131,6 +131,7 @@ class SoundManager {
     playSnoring() {
         let snoringSound = this.sounds.snoring
         snoringSound.loop = true;
+        snoringSound.volume = 0.05;
         snoringSound.play().catch(() => {});
     }
 

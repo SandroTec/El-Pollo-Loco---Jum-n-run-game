@@ -21,13 +21,7 @@ class Bottle extends MoveableObject {
      */
     collectBottle() {
         this.removed = true
-        world.level.bottles.forEach(bottle => {
-            if (world.character.isColiding(bottle)) {
-                bottle.removed = true;
-            }
-        });
-        world.level.bottles = world.level.bottles.filter(obj => !obj.removed);
-        
+        world.level.bottles = world.level.bottles.filter(obj => !obj.removed);        
      }
 
 }

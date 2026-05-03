@@ -17,6 +17,8 @@ class World {
     animationId;
 
     throwableObjects = [];
+    lastThrowPressed = false;
+
     homeBtn = document.getElementById('homeBtn');
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -73,6 +75,7 @@ class World {
             this.setUpStatusbars();
             this.ctx.translate(this.camera_x, 0);
             this.setUpCharacterAndEnemies();
+            this.addObjectsToMap(this.throwableObjects);
             this.ctx.restore();
             this.homeBtn.style.display = 'none';
             if (this.character.isDead()) {
@@ -166,14 +169,17 @@ class World {
      * specific condition is met.
      */
     checkThrowableObject() {
-        if (this.keyboard.D && this.character.bottleCount != 0) {
-            for (let index = 0; index == this.character.bottleCount; index++) {
-                let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 10, this.character);
-                this.throwableObjects.push(bottle);
-                
-            }
-            
+        if (this.keyboard.D && this.character.bottleCount > 0 && !this.lastThrowPressed) {
+        let bottle = new ThrowableObject(
+            this.character.x + 20,
+            this.character.y + 10,
+            this.character
+        );
+        this.throwableObjects.push(bottle);
+        this.character.bottleCount--; 
+        this.level.statusbar[2].setBottleBar(this.character.bottleCount)
         }
+        this.lastThrowPressed = this.keyboard.D;
     }
 
     /**
@@ -210,15 +216,18 @@ class World {
                 this.character.hit(enemy.dmg);
                 this.soundManager.play('hit');
                 this.level.statusbar[0].setPercentage(this.character.energy);
-                this.throwableObjects.forEach(throwableObject => {
-                    if (throwableObject.isColiding(enemy) && !enemy.isDying && !enemy.isDead()) {
-                        throwableObject.hasSplashed = true;
-                        throwableObject.stopGravity();
-                        enemy.energy -= 50;
+            }
+            this.throwableObjects.forEach(throwableObject => {
+                console.log(throwableObject)
+                if (throwableObject.isColiding(enemy) && !enemy.isDying && !enemy.isDead()) {
+                    throwableObject.hasSplashed = true;
+                    throwableObject.stopGravity();
+                    enemy.energy -= 50;
                     
                 }    
-            })}
-        });
+            })
+        
+        })
     }
             
     

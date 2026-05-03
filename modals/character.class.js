@@ -121,7 +121,6 @@ class Character extends MoveableObject {
                 this.jump();
             }
             if (this.world.keyboard.D && !this.isDead()) {
-               world.checkThrowableObject
                 
             }
 

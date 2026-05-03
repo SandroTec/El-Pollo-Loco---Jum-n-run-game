@@ -126,9 +126,6 @@ class ThrowableObject extends MoveableObject {
                 }
             }, 50);
             world.level.statusbar[2].setBottleBar(world.character.bottleCount);
-            console.log(world.character.bottleCount)
-            world.throwableObjects.pop()
-            console.log(world.throwableObjects)
             this.animate();
             this.soundLoop();
         }
@@ -163,8 +160,7 @@ class ThrowableObject extends MoveableObject {
      * than or equal to 320.
      */
     bottleHitGround() {
-        if (this.y >= 318) {return true;}
-        
+        return this.y >= 318;
     }
 
 }
