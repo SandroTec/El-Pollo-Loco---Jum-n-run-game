@@ -37,7 +37,8 @@ function gameStart() {
     if (world.isPlaying) return
     const level1 = initLevel();  
     world.level = level1; 
-    world.isPlaying = true;      
+    world.isPlaying = true; 
+    world.running = true;      
     world.draw();
     world.run();
 }
@@ -54,12 +55,11 @@ function restart() {
     handleClick();
     }
 
-    function backToHome() {
-        resetCharacter();
-        world.resetLevel();
-        world.isPlaying = false;
-        world.youWon = false;
-        world.drawStartscreen();
+function backToHome() {
+    resetCharacter();
+    world.isPlaying = false;
+    world.youWon = false;
+    world.drawStartscreen();
     }
 
 /**
@@ -185,6 +185,8 @@ function resetCharacter() {
     world.character.deathStartTime = null;
     world.character.deathSoundPlayed = false;
     world.character.deathSequenceStarted = false;
+    world.character.finalKill = false;
+    world.throwableObjects = [];
 }
 
 

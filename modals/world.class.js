@@ -15,6 +15,8 @@ class World {
     youWon = false;
     gameRestart = document.getElementById('restartBtn');
     animationId;
+    runIntervall;
+    running;
 
     throwableObjects = [];
     lastThrowPressed = false;
@@ -29,6 +31,7 @@ class World {
         this.character.animate(); 
         this.drawStartscreen();
         this.animationId = null;
+        this.running = true
               
     }
 
@@ -39,9 +42,7 @@ class World {
         this.character.world = this;
     }
 
-    resetLevel() {
-        this.setUpLevel();
-    }
+  
 
     /**
      * The drawStartscreen function clears the canvas, adds the startscreen to the map, hides the game
@@ -69,33 +70,35 @@ class World {
      */
 
     draw() {
-        if (!this.level) return;
-            this.camera_x = -this.character.x + 150;
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.ctx.save();
-            this.ctx.translate(this.camera_x, 0);
-            this.setUpLevel();
-            this.ctx.translate(-this.camera_x, 0);
-            this.setUpStatusbars();
-            this.ctx.translate(this.camera_x, 0);
-            this.setUpCharacterAndEnemies();
-            this.addObjectsToMap(this.throwableObjects);
-            this.ctx.restore();
-            this.homeBtn.style.display = 'none';
-            if (this.character.isDead()) {
-                if (!this.character.isDying) {
-                    this.character.startDying();
+        if (this.running) {
+            if (!this.level) return;
+                this.camera_x = -this.character.x + 150;
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                this.ctx.save();
+                this.ctx.translate(this.camera_x, 0);
+                this.setUpLevel();
+                this.ctx.translate(-this.camera_x, 0);
+                this.setUpStatusbars();
+                this.ctx.translate(this.camera_x, 0);
+                this.setUpCharacterAndEnemies();
+                this.addObjectsToMap(this.throwableObjects);
+                this.ctx.restore();
+                this.homeBtn.style.display = 'none';
+                if (this.character.isDead()) {
+                    if (!this.character.isDying) {
+                        this.character.startDying();
+                    }
+                    let timePassed = new Date().getTime() - this.character.deathStartTime;
+                    if (timePassed > 500) {
+                        this.gameOver();
+                        return;
+                    }
                 }
-                let timePassed = new Date().getTime() - this.character.deathStartTime;
-                if (timePassed > 500) {
-                    this.gameOver();
+                if (this.character.finalKill) {
+                    this.gameWin();
                     return;
                 }
-            }
-            if (this.character.finalKill) {
-                this.gameWin();
-                return;
-            }
+        } else return;
         this.animationId = requestAnimationFrame(this.draw.bind(this));
     }
 
@@ -125,7 +128,6 @@ class World {
         this.soundManager.stopAll();
         this.isPlaying = false;
         this.youWon = true;
-
     }
 
     /**
@@ -162,7 +164,7 @@ class World {
      * a game loop.
      */
     run() {
-        setInterval(() => {
+        this.runIntervall = setInterval(() => {
             this.checkCollisions();
             this.checkThrowableObject()
         }, 1000/60);
@@ -321,10 +323,15 @@ class World {
      * The `stop` function in JavaScript cancels the current animation frame if it is running.
      */
     stop() {
+        this.running = false;
         if (this.animationId) {
             cancelAnimationFrame(this.animationId);
             this.animationId = null;
-            this.soundManager.stopAll();
         }
+        if (this.runIntervall) {
+            clearInterval(this.runIntervall);
+            this.runIntervall = null;
+        }
+        this.soundManager.stopAll();
     }
 }

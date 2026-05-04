@@ -44,6 +44,7 @@ class Endboss extends MoveableObject {
         bottom: 10
     };
     bossDead = false;
+    deathHandled = false;
     soundPlayed = false;
 
     constructor() {
@@ -64,22 +65,24 @@ class Endboss extends MoveableObject {
     * player proximity, attacking, dying, and moving.
     */
     animate() { 
-        setInterval(() => {
-            if (world.character.x >= 1000 && world.character.x <= 1400 && this.isAlerted <= 10 && !this.isDead()) {
-                this.bossIsAlerted();
-            } else if (world.character.isColiding(this) && !this.isDying && !this.isDead()) {
-                this.loadImages(this.IMAGES_ATTACK);
-                this.playAnimation(this.IMAGES_ATTACK);
-            }else if (this.isHurt() && !this.isDead()) {
-                this.loadImages(this.IMAGES_HURT);
-                this.playAnimation(this.IMAGES_HURT);
-            }else if (this.isDead()){
-                this.bossStartsDying();
-                this.bossIsDead();
-            }else {
-                this.bossMoves();
-            }
-        }, 200);
+        if (this.deathHandled) return;
+            setInterval(() => {
+                if (world.character.x >= 1000 && world.character.x <= 1400 && this.isAlerted <= 10 && !this.isDead()) {
+                    this.bossIsAlerted();
+                } else if (world.character.isColiding(this) && !this.isDying && !this.isDead()) {
+                    this.loadImages(this.IMAGES_ATTACK);
+                    this.playAnimation(this.IMAGES_ATTACK);
+                }else if (this.isHurt() && !this.isDead()) {
+                    this.loadImages(this.IMAGES_HURT);
+                    this.playAnimation(this.IMAGES_HURT);
+                }else if (this.isDead()){
+                    this.bossStartsDying();
+                    this.bossIsDead();
+                }else {
+                    this.bossMoves();
+                }
+            }, 200);
+        
     }
 
     /**
@@ -107,15 +110,16 @@ class Endboss extends MoveableObject {
      * @returns {void}
      */
     startSoundLoop() {
-        setInterval(() => {
-            if (!world.isPlaying) return;
-            if (this.isDead() && this.bossDead === false) {
-                world.soundManager.play('chickenDying');
-            }
-            if (this.bossIsAlerted  <= 10) {
-                world.soundManager.play('endbossAlert');
-            }else return
-        }, 1000);   
+            setInterval(() => {
+                if (!world.isPlaying) return;
+                if (this.isDead() && this.bossDead === false) {
+                    world.soundManager.play('chickenDying');
+                }
+                if (this.bossIsAlerted  <= 10) {
+                    world.soundManager.play('endbossAlert');
+                }else return
+            }, 1000);   
+        
     }
 
     /**
@@ -134,6 +138,7 @@ class Endboss extends MoveableObject {
      * certain time has passed.
      */
     bossIsDead() {
+        if (this.deathHandled) return; 
             if (this.isDying && this.isDead()) {
                 this.loadImages(this.IMAGES_DEAD);
                 this.playAnimation(this.IMAGES_DEAD);
@@ -143,6 +148,7 @@ class Endboss extends MoveableObject {
                     this.bossDead = true;
                     world.level.enemies = world.level.enemies.filter(obj => !obj.bossDead);
                     world.character.finalKill = true;
+                    this.deathHandled = true;
                 }
             }else return;
     }
@@ -182,7 +188,12 @@ class Endboss extends MoveableObject {
      * animation.
      */
     bossMoves() {
-        this.moveLeft();
+        if (world.character.x < this.x) {
+            this.moveLeft();
+        } else {
+            this.otherDirection = true;
+            this.moveRight();
+        }
         this.loadImages(this.IMAGES_WALKING);
         this.playAnimation(this.IMAGES_WALKING);
     }
