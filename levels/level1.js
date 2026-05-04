@@ -126,3 +126,4 @@ function initLevel() {
         win = new Win()
     );
 }
+

@@ -50,7 +50,6 @@
             <button class="fullscreen-btn" id="fullscreenBtn" onclick="setCanvasToFullscreen()">
                 <img src="./img/fullscreen-icon.svg" class="icon" alt="fullscreen-icon">
             </button>
-            <button class="restart-btn" id="restartBtn" onclick="restart()"><img src="./img/restart-icon.svg" alt="restart icon" class="icon"></button>
         </div>
     </div>
     <canvas id="canvas" width="720" height="480">
@@ -82,8 +81,9 @@
         </div>
     </div>
     <div class="game-btns">
-            <button class="game-btn" id="startBtn">START</button>
+            <button class="game-btn start-btn" id="startBtn">START</button>
             <button class="game-btn home-btn" id="homeBtn">HOME</button>
+            <button class="restart-btn game-btn" id="restartBtn" onclick="restart()"><img src="./img/restart-icon.svg" alt="restart icon" class="icon"></button>
     </div>
     <footer>
         <h3><a target="_blank" href="./impressum.html">Impressum</a></h3>

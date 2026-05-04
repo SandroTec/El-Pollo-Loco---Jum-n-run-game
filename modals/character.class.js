@@ -191,20 +191,20 @@ class Character extends MoveableObject {
      */
     setAnimations() {
         setInterval(() => {
-            if (this.isDead() && !this.deathSequenceStarted) {
+            if (this.isDead() && !this.deathSequenceStarted && this.isDying) {
                 this.playAnimation(this.IMAGES_DEAD);
                 this.deathSequenceStarted = true
                 this.speed = 0;
             } else if (this.isHurt() && !this.isDead()) {
                 this.playAnimation(this.IMAGES_HURT);
                 this.timerStartet = false;
-            } else if (this.isAboveGround()) {
+            } else if (this.isAboveGround() && !this.isDead()) {
                 this.playAnimation(this.IMAGES_JUMPING);
                 this.timerStartet = false;
-            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT && !this.isDead()) {
                 this.playAnimation(this.IMAGES_WALKING);
                 this.timerStartet = false;
-            } else if (this.world.isPlaying) {
+            } else if (this.world.isPlaying && !this.isDead()) {
                 this.playAnimation(this.IMAGES_IDLE);
                 if (!this.timerStartet) {
                 this.startIdleTime = new Date().getTime();

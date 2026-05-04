@@ -83,10 +83,13 @@ button {
     display: flex;
 }
 
+.start-btn {
+    margin-left: -50px;
+}
+
 .restart-btn {
     display: none;
-    justify-content: center;
-    align-items: center;
+    margin-left: 0;
 }
 
 .icon {
@@ -99,12 +102,15 @@ button {
     height: 50px;
     width: 100px;
     top: 10%;
-    margin-left: -50px;
-    
+}
+
+.game-btns {
+    display: flex;
 }
 
 .home-btn {
     display: none;
+    margin-left: -100px;
 }
 
 .controlls-btn-container {

@@ -26,7 +26,7 @@ class SmallChicken extends MoveableObject {
        this.x = 200 + Math.random() * 5000; // random position for the chicken;
        this.y = 395;
        this.energy = 25;
-       this.speed = 2.5 * Math.random() + 0.5;
+       this.speed = 10 * Math.random() + 0.5;
        this.isDying = false;
        this.applyGravity();
        this.animate();

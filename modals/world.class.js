@@ -39,6 +39,10 @@ class World {
         this.character.world = this;
     }
 
+    resetLevel() {
+        this.setUpLevel();
+    }
+
     /**
      * The drawStartscreen function clears the canvas, adds the startscreen to the map, hides the game
      * restart button, and continuously redraws the startscreen until the game is playing.
@@ -221,11 +225,9 @@ class World {
                 if (throwableObject.isColiding(enemy) && !enemy.isDying && !enemy.isDead() && !enemy.isHurt()) {
                     throwableObject.hasSplashed = true;
                     throwableObject.stopGravity();
-                    enemy.hit(this.character.dmg)
-                    
+                    enemy.hit(this.character.dmg);      
                 }    
             })
-        
         })
     }
             

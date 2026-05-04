@@ -50,20 +50,13 @@ function gameStart() {
  * @returns {void}
  */
 function restart() {
-        resetCharacter();
-        world.youWon = false;
-        restartBtn.style.display = 'none';
-        gameStart()
+    backToHome();
+    handleClick();
     }
 
     function backToHome() {
         resetCharacter();
-        world.level.enemies = world.level.enemies.filter(obj => obj.boss)
-        world.level.enemies.forEach(enemy => {
-            enemy.enemyDead = false;
-            enemy.energy = 100;
-            enemy.x = (200 + Math.random() * 500);
-            });
+        world.resetLevel();
         world.isPlaying = false;
         world.youWon = false;
         world.drawStartscreen();
