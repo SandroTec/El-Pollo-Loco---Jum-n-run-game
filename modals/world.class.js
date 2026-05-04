@@ -218,7 +218,7 @@ class World {
                 this.level.statusbar[0].setPercentage(this.character.energy);
             }
             this.throwableObjects.forEach(throwableObject => {
-                if (throwableObject.isColiding(enemy) && !enemy.isDying && !enemy.isDead()) {
+                if (throwableObject.isColiding(enemy) && !enemy.isDying && !enemy.isDead() && !enemy.isHurt()) {
                     throwableObject.hasSplashed = true;
                     throwableObject.stopGravity();
                     enemy.hit(this.character.dmg)
