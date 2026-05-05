@@ -67,7 +67,7 @@ class Endboss extends MoveableObject {
     animate() { 
         if (this.deathHandled) return;
             setInterval(() => {
-                if (world.character.x >= 1000 && world.character.x <= 1400 && this.isAlerted <= 10 && !this.isDead()) {
+                if (world.character.x >= 3000 && world.character.x <= 6000 && this.isAlerted <= 10 && !this.isDead()) {
                     this.bossIsAlerted();
                 } else if (world.character.isColiding(this) && !this.isDying && !this.isDead()) {
                     this.loadImages(this.IMAGES_ATTACK);
@@ -78,7 +78,7 @@ class Endboss extends MoveableObject {
                 }else if (this.isDead()){
                     this.bossStartsDying();
                     this.bossIsDead();
-                }else {
+                }else if (world.character.x >= 3000) {
                     this.bossMoves();
                 }
             }, 200);
@@ -114,6 +114,9 @@ class Endboss extends MoveableObject {
                 if (!world.isPlaying) return;
                 if (this.isDead() && this.bossDead === false) {
                     world.soundManager.play('chickenDying');
+                }
+                if (this.isHurt() && !this.isDead()) {
+                    world.soundManager.play('endbossHurt');
                 }
                 if (this.bossIsAlerted  <= 10) {
                     world.soundManager.play('endbossAlert');
