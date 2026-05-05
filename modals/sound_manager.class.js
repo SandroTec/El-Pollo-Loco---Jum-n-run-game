@@ -66,7 +66,7 @@ class SoundManager {
         const sound = this.sounds[name];
         if (!sound) return;
         if (!sound.paused) return; 
-        sound.volume = 0.08;
+        sound.volume = 0.12;
         sound.play().catch(()=>{});
         setTimeout(() => {
         sound.pause();

@@ -4,6 +4,8 @@
 }
 
 body {
+    height: 100dvh;
+    width: 100dvw;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -101,7 +103,7 @@ button {
     position: absolute;
     height: 50px;
     width: 100px;
-    top: 10%;
+    top: 50%;
 }
 
 .game-btns {
@@ -180,11 +182,13 @@ a:hover {
 }
 
 footer {
+    position: absolute;
     display: flex;
     justify-content: flex-start;
     align-items: flex-end;
     height: 50px;
-    width: 720px;
+    width: 100%;
+    bottom: 0;
 }
 
 @media (max-height: 1024px ) {

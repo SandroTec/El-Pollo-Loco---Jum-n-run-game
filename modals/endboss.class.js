@@ -35,7 +35,8 @@ class Endboss extends MoveableObject {
         'img/4_enemie_boss_chicken/5_dead/G25.png',
         'img/4_enemie_boss_chicken/5_dead/G26.png',
     ];
-    isAlerted = 0;
+    isAlerted = true;
+    isAlertedCounter = 0;
     dmg = 50;
     offset = {
         top: 60,
@@ -67,7 +68,7 @@ class Endboss extends MoveableObject {
     animate() { 
         if (this.deathHandled) return;
             setInterval(() => {
-                if (world.character.x >= 3000 && world.character.x <= 6000 && this.isAlerted <= 10 && !this.isDead()) {
+                if (world.character.x >= 1000 && world.character.x <= 2000 && this.isAlerted && !this.isDead()) {
                     this.bossIsAlerted();
                 } else if (world.character.isColiding(this) && !this.isDying && !this.isDead()) {
                     this.loadImages(this.IMAGES_ATTACK);
@@ -78,7 +79,7 @@ class Endboss extends MoveableObject {
                 }else if (this.isDead()){
                     this.bossStartsDying();
                     this.bossIsDead();
-                }else if (world.character.x >= 3000) {
+                }else {
                     this.bossMoves();
                 }
             }, 200);
@@ -118,7 +119,7 @@ class Endboss extends MoveableObject {
                 if (this.isHurt() && !this.isDead()) {
                     world.soundManager.play('endbossHurt');
                 }
-                if (this.bossIsAlerted  <= 10) {
+                if (this.isAlerted && world.character.x >= 1000) {
                     world.soundManager.play('endbossAlert');
                 }else return
             }, 1000);   
@@ -132,7 +133,10 @@ class Endboss extends MoveableObject {
     bossIsAlerted() {
         this.loadImages(this.IMAGES_ALERT);
         this.playAnimation(this.IMAGES_ALERT);
-        this.isAlerted++
+        this.isAlertedCounter++
+        if (this.isAlertedCounter >= 10) {
+            this.isAlerted = false;
+        }
     }
 
     /**
