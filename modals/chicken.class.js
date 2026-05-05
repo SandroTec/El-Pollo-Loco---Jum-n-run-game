@@ -1,72 +1,136 @@
+/**
+ * Represents a chicken enemy in the game.
+ * Handles movement, animations, and death behavior.
+ *
+ * @class Chicken
+ * @extends MoveableObject
+ */
 class Chicken extends MoveableObject {
+
+    /** @type {string[]} Walking animation frames */
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/3_w.png'
     ];
+
+    /** @type {string[]} Death animation frames */
     IMAGES_DEAD = [
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png',
-        
     ];
+
+    /** @type {number} Height of the chicken */
     height = 55;
+
+    /** @type {number} Width of the chicken */
     width = 70;
+
+    /** @type {number} Damage dealt to the player */
     dmg = 25;
+
+    /** @type {{top:number,left:number,right:number,bottom:number}} Collision offset */
     offset = {
         top: 0,
         left: 15,
         right: 15,
         bottom: 0
     };
+
+    /** @type {boolean} Indicates if enemy should be removed */
     enemyDead = false;
 
+    /**
+     * Creates a new Chicken instance.
+     * Initializes position, speed, physics, and animation loops.
+     */
     constructor() {
-       super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/2_w.png');
-       this.loadImages(this.IMAGES_WALKING);
-       
-       this.x = 300 +(200 * Math.random()) + (Math.random() * 8000); // random position for the chicken;
-       this.y = 370;
-       this.energy = 25;
-       this.speed = 5 * Math.random() + 1.5;
-       this.isDying = false;
-       this.applyGravity();
-       this.animate();
+        super().loadImage(this.IMAGES_WALKING[1]);
+        this.loadImages(this.IMAGES_WALKING);
+
+        this.x = this.getRandomXPosition();
+        this.y = 370;
+        this.energy = 25;
+        this.speed = this.getRandomSpeed();
+
+        this.isDying = false;
+
+        this.applyGravity();
+        this.animate();
     }
 
     /**
-     * The `animate` function moves an object left at a set interval and triggers a method to handle
-     * the object's death.
+     * Generates a random X spawn position.
+     * @returns {number}
+     */
+    getRandomXPosition() {
+        const BASE_OFFSET = 300;
+        const RANDOM_RANGE_SMALL = 200;
+        const RANDOM_RANGE_LARGE = 8000;
+
+        return BASE_OFFSET +
+            (Math.random() * RANDOM_RANGE_SMALL) +
+            (Math.random() * RANDOM_RANGE_LARGE);
+    }
+
+    /**
+     * Generates a random movement speed.
+     * @returns {number}
+     */
+    getRandomSpeed() {
+        const BASE_SPEED = 1.5;
+        const RANDOM_FACTOR = 5;
+
+        return (Math.random() * RANDOM_FACTOR) + BASE_SPEED;
+    }
+
+    /**
+     * Starts movement and death handling loops.
+     * @returns {void}
      */
     animate() {
         setInterval(() => {
             if (!this.isDead()) {
                 this.moveLeft();
             }
-        }, 1000/30);
-        this.chickenDies()
+        }, 1000 / 30);
+
+        this.chickenDies();
     }
 
     /**
-     * The function `chickenDies` periodically checks if a chicken is dead and initiates the dying
-     * process if it is not already dying, then removes the dead chicken after a certain time period,
-     * while also handling animations.
+     * Handles death behavior, animation, and removal from the world.
+     * @returns {void}
      */
     chickenDies() {
-        this.deathStartTime = new Date().getTime();
-        setInterval(() => {
+        this.deathStartTime = Date.now();
 
+        setInterval(() => {
             if (this.isDead()) {
-                this.loadImage(this.IMAGES_DEAD[0]);
-                this.speed = 0;
-                this.enemyDead = true;
-                let timePassed = new Date().getTime() - this.deathStartTime;
-                if (timePassed >= 5000) { 
-                    world.level.enemies = world.level.enemies.filter(obj => !obj.enemyDead);
-                    timePassed = 0;
-                }
-            } else {
-                this.playAnimation(this.IMAGES_WALKING);
+                this.handleDeadState();
+                return;
             }
+
+            this.playAnimation(this.IMAGES_WALKING);
+
         }, 200);
     }
 
+    /**
+     * Handles logic when the chicken is dead.
+     * @returns {void}
+     */
+    handleDeadState() {
+        this.loadImage(this.IMAGES_DEAD[0]);
+        this.speed = 0;
+        this.enemyDead = true;
+
+        const REMOVE_DELAY = 5000;
+        const timePassed = Date.now() - this.deathStartTime;
+
+        if (timePassed >= REMOVE_DELAY) {
+            world.level.enemies = world.level.enemies.filter(
+                enemy => !enemy.enemyDead
+            );
+        }
+    }
 }

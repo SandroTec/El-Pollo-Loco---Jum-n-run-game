@@ -1,7 +1,19 @@
-
+/**
+ * Represents the main playable character in the game.
+ * Handles movement, animations, sound behavior and interactions with the world.
+ *
+ * @class Character
+ * @extends MoveableObject
+ */
 class Character extends MoveableObject {
+
+    /** @type {number} Character height in pixels */
     height = 250;
+
+    /** @type {number} Character width in pixels */
     width = 100;
+
+    /** @type {string[]} Idle animation frames */
     IMAGES_IDLE = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
         'img/2_character_pepe/1_idle/idle/I-2.png',
@@ -14,6 +26,8 @@ class Character extends MoveableObject {
         'img/2_character_pepe/1_idle/idle/I-9.png',
         'img/2_character_pepe/1_idle/idle/I-10.png',
     ];
+
+    /** @type {string[]} Sleeping animation frames */
     IMAGES_SLEEPING = [
         'img/2_character_pepe/1_idle/long_idle/I-11.png',
         'img/2_character_pepe/1_idle/long_idle/I-12.png',
@@ -26,6 +40,8 @@ class Character extends MoveableObject {
         'img/2_character_pepe/1_idle/long_idle/I-19.png',
         'img/2_character_pepe/1_idle/long_idle/I-20.png',
     ];
+
+    /** @type {string[]} Walking animation frames */
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -34,6 +50,8 @@ class Character extends MoveableObject {
         'img/2_character_pepe/2_walk/W-25.png',
         'img/2_character_pepe/2_walk/W-26.png'
     ];
+
+    /** @type {string[]} Jumping animation frames */
     IMAGES_JUMPING = [
         'img/2_character_pepe/3_jump/J-31.png',
         'img/2_character_pepe/3_jump/J-32.png',
@@ -45,11 +63,15 @@ class Character extends MoveableObject {
         'img/2_character_pepe/3_jump/J-38.png',
         'img/2_character_pepe/3_jump/J-39.png',
     ];
+
+    /** @type {string[]} Hurt animation frames */
     IMAGES_HURT = [
         'img/2_character_pepe/4_hurt/H-41.png',
         'img/2_character_pepe/4_hurt/H-42.png',
         'img/2_character_pepe/4_hurt/H-43.png',
     ];
+
+    /** @type {string[]} Death animation frames */
     IMAGES_DEAD = [
         'img/2_character_pepe/5_dead/D-51.png',
         'img/2_character_pepe/5_dead/D-52.png',
@@ -58,34 +80,66 @@ class Character extends MoveableObject {
         'img/2_character_pepe/5_dead/D-55.png',
         'img/2_character_pepe/5_dead/D-56.png',
         'img/2_character_pepe/5_dead/D-57.png',
-
     ];
+
+    /** @type {boolean} Indicates if character is walking */
     isWalking = false;
+
+    /** @type {{top:number,left:number,right:number,bottom:number}} Collision offset */
     offset = {
         top: 100,
         left: 18,
         right: 15,
         bottom: 10
     };
+
+    /** @type {number} Collected bottles */
     bottleCount = 0;
+
+    /** @type {number} Collected coins */
     coinCount = 0;
+
+    /** @type {boolean} Indicates if idle timer started */
     timerStartet = false;
+
+    /** @type {?number} Idle start timestamp */
     startIdleTime = null;
-    sleeping = false
+
+    /** @type {boolean} Indicates sleeping state */
+    sleeping = false;
+
+    /** @type {boolean} Indicates dying state */
     isDying = false;
+
+    /** @type {?number} Death start timestamp */
     deathStartTime = null;
+
+    /** @type {boolean} Prevents repeated death sound */
     deathSoundPlayed = false;
+
+    /** @type {boolean} Prevents repeated death animation */
     deathSequenceStarted = false;
+
+    /** @type {boolean} Indicates final kill state */
     finalKill = false;
+
+    /** @type {number} Damage value */
     dmg = 50;
-    
-    constructor() {        
+
+    /**
+     * Creates a new Character instance.
+     * Loads all animations, initializes position and physics,
+     * and starts sound and gravity systems.
+     */
+    constructor() {
         super().loadImages(this.IMAGES_IDLE);
+
         this.loadImages(this.IMAGES_SLEEPING);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
+
         this.x = 0;
         this.y = 170;
         this.speed = 10;
@@ -96,7 +150,8 @@ class Character extends MoveableObject {
     }
 
     /**
-     * The `animate` function sets up keyboard moves and animations.
+     * Starts movement and animation handling.
+     * @returns {void}
      */
     animate() {
         this.setKeyboardMoves();
@@ -104,121 +159,160 @@ class Character extends MoveableObject {
     }
 
     /**
-     * The function `setKeyboardMoves` continuously checks for keyboard inputs to move a character
-     * right, left, jump, or set the canvas to fullscreen in a game environment.
+     * Handles keyboard input for movement.
+     * @returns {void}
      */
     setKeyboardMoves() {
         setInterval(() => {
-            if (!this.world) return; 
-            if (!this.world.isPlaying) return; 
-            if (this.world.keyboard.RIGHT && this.x < this.world.level_end_x) {
+            const world = this.world;
+            if (!world || !world.isPlaying) return;
+
+            if (world.keyboard.RIGHT && this.x < world.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false;
             }
-            if (this.world.keyboard.LEFT && this.x > -200) {
+
+            if (world.keyboard.LEFT && this.x > -200) {
                 this.moveLeft();
                 this.otherDirection = true;
             }
-            if (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead()) {
+
+            if (world.keyboard.SPACE && !this.isAboveGround() && !this.isDead()) {
                 this.jump();
-            }
-            if (this.world.keyboard.D && !this.isDead()) {
-                
             }
 
         }, 1000 / 60);
     }
 
     /**
-     * Starts a recurring sound loop for character and gameplay sound effects.
-     *
-     * Runs checks every 100 ms and controls sound playback based on
-     * the current game state:
-     *
-     * - Plays the death sound once when the character dies.
-     * - Starts or stops walking sounds depending on movement.
-     * - Plays a jump sound when the character jumps.
-     * - Plays a "splat" sound for defeated enemies.
-     *
-     * Requirements:
-     * - `this.world` must exist.
-     * - `this.world.soundManager` handles audio playback.
-     * - `this.world.keyboard` contains current input states.
-     * - `this.world.level.enemies` contains all enemies.
-     *
-     * Sounds used:
-     * - `characterDying`
-     * - `jump`
-     * - `splat`
-     * - Walking loop via `playWalk()` / `stopWalk()`
-     *
-     * @method startSoundLoop
+     * Handles all sound effects.
      * @returns {void}
      */
     startSoundLoop() {
         setInterval(() => {
+            const world = this.world;
+            if (!world) return;
+
             if (this.isDead() && !this.deathSoundPlayed) {
                 this.deathSoundPlayed = true;
-                this.world.soundManager.play('characterDying');
+                world.soundManager.play('characterDying');
             }
-            if (!this.world || !this.world.isPlaying) return;
-            const moving = this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
+
+            if (!world.isPlaying) return;
+
+            const moving = world.keyboard.RIGHT || world.keyboard.LEFT;
+
             if (moving && !this.isDead()) {
-                this.world.soundManager.playWalk();
-                this.world.soundManager.stopSnoring();
+                world.soundManager.playWalk();
+                world.soundManager.stopSnoring();
                 this.sleeping = false;
             } else {
-                this.world.soundManager.stopWalk();
+                world.soundManager.stopWalk();
             }
-            if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-                this.world.soundManager.play('jump');
-                this.world.soundManager.stopSnoring()
+
+            if (world.keyboard.SPACE && !this.isAboveGround()) {
+                world.soundManager.play('jump');
+                world.soundManager.stopSnoring();
                 this.sleeping = false;
             }
-            this.world.level.enemies.forEach(enemy => {
+
+            world.level.enemies.forEach(enemy => {
                 if (enemy.isDead() && enemy.removed === false) {
-                    this.world.soundManager.play('splat');
+                    world.soundManager.play('splat');
                 }
             });
+
             if (this.sleeping && !moving) {
-                this.world.soundManager.playSnoring()
-            } 
-        }, 100);   
+                world.soundManager.playSnoring();
+            }
+
+        }, 100);
     }
+
     /**
-     * The setAnimations function sets intervals to play different animations based on the character's
-     * state.
+     * Controls animation states.
+     * @returns {void}
      */
     setAnimations() {
         setInterval(() => {
-            if (this.isDead() && !this.deathSequenceStarted && this.isDying) {
-                this.playAnimation(this.IMAGES_DEAD);
-                this.deathSequenceStarted = true
-                this.speed = 0;
-            } else if (this.isHurt() && !this.isDead()) {
-                this.playAnimation(this.IMAGES_HURT);
-                this.timerStartet = false;
-            } else if (this.isAboveGround() && !this.isDead()) {
-                this.playAnimation(this.IMAGES_JUMPING);
-                this.timerStartet = false;
-            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT && !this.isDead()) {
-                this.playAnimation(this.IMAGES_WALKING);
-                this.timerStartet = false;
-            } else if (this.world.isPlaying && !this.isDead()) {
-                this.playAnimation(this.IMAGES_IDLE);
-                if (!this.timerStartet) {
-                this.startIdleTime = new Date().getTime();
-                this.timerStartet = true;
-                }
-                let timePassed = new Date().getTime() - this.startIdleTime;
-                if (timePassed > 15000 && this.timerStartet) {
-                    this.sleeping = true
-                    this.playAnimation(this.IMAGES_SLEEPING);
-                }
-            }
-        }, 100 );
+            const world = this.world;
+            if (!world) return;
+
+            if (this.handleDeathAnimation()) return;
+            if (this.handleHurtAnimation()) return;
+            if (this.handleJumpAnimation()) return;
+            if (this.handleWalkAnimation()) return;
+
+            this.handleIdleAnimation(world);
+
+        }, 100);
     }
 
+    /** @returns {boolean} */
+    handleDeathAnimation() {
+        if (this.isDead() && !this.deathSequenceStarted && this.isDying) {
+            this.playAnimation(this.IMAGES_DEAD);
+            this.deathSequenceStarted = true;
+            this.speed = 0;
+            return true;
+        }
+        return false;
+    }
 
+    /** @returns {boolean} */
+    handleHurtAnimation() {
+        if (this.isHurt() && !this.isDead()) {
+            this.playAnimation(this.IMAGES_HURT);
+            this.timerStartet = false;
+            return true;
+        }
+        return false;
+    }
 
+    /** @returns {boolean} */
+    handleJumpAnimation() {
+        if (this.isAboveGround() && !this.isDead()) {
+            this.playAnimation(this.IMAGES_JUMPING);
+            this.timerStartet = false;
+            return true;
+        }
+        return false;
+    }
+
+    /** @returns {boolean} */
+    handleWalkAnimation() {
+        if (
+            (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) &&
+            !this.isDead() &&
+            !this.isHurt()
+        ) {
+            this.playAnimation(this.IMAGES_WALKING);
+            this.timerStartet = false;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Handles idle and sleeping animations.
+     * @param {Object} world
+     * @returns {void}
+     */
+    handleIdleAnimation(world) {
+        if (world.isPlaying && this.speed !== 0 && !this.isDead() && !this.isHurt()) {
+            this.playAnimation(this.IMAGES_IDLE);
+
+            if (!this.timerStartet) {
+                this.startIdleTime = Date.now();
+                this.timerStartet = true;
+            }
+
+            const timePassed = Date.now() - this.startIdleTime;
+
+            if (timePassed > 15000) {
+                this.sleeping = true;
+                this.playAnimation(this.IMAGES_SLEEPING);
+            }
+        }
+    }
 }

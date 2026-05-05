@@ -89,7 +89,7 @@ class World {
                         this.character.startDying();
                     }
                     let timePassed = new Date().getTime() - this.character.deathStartTime;
-                    if (timePassed > 500) {
+                    if (timePassed > 1000) {
                         this.gameOver();
                         return;
                     }
@@ -107,6 +107,7 @@ class World {
      * restart button.
      */
     gameOver() {
+            this.character.loadImage((this.character.IMAGES_DEAD[6]))
             this.addToMap(this.endscreen);
             this.gameRestart.style.display = 'flex';
             this.homeBtn.style.display = 'block';

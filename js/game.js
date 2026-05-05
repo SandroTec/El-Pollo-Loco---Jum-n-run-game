@@ -1,13 +1,17 @@
 let canvas;
 let world;
-let keyboard = new Keyboard();
-let controllPopUp = document.getElementById('controllPopUp');
-let controllInformation = document.getElementById('controllInformation');
+const keyboard = new Keyboard();
+
+const controllInformation = document.getElementById('controllInformation');
+const gameBtns = document.getElementById('gameBtns');
+const mobileControlls = document.getElementById('mobileControllBtns');
+
+const startBtn = document.getElementById('startBtn');
+const homeBtn = document.getElementById('homeBtn');
 
 /**
- * Initializes the game by retrieving the canvas element
- * and creating a new World instance.
- *
+ * Initializes the game and creates the world instance.
+ * @function init
  * @returns {void}
  */
 function init() {
@@ -17,145 +21,102 @@ function init() {
 }
 
 /**
- * used when button on the right corner of the canvas is clicked.
- * opens a pop-up dialog, by edit display.
- * */ 
+ * Toggles the control information popup visibility.
+ * @function controllPopUpDialog
+ * @returns {void}
+ */
 function controllPopUpDialog() {
-    if (controllInformation.style.display === 'none') {
-        controllInformation.style.display = 'flex';
-    } else {
-        controllInformation.style.display = 'none';
-    }
+    const isHidden = controllInformation.style.display === 'none';
+
+    controllInformation.style.display = isHidden ? 'flex' : 'none';
+    gameBtns.style.display = isHidden ? 'none' : 'flex';
+    mobileControlls.style.display = isHidden ? 'none' : 'flex';
 }
 
 /**
+ * Starts the game if not already running.
  * @function gameStart
- * @description Starts the game loop and sets up the initial level state.
- * Prevents multiple starts if the game is already running.
+ * @returns {void}
  */
 function gameStart() {
-    if (world.isPlaying) return
-    const level1 = initLevel();  
-    world.level = level1; 
-    world.isPlaying = true; 
-    world.running = true;      
+    if (world.isPlaying) return;
+
+    world.level = initLevel();
+    world.isPlaying = true;
+    world.running = true;
+
     world.draw();
     world.run();
 }
 
 /**
- * Resets the game state to allow restarting.
- * Restores player stats, resets enemies,
- * and displays the start screen.
- *
+ * Restarts the game and resets state.
+ * @function restart
  * @returns {void}
  */
 function restart() {
     backToHome();
     handleClick();
-    }
+}
 
+/**
+ * Resets game to start screen.
+ * @function backToHome
+ * @returns {void}
+ */
 function backToHome() {
     resetCharacter();
     world.isPlaying = false;
     world.youWon = false;
     world.drawStartscreen();
-    }
+}
 
 /**
- * Requests fullscreen mode for the game canvas.
- *
+ * Enables fullscreen mode for canvas.
+ * @function setCanvasToFullscreen
  * @returns {void}
  */
 function setCanvasToFullscreen() {
-        canvas.requestFullscreen()
-    }
+    canvas.requestFullscreen();
+}
 
-window.addEventListener('keydown', (e) => {
-    if (e.keyCode === 38) { // UP arrow
-        keyboard.UP = true;
-    }
-    if (e.keyCode === 39) { // RIGHT arrow
-        keyboard.RIGHT = true;
-    }
-    if (e.keyCode === 37) { // LEFT arrow
-        keyboard.LEFT = true;
-    }
-    if (e.keyCode === 40) { // DOWN arrow
-        keyboard.DOWN = true;
-    }
-    if (e.keyCode === 32) { // SPACE bar
-        keyboard.SPACE = true;
-    }
-    if (e.keyCode === 68) { // d
-        keyboard.D = true;
-    }
-    if (e.keyCode === 67) { // c
-        keyboard.C = true;
-    }
-});
-
-window.addEventListener('keyup', (e) => {
-    if (e.keyCode === 38) { // UP arrow
-        keyboard.UP = false;
-    }
-    if (e.keyCode === 39) { // RIGHT arrow
-        keyboard.RIGHT = false;
-    }
-    if (e.keyCode === 37) { // LEFT arrow
-        keyboard.LEFT = false;
-    }
-    if (e.keyCode === 40) { // DOWN arrow
-        keyboard.DOWN = false;
-    }
-    if (e.keyCode === 32) { // SPACE bar
-        keyboard.SPACE = false;
-    }
-    if (e.keyCode === 68) { // d
-        keyboard.D = false;
-    }
-    if (e.keyCode === 67) { // c
-        keyboard.C = false;
-    }
-});
-
-canvas = document.getElementById('canvas');
-    
-startBtn = document.getElementById('startBtn');
-homeBtn = document.getElementById('homeBtn');
-
-
-startBtn.addEventListener("click", (event) => {
-    this.handleClick(event);
-})
-homeBtn.addEventListener("click", (event) => {
-    this.handleHomeClick(event);
-})
 /**
- * The handleClick function starts the game if it is not already playing and the character is not
- * dying.
- * @param event - The `event` parameter in the `handleClick` function represents the event object that
- * is generated when the click event occurs. This object contains information about the event, such as
- * the type of event, the target element that was clicked, and any other relevant data associated with
- * the event. In this case
- * @returns In the provided code snippet, if the conditions for `gameStart()` are not met, the function
- * will return `undefined`.
+ * Handles key state changes.
+ * @param {KeyboardEvent} e
+ * @param {boolean} isPressed
+ */
+function handleKey(e, isPressed) {
+    switch (e.keyCode) {
+        case 38: keyboard.UP = isPressed; break;
+        case 39: keyboard.RIGHT = isPressed; break;
+        case 37: keyboard.LEFT = isPressed; break;
+        case 40: keyboard.DOWN = isPressed; break;
+        case 32: keyboard.SPACE = isPressed; break;
+        case 68: keyboard.D = isPressed; break;
+        case 67: keyboard.C = isPressed; break;
+    }
+}
+
+window.addEventListener('keydown', (e) => handleKey(e, true));
+window.addEventListener('keyup', (e) => handleKey(e, false));
+
+/**
+ * Handles start button click.
+ * @function handleClick
+ * @param {Event} [event]
+ * @returns {void}
  */
 function handleClick(event) {
     if (!world.isPlaying && !world.youWon && !world.character.isDead()) {
         gameStart();
         startBtn.style.display = 'none';
-
-    } else return;
+    }
 }
 
 /**
- * Handles the click on the home button.
- * Navigates back to the home screen only if the game is won
- * or the character is dead. Also updates button visibility.
- *
+ * Handles home button click.
  * @function handleHomeClick
- * @param {Event} event - The click event triggered by the home button.
+ * @param {Event} event
  * @returns {void}
  */
 function handleHomeClick(event) {
@@ -163,30 +124,42 @@ function handleHomeClick(event) {
         backToHome();
         homeBtn.style.display = 'none';
         startBtn.style.display = 'block';
-    } else return;
+    }
 }
 
 /**
- * Resets the character to its initial default state.
- * Restores position, status flags, attributes, counters,
- * and death-related properties for a fresh game start.
- *
+ * Resets character to initial state.
  * @function resetCharacter
  * @returns {void}
  */
 function resetCharacter() {
-    world.character.x = 0;
-    world.character.isDying = false;
-    world.character.energy = 100;
-    world.character.speed = 10;
-    world.character.coinCount = 0;
-    world.character.bottleCount = 0;
-    world.character.sleeping = false;
-    world.character.deathStartTime = null;
-    world.character.deathSoundPlayed = false;
-    world.character.deathSequenceStarted = false;
-    world.character.finalKill = false;
+    const char = world.character;
+
+    char.x = 0;
+    char.isDying = false;
+    char.energy = 100;
+    char.speed = 10;
+    char.coinCount = 0;
+    char.bottleCount = 0;
+    char.sleeping = false;
+    char.deathStartTime = null;
+    char.deathSoundPlayed = false;
+    char.deathSequenceStarted = false;
+    char.finalKill = false;
+
     world.throwableObjects = [];
 }
 
+/**
+ * Initializes UI event listeners.
+ * @function initUIEvents
+ * @returns {void}
+ */
+function initUIEvents() {
+    startBtn.addEventListener('click', handleClick);
+    homeBtn.addEventListener('click', handleHomeClick);
+}
 
+// Initial setup
+canvas = document.getElementById('canvas');
+initUIEvents();
