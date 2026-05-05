@@ -17,12 +17,13 @@ function initLevel() {
         positions.map(x => new Cloud(img, x));
 
     /**
-     * Helper: creates sky tiles.
+     * Creates sky tiles including negative offset for seamless scrolling.
+     *
      * @param {number} count
      * @returns {Sky[]}
      */
     const createSky = (count) =>
-        Array.from({ length: count }, (_, i) => new Sky(720 * i));
+        Array.from({ length: count }, (_, i) => new Sky(720 * (i - 1)));
 
     return new Level(
 

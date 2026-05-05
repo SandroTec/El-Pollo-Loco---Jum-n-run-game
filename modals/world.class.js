@@ -1,4 +1,3 @@
-
 /**
  * Core game engine that manages rendering, game state, collisions and game flow.
  * Acts as central controller between canvas, entities and game systems.
@@ -44,16 +43,16 @@ class World {
     /** @type {HTMLElement} */
     gameRestart = document.getElementById('restartBtn');
 
-    /** @type {number | null} */
+    /** @type {number|null} */
     animationId = null;
 
-    /** @type {number | null} */
+    /** @type {number|null} */
     runIntervall = null;
 
     /** @type {boolean} */
     running = true;
 
-    /** @type {Array} */
+    /** @type {Array<Object>} */
     throwableObjects = [];
 
     /** @type {boolean} */
@@ -63,7 +62,7 @@ class World {
     homeBtn = document.getElementById('homeBtn');
 
     /**
-     * Creates the game world and initializes rendering and character systems.
+     * Creates the game world and initializes rendering systems.
      *
      * @param {HTMLCanvasElement} canvas
      * @param {Keyboard} keyboard
@@ -82,14 +81,14 @@ class World {
     }
 
     /**
-     * Links character to world instance.
+     * Links character instance to world.
      */
     setWorld() {
         this.character.world = this;
     }
 
     /**
-     * Renders the start screen until game starts.
+     * Renders start screen until game starts.
      */
     drawStartscreen() {
         if (this.isPlaying) return;
@@ -103,7 +102,7 @@ class World {
     }
 
     /**
-     * Main game render loop.
+     * Main render loop of the game.
      */
     draw() {
         if (!this.running || !this.level) return;
@@ -117,6 +116,9 @@ class World {
 
         this.ctx.restore();
 
+        // IMPORTANT: HUD is NOT affected by camera transform
+        this.setUpStatusbars();
+
         this.handleHUD();
         this.checkGameState();
 
@@ -124,21 +126,21 @@ class World {
     }
 
     /**
-     * Updates camera position.
+     * Updates camera position based on character.
      */
     updateCamera() {
         this.camera_x = -this.character.x + 150;
     }
 
     /**
-     * Clears canvas.
+     * Clears entire canvas.
      */
     clearScreen() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
     /**
-     * Renders all game objects.
+     * Renders all world objects (camera affected).
      */
     renderWorld() {
         this.ctx.translate(this.camera_x, 0);
@@ -150,7 +152,7 @@ class World {
     }
 
     /**
-     * Handles UI elements.
+     * Handles UI visibility.
      */
     handleHUD() {
         this.homeBtn.style.display = 'none';
@@ -170,7 +172,7 @@ class World {
     }
 
     /**
-     * Handles player death.
+     * Handles player death timing.
      */
     handleDeath() {
         if (!this.character.isDying) {
@@ -185,10 +187,11 @@ class World {
     }
 
     /**
-     * Game over sequence.
+     * Game over screen logic.
      */
     gameOver() {
         this.character.loadImage(this.character.IMAGES_DEAD[6]);
+
         this.addToMap(this.endscreen);
 
         this.gameRestart.style.display = 'flex';
@@ -199,7 +202,7 @@ class World {
     }
 
     /**
-     * Win sequence.
+     * Win screen logic.
      */
     gameWin() {
         this.addToMap(this.level.win);
@@ -217,14 +220,14 @@ class World {
     /**
      * Adds multiple objects to canvas.
      *
-     * @param {Array} objects
+     * @param {Array<Object>} objects
      */
     addObjectsToMap(objects) {
         objects.forEach(obj => this.addToMap(obj));
     }
 
     /**
-     * Draws a single object with optional flip.
+     * Draws single object with optional flip.
      *
      * @param {Object} mo
      */
@@ -237,7 +240,7 @@ class World {
     }
 
     /**
-     * Starts update loop.
+     * Starts game update loop.
      */
     run() {
         this.runIntervall = setInterval(() => {
@@ -247,7 +250,7 @@ class World {
     }
 
     /**
-     * Handles throwing bottles.
+     * Handles bottle throwing logic.
      */
     checkThrowableObject() {
         if (this.keyboard.D && this.character.bottleCount > 0 && !this.lastThrowPressed) {
@@ -268,7 +271,7 @@ class World {
     }
 
     /**
-     * Collision system entry point.
+     * Collision system entry.
      */
     checkCollisions() {
         if (!this.isPlaying) return;
@@ -279,7 +282,7 @@ class World {
     }
 
     /**
-     * Enemy collision handling.
+     * Enemy collision logic.
      */
     checkEnemies() {
         this.level.enemies.forEach(enemy => {
@@ -302,6 +305,7 @@ class World {
 
                 this.character.hit(enemy.dmg);
                 this.soundManager.play('hit');
+
                 this.level.statusbar[0].setPercentage(this.character.energy);
             }
 
@@ -323,7 +327,7 @@ class World {
     }
 
     /**
-     * Coin collection.
+     * Coin collection logic.
      */
     checkCoins() {
         this.level.coins.forEach(coin => {
@@ -338,7 +342,7 @@ class World {
     }
 
     /**
-     * Bottle collection.
+     * Bottle collection logic.
      */
     checkBottle() {
         this.level.bottles.forEach(bottle => {
@@ -371,7 +375,7 @@ class World {
     }
 
     /**
-     * Level rendering.
+     * Sets up world objects.
      */
     setUpLevel() {
         this.addObjectsToMap(this.level.skyes);
@@ -382,10 +386,15 @@ class World {
     }
 
     /**
-     * HUD rendering.
+     * FIXED: HUD rendering (no camera transform applied)
      */
     setUpStatusbars() {
+        this.ctx.save();
+        this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+
         this.addObjectsToMap(this.level.statusbar);
+
+        this.ctx.restore();
     }
 
     /**
@@ -397,7 +406,7 @@ class World {
     }
 
     /**
-     * Stops game loop and cleanup.
+     * Stops game loop.
      */
     stop() {
         this.running = false;
