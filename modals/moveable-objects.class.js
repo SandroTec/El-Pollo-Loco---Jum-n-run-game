@@ -1,14 +1,31 @@
-
+/**
+ * Base class for all movable game objects.
+ * Provides physics, movement, collision detection and state handling.
+ */
 class MoveableObject extends DrawableObject {
-   
+
+    /** @type {number} */
     speed = 0.25;
+
+    /** @type {boolean} */
     otherDirection = false;
+
+    /** @type {number} */
     speed_y = 0;
+
+    /** @type {number} */
     acceleration = 5;
+
+    /** @type {number} */
     lastHit = 0;
+
+    /** @type {boolean} */
     soundPlayed = false;
+
+    /** @type {number} */
     dmg;
-    // object used for collision check.
+
+    /** @type {{top:number,left:number,right:number,bottom:number}} */
     offset = {
         top: 0,
         left: 0,
@@ -17,176 +34,181 @@ class MoveableObject extends DrawableObject {
     };
 
     /**
-     * The function `setCanvasToFullscreen()` requests the browser to display the canvas in fullscreen
-     * mode.
+     * Requests fullscreen mode for the game canvas.
+     * @returns {void}
      */
     setCanvasToFullscreen() {
-        canvas.requestFullscreen()
+        canvas.requestFullscreen();
     }
 
     /**
-     * The `applyGravity` function simulates gravity by decreasing the vertical position (`y`) of an
-     * object over time while adjusting its vertical speed (`speed_y`) based on acceleration.
+     * Applies gravity to the object by modifying vertical position and velocity.
+     * Runs continuously on a fixed interval.
+     * @returns {void}
      */
     applyGravity() {
         setInterval(() => {
             if (this.isAboveGround() || this.speed_y > 0) {
-                this.lastY = this.y; // for jumpOn chicken enemy
+                this.lastY = this.y;
                 this.y -= this.speed_y;
                 this.speed_y -= this.acceleration;
-            }}, 1000 / 25);
+            }
+        }, 1000 / 25);
     }
 
     /**
-     * The function `isAboveGround()` checks if an object is above the ground based on its
-     * y-coordinate.
-     * @returns The `isAboveGround()` function is returning a boolean value. If the object is an
-     * instance of `ThrowableObject`, it will return `true`. Otherwise, it will return the result of
-     * the comparison `this.y < 180`, which will be either `true` or `false` based on the value of
-     * `this.y`.
+     * Checks whether the object is above the ground.
+     *
+     * @returns {boolean}
      */
     isAboveGround() {
-        if (this instanceof ThrowableObject) {
-            return true; // throwable objects should always fall
-        } else {
-            return this.y < 180
-        }
+        if (this instanceof ThrowableObject) return true;
+        return this.y < 180;
     }
 
     /**
-     * The function `playAnimation` cycles through an array of images to display them one by one.
-     * @param images - The `images` parameter is an array containing paths to different image files.
-     * The `playAnimation` function takes this array as input and cycles through the images in the
-     * array to create an animation effect.
+     * Plays an animation by cycling through image frames.
+     *
+     * @param {string[]} images - Array of image paths.
+     * @returns {void}
      */
     playAnimation(images) {
-        let i = this.currentImage % images.length; // modulo operator: if the currentImage is bigger than the length of the array, it will start again from the beginning of the array.
-        let path = images[i];
+        const index = this.currentImage % images.length;
+        const path = images[index];
+
         this.img = this.imageCache[path];
         this.currentImage++;
     }
 
-    /* The `moveRight()` function in the code snippet is responsible for moving an object to the right
-    by incrementing its `x` property with the value of the `speed` property of the object. */
+    /**
+     * Moves object to the right.
+     * @returns {void}
+     */
     moveRight() {
         this.x += this.speed;
     }
 
-   /**
-    * The `moveLeft()` function decreases the value of the `x` property by the `speed` property of the
-    * object.
-    */
+    /**
+     * Moves object to the left.
+     * @returns {void}
+     */
     moveLeft() {
         this.x -= this.speed;
     }
 
     /**
-     * The function `moveLeftBoss()` moves an object to the left by subtracting a calculated value from
-     * its x-coordinate.
+     * Moves boss object faster to the left.
+     * @returns {void}
      */
     moveLeftBoss() {
-        this.x -= 3 * (this.speed);
+        this.x -= 3 * this.speed;
     }
 
     /**
-     * The `jump()` function sets the vertical speed to 40.
+     * Makes the object jump by setting vertical velocity.
+     * @returns {void}
      */
     jump() {
         this.speed_y = 40;
     }
 
     /**
-     * The function isColiding checks if two objects are colliding based on their position and
-     * dimensions.
-     * @param mo - The `mo` parameter seems to represent another object in your game or application. It
-     * has properties such as `x`, `y`, `width`, `height`, `offset`, `left`, `right`, `top`, and
-     * `bottom`.
-     * @returns The function is checking for collision between two objects based on their positions and
-     * dimensions. It calculates the boundaries of each object taking into account any offsets, and
-     * then checks if the objects are overlapping both horizontally and vertically. The function
-     * returns a boolean value indicating whether the two objects are colliding or fnot.
+     * Checks collision between this object and another movable object.
+     *
+     * @param {Object} mo - Another game object.
+     * @returns {boolean}
      */
     isColiding(mo) {
-        let charLeft = this.x + this.offset.left;
-        let charRight = this.x + this.width - this.offset.right;
-        let charTop = this.y + this.offset.top;
-        let charBottom = this.y + this.height - this.offset.bottom;
-        let moLeft = mo.x + mo.offset.left;
-        let moRight = mo.x + mo.width - mo.offset.right;
-        let moTop = mo.y + mo.offset.top;
-        let moBottom = mo.y + mo.height - mo.offset.bottom;
-        let horizontalHit = charRight > moLeft && charLeft < moRight;
-        let verticalHit = charBottom > moTop && charTop < moBottom;
+        const charLeft = this.x + this.offset.left;
+        const charRight = this.x + this.width - this.offset.right;
+        const charTop = this.y + this.offset.top;
+        const charBottom = this.y + this.height - this.offset.bottom;
+
+        const moLeft = mo.x + mo.offset.left;
+        const moRight = mo.x + mo.width - mo.offset.right;
+        const moTop = mo.y + mo.offset.top;
+        const moBottom = mo.y + mo.height - mo.offset.bottom;
+
+        const horizontalHit = charRight > moLeft && charLeft < moRight;
+        const verticalHit = charBottom > moTop && charTop < moBottom;
+
         return horizontalHit && verticalHit;
     }
 
-    /* The `hit()` function is reducing the `energy` property of an object by 25 units. It then checks
-    if the `energy` has become negative and sets it to 0 if that's the case. Additionally, it
-    records the current time in milliseconds using `new Date().getTime()` in the `lastHit` property. */
+    /**
+     * Applies damage to the object and updates last hit timestamp.
+     *
+     * @param {number} dmg - Damage amount.
+     * @returns {void}
+     */
     hit(dmg) {
         this.energy -= dmg;
+
         if (this.energy < 0) {
             this.energy = 0;
-        } else {this.lastHit = new Date().getTime()};
+            return;
+        }
+
+        this.lastHit = new Date().getTime();
     }
 
     /**
-     * The `isHurt` function checks if the time passed since the last hit is less than 2 seconds.
-     * @returns The `isHurt()` function is returning a boolean value indicating whether the time passed
-     * since the last hit is less than 2 seconds.
+     * Checks if the object is currently in a hurt state.
+     *
+     * @returns {boolean}
      */
     isHurt() {
-        let timePassed = new Date().getTime() - this.lastHit; // new Date getTime -> get the milliseconds since 1970 to calculate the diffrences
-        timePassed = timePassed /200 // in seconds
+        let timePassed = new Date().getTime() - this.lastHit;
+        timePassed = timePassed / 200;
+
         return timePassed < 2;
     }
 
     /**
-     * The `isDead` function checks if the energy level of an object is zero to determine if it is
-     * dead.
-     * @returns The `isDead()` function is returning a boolean value based on the comparison
-     * `this.energy <= 0`. If the energy property of the object calling the function is equal to 0,
-     * then the function will return `true`, indicating that the object is dead. Otherwise, it will
-     * return `false`.
+     * Checks if the object is dead.
+     *
+     * @returns {boolean}
      */
     isDead() {
-        return this.energy <= 0;    
+        return this.energy <= 0;
     }
 
     /**
-     * The function `startDying()` sets the object's `isDying` property to true, records the time of
-     * death, and sets the speed to 0.
+     * Marks the object as dying and stores death timestamp.
+     *
+     * @returns {void}
      */
     startDying() {
         this.isDying = true;
         this.deathStartTime = new Date().getTime();
     }
-    
 
     /**
-     * The function `jumpOn` checks if a character is jumping on top of an enemy in a game by comparing
-     * their positions and vertical distances.
-     * @param mo - The `mo` parameter in the `jumpOn` function represents an object that likely
-     * contains properties related to an enemy character in a game. Here are the properties used in the
-     * function:
-     * @returns The `jumpOn` function is returning a boolean value based on certain conditions. It
-     * checks if the character is falling, if there is horizontal overlap between the character and the
-     * enemy, and if the vertical distance between the character's bottom and the enemy's top is within
-     * a specific range (-25 to 25). If all these conditions are met, the function returns `true`,
-     * indicating that the character can
+     * Checks if player jumps on top of another object.
+     *
+     * @param {Object} mo - Target object (enemy or entity).
+     * @returns {boolean}
      */
     jumpOn(mo) {
-        let charLeft = this.x;
-        let charRight = this.x + this.width;
-        let charBottom = this.y + this.height - this.offset.bottom;
-        let enemyLeft = mo.x + mo.offset.left;
-        let enemyRight = mo.x + mo.width - mo.offset.right;
-        let enemyTop = mo.y + mo.offset.top;
-        let falling = this.speed_y < 0;
-        let horizontalOverlap =
+        const charLeft = this.x;
+        const charRight = this.x + this.width;
+        const charBottom = this.y + this.height - this.offset.bottom;
+
+        const enemyLeft = mo.x + mo.offset.left;
+        const enemyRight = mo.x + mo.width - mo.offset.right;
+        const enemyTop = mo.y + mo.offset.top;
+
+        const falling = this.speed_y < 0;
+
+        const horizontalOverlap =
             charRight > enemyLeft &&
             charLeft < enemyRight;
-        let verticalDistance = charBottom - enemyTop;
-        return falling && horizontalOverlap && verticalDistance >= -25 && verticalDistance <= 25;
+
+        const verticalDistance = charBottom - enemyTop;
+
+        return falling &&
+            horizontalOverlap &&
+            verticalDistance >= -25 &&
+            verticalDistance <= 25;
     }
 }

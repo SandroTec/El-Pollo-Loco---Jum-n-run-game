@@ -1,19 +1,48 @@
+/**
+ * Base class for all drawable objects.
+ *
+ * @class DrawableObject
+ */
 class DrawableObject {
+
+    /** @type {HTMLImageElement} Current image */
     img;
+
+    /** @type {number} X position */
     x;
+
+    /** @type {number} Y position */
     y;
+
+    /** @type {number} Object height */
     height;
+
+    /** @type {number} Object width */
     width;
+
+    /**
+     * Cache for loaded images
+     * @type {Object.<string, HTMLImageElement>}
+     */
     imageCache = [];
+
+    /** @type {number} Current animation frame index */
     currentImage = 0;
+
+    /** @type {number} Energy value */
     energy = 100;
+
+    /** @type {boolean} Bottle collected state */
     bottleCollected = false;
+
+    /** @type {number} Coin counter */
     coinCount = 0;
 
     /**
-     * The loadImage function creates a new Image object and sets its source to the specified path.
-     * @param path - The `path` parameter in the `loadImage` function is a string that represents the
-     * file path or URL of the image that you want to load.
+     * Loads a single image.
+     *
+     * @param {string} path - Path to image
+     * @returns {void}
      */
     loadImage(path) {
         this.img = new Image();
@@ -21,45 +50,56 @@ class DrawableObject {
     }
 
     /**
-     * The function `loadImages` loads images from an array of paths and stores them in an image cache.
-     * @param arr - An array containing paths to images that need to be loaded.
+     * Loads multiple images into cache.
+     *
+     * @param {string[]} arr - Array of image paths
+     * @returns {void}
      */
     loadImages(arr) {
         arr.forEach(path => {
-            let img = new Image();
+            const img = new Image();
             img.src = path;
             this.imageCache[path] = img;
         });
     }
 
     /**
-     * The draw function in JavaScript uses the canvas context to draw an image at a specified position
-     * and size.
-     * @param ctx - The `ctx` parameter in the `draw` function is typically the 2D drawing context of
-     * an HTML canvas element. This context is used to draw the image specified by `this.img` at the
-     * position (`this.x`, `this.y`) with the specified width and height (`this.width`,
+     * Draws the object on canvas.
+     *
+     * @param {CanvasRenderingContext2D} ctx
+     * @returns {void}
      */
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
     /**
-     * The function `showHitBox` draws a red outlined rectangle representing the hitbox of a character,
-     * chicken, endboss, coin, or bottle on a canvas context.
-     * @param ctx - The `ctx` parameter in the `showHitBox` function is the 2D drawing context of the
-     * canvas element. It is typically used for drawing shapes, text, images, and other objects on the
-     * canvas.
+     * Draws a hitbox for debugging purposes.
+     *
+     * @param {CanvasRenderingContext2D} ctx
+     * @returns {void}
      */
     showHitBox(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof Coin || this instanceof Bottle) {
+        const isDrawable =
+            this instanceof Character ||
+            this instanceof Chicken ||
+            this instanceof Endboss ||
+            this instanceof Coin ||
+            this instanceof Bottle;
+
+        if (!isDrawable) return;
+
         ctx.beginPath();
         ctx.lineWidth = '1';
         ctx.strokeStyle = 'red';
-        ctx.strokeRect(this.x + this.offset.left, 
+
+        ctx.strokeRect(
+            this.x + this.offset.left,
             this.y + this.offset.top,
             this.width - this.offset.left - this.offset.right,
-            this.height - this.offset.top - this.offset.bottom);
+            this.height - this.offset.top - this.offset.bottom
+        );
+
         ctx.stroke();
-       }
     }
 }

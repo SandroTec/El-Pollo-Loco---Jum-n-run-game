@@ -1,10 +1,20 @@
+/**
+ * Represents the final boss enemy.
+ *
+ * @class Endboss
+ * @extends MoveableObject
+ */
 class Endboss extends MoveableObject {
+
+    /** @type {string[]} Walking animations */
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/1_walk/G1.png',
         'img/4_enemie_boss_chicken/1_walk/G2.png',
         'img/4_enemie_boss_chicken/1_walk/G3.png',
         'img/4_enemie_boss_chicken/1_walk/G4.png',
     ];
+
+    /** @type {string[]} Alert animations */
     IMAGES_ALERT = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -15,6 +25,8 @@ class Endboss extends MoveableObject {
         'img/4_enemie_boss_chicken/2_alert/G11.png',
         'img/4_enemie_boss_chicken/2_alert/G12.png',
     ];
+
+    /** @type {string[]} Attack animations */
     IMAGES_ATTACK = [
         'img/4_enemie_boss_chicken/3_attack/G13.png',
         'img/4_enemie_boss_chicken/3_attack/G14.png',
@@ -25,174 +37,223 @@ class Endboss extends MoveableObject {
         'img/4_enemie_boss_chicken/3_attack/G19.png',
         'img/4_enemie_boss_chicken/3_attack/G20.png',
     ];
+
+    /** @type {string[]} Hurt animations */
     IMAGES_HURT = [
         'img/4_enemie_boss_chicken/4_hurt/G21.png',
         'img/4_enemie_boss_chicken/4_hurt/G22.png',
         'img/4_enemie_boss_chicken/4_hurt/G23.png',
     ];
+
+    /** @type {string[]} Death animations */
     IMAGES_DEAD = [
         'img/4_enemie_boss_chicken/5_dead/G24.png',
         'img/4_enemie_boss_chicken/5_dead/G25.png',
         'img/4_enemie_boss_chicken/5_dead/G26.png',
     ];
+
+    /** @type {boolean} */
     isAlerted = true;
+
+    /** @type {number} */
     isAlertedCounter = 0;
+
+    /** @type {number} */
     dmg = 50;
+
+    /**
+     * @type {{top:number,left:number,right:number,bottom:number}}
+     */
     offset = {
         top: 60,
         left: 25,
         right: 20,
         bottom: 10
     };
+
+    /** @type {boolean} */
     bossDead = false;
+
+    /** @type {boolean} */
     deathHandled = false;
+
+    /** @type {boolean} */
     soundPlayed = false;
 
+    /**
+     * Creates a new Endboss.
+     */
     constructor() {
-       super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
-       this.x = world.level_end_x; // fixed position for the boss;
-       this.y = 0;
-       this.height = 470;
-       this.width = 150;
-       this.speed = 25 * Math.random() + 15;
-       this.energy = 150;
-       this.isDying = false;
-       this.animate();
-       this.startSoundLoop();
-    }
+        super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
 
-   /**
-    * The `animate` function controls the behavior of a boss character in a game, including detecting
-    * player proximity, attacking, dying, and moving.
-    */
-    animate() { 
-        if (this.deathHandled) return;
-            setInterval(() => {
-                if (world.character.x >= 1000 && world.character.x <= 2000 && this.isAlerted && !this.isDead()) {
-                    this.bossIsAlerted();
-                } else if (world.character.isColiding(this) && !this.isDying && !this.isDead()) {
-                    this.loadImages(this.IMAGES_ATTACK);
-                    this.playAnimation(this.IMAGES_ATTACK);
-                }else if (this.isHurt() && !this.isDead()) {
-                    this.loadImages(this.IMAGES_HURT);
-                    this.playAnimation(this.IMAGES_HURT);
-                }else if (this.isDead()){
-                    this.bossStartsDying();
-                    this.bossIsDead();
-                }else {
-                    this.bossMoves();
-                }
-            }, 200);
-        
+        this.x = world.level_end_x;
+        this.y = 0;
+        this.height = 470;
+        this.width = 150;
+        this.speed = this.getRandomSpeed();
+        this.energy = 150;
+        this.isDying = false;
+
+        this.animate();
+        this.startSoundLoop();
     }
 
     /**
-     * Starts a recurring sound loop for boss-related sound effects.
-     *
-     * Performs state checks every second and plays sounds depending
-     * on the boss status:
-     *
-     * - Plays a death sound when the boss is defeated.
-     * - Plays an alert/aggression sound while the boss is alerted.
-     *
-     * The loop only runs while the game is active (`world.isPlaying`).
-     *
-     * Requirements:
-     * - `world` must be available.
-     * - `world.soundManager` manages sound playback.
-     * - `this.bossDead` indicates whether the boss death was handled.
-     * - `this.bossIsAlerted` controls the boss alert state.
-     *
-     * Sounds used:
-     * - `chickenDying`
-     * - `endbossAlert`
-     *
-     * @method startSoundLoop
+     * Generates random speed.
+     * @returns {number}
+     */
+    getRandomSpeed() {
+        return Math.random() * 25 + 15;
+    }
+
+    /**
+     * Controls boss behavior loop.
+     * @returns {void}
+     */
+    animate() {
+        if (this.deathHandled) return;
+
+        setInterval(() => {
+            if (this.handleAlert()) return;
+            if (this.handleAttack()) return;
+            if (this.handleHurt()) return;
+            if (this.handleDeath()) return;
+
+            this.bossMoves();
+        }, 200);
+    }
+
+    /**
+     * Handles alert behavior.
+     * @returns {boolean}
+     */
+    handleAlert() {
+        if (
+            world.character.x >= 1000 &&
+            world.character.x <= 2000 &&
+            this.isAlerted &&
+            !this.isDead()
+        ) {
+            this.bossIsAlerted();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Handles attack behavior.
+     * @returns {boolean}
+     */
+    handleAttack() {
+        if (world.character.isColiding(this) && !this.isDying && !this.isDead()) {
+            this.loadImages(this.IMAGES_ATTACK);
+            this.playAnimation(this.IMAGES_ATTACK);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Handles hurt animation.
+     * @returns {boolean}
+     */
+    handleHurt() {
+        if (this.isHurt() && !this.isDead()) {
+            this.loadImages(this.IMAGES_HURT);
+            this.playAnimation(this.IMAGES_HURT);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Handles death behavior.
+     * @returns {boolean}
+     */
+    handleDeath() {
+        if (this.isDead()) {
+            this.bossStartsDying();
+            this.bossIsDead();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Starts sound loop.
      * @returns {void}
      */
     startSoundLoop() {
-            setInterval(() => {
-                if (!world.isPlaying) return;
-                if (this.isDead() && this.bossDead === false) {
-                    world.soundManager.play('chickenDying');
-                }
-                if (this.isHurt() && !this.isDead()) {
-                    world.soundManager.play('endbossHurt');
-                }
-                if (this.isAlerted && world.character.x >= 1000) {
-                    world.soundManager.play('endbossAlert');
-                }else return
-            }, 1000);   
-        
+        setInterval(() => {
+            if (!world.isPlaying) return;
+
+            if (this.isDead() && !this.bossDead) {
+                world.soundManager.play('chickenDying');
+            }
+
+            if (this.isHurt() && !this.isDead()) {
+                world.soundManager.play('endbossHurt');
+            }
+
+            if (this.isAlerted && world.character.x >= 1000) {
+                world.soundManager.play('endbossAlert');
+            }
+        }, 1000);
     }
 
     /**
-     * The function bossIsAlerted() loads alert images, plays an alert animation, and increments the
-     * isAlerted counter.
+     * Plays alert animation.
+     * @returns {void}
      */
     bossIsAlerted() {
         this.loadImages(this.IMAGES_ALERT);
         this.playAnimation(this.IMAGES_ALERT);
-        this.isAlertedCounter++
+        this.isAlertedCounter++;
+
         if (this.isAlertedCounter >= 10) {
             this.isAlerted = false;
         }
     }
 
     /**
-     * The function `bossIsDead` handles the logic for when the boss enemy is defeated in a game,
-     * including loading images, playing animations, and removing the enemy from the level after a
-     * certain time has passed.
+     * Handles death animation and removal.
+     * @returns {void}
      */
     bossIsDead() {
-        if (this.deathHandled) return; 
-            if (this.isDying && this.isDead()) {
-                this.loadImages(this.IMAGES_DEAD);
-                this.playAnimation(this.IMAGES_DEAD);
-                this.speed = 0;
-                let timePassed = new Date().getTime() - this.deathStartTime;
-                if (timePassed >= 500) { 
-                    this.bossDead = true;
-                    world.level.enemies = world.level.enemies.filter(obj => !obj.bossDead);
-                    world.character.finalKill = true;
-                    this.deathHandled = true;
-                }
-            }else return;
+        if (this.deathHandled) return;
+
+        if (this.isDying && this.isDead()) {
+            this.loadImages(this.IMAGES_DEAD);
+            this.playAnimation(this.IMAGES_DEAD);
+            this.speed = 0;
+
+            const timePassed = Date.now() - this.deathStartTime;
+
+            if (timePassed >= 500) {
+                this.bossDead = true;
+                world.level.enemies = world.level.enemies.filter(
+                    enemy => !enemy.bossDead
+                );
+                world.character.finalKill = true;
+                this.deathHandled = true;
+            }
+        }
     }
 
     /**
-     * Initializes the boss death sequence and stores its start timestamp.
-     *
-     * Triggers only once when the boss is dead and has not entered
-     * the dying state yet.
-     *
-     * Actions:
-     * - Sets `isDying` to `true`.
-     * - Stores the current timestamp in `deathStartTime`.
-     * - Returns the death sequence start time.
-     *
-     * If the death sequence has already started or the boss is not dead,
-     * no action is performed.
-     *
-     * Requirements:
-     * - `this.isDead()` checks whether the boss has been defeated.
-     * - `this.isDying` prevents multiple initializations.
-     *
-     * @method bossStartsDying
-     * @returns {number|undefined} Timestamp of death sequence start, or `undefined`.
+     * Starts death sequence.
+     * @returns {void}
      */
     bossStartsDying() {
         if (!this.isDying && this.isDead()) {
-            const deathStartTime = new Date().getTime();
             this.isDying = true;
-            this.deathStartTime = deathStartTime;
-            return deathStartTime;
-        } else return;
+            this.deathStartTime = Date.now();
+        }
     }
 
     /**
-     * The function bossMoves() moves the boss character to the left while displaying a walking
-     * animation.
+     * Handles movement logic.
+     * @returns {void}
      */
     bossMoves() {
         if (world.character.x < this.x) {
@@ -201,8 +262,8 @@ class Endboss extends MoveableObject {
             this.otherDirection = true;
             this.moveRight();
         }
+
         this.loadImages(this.IMAGES_WALKING);
         this.playAnimation(this.IMAGES_WALKING);
     }
-
 }

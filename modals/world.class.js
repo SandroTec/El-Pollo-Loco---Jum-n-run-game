@@ -1,298 +1,377 @@
-/* The `World` class in JavaScript manages the game world, including setting up levels, drawing
-elements on the canvas, handling collisions, and controlling game flow. */
-class World {
-    startscreen = new Startscreen();
-    character;
-    endscreen = new Endscreen();
-    soundManager = new SoundManager();
-    level;
-    level_end_x = 720*9.5;
-    isPlaying = false;
-    canvas;
-    ctx;
-    keyboard;
-    camera_x = -100;
-    youWon = false;
-    gameRestart = document.getElementById('restartBtn');
-    animationId;
-    runIntervall;
-    running;
 
+/**
+ * Core game engine that manages rendering, game state, collisions and game flow.
+ * Acts as central controller between canvas, entities and game systems.
+ */
+class World {
+
+    /** @type {Startscreen} */
+    startscreen = new Startscreen();
+
+    /** @type {Character} */
+    character;
+
+    /** @type {Endscreen} */
+    endscreen = new Endscreen();
+
+    /** @type {SoundManager} */
+    soundManager = new SoundManager();
+
+    /** @type {Level} */
+    level;
+
+    /** @type {number} */
+    level_end_x = 720 * 9.5;
+
+    /** @type {boolean} */
+    isPlaying = false;
+
+    /** @type {HTMLCanvasElement} */
+    canvas;
+
+    /** @type {CanvasRenderingContext2D} */
+    ctx;
+
+    /** @type {Keyboard} */
+    keyboard;
+
+    /** @type {number} */
+    camera_x = -100;
+
+    /** @type {boolean} */
+    youWon = false;
+
+    /** @type {HTMLElement} */
+    gameRestart = document.getElementById('restartBtn');
+
+    /** @type {number | null} */
+    animationId = null;
+
+    /** @type {number | null} */
+    runIntervall = null;
+
+    /** @type {boolean} */
+    running = true;
+
+    /** @type {Array} */
     throwableObjects = [];
+
+    /** @type {boolean} */
     lastThrowPressed = false;
 
+    /** @type {HTMLElement} */
     homeBtn = document.getElementById('homeBtn');
+
+    /**
+     * Creates the game world and initializes rendering and character systems.
+     *
+     * @param {HTMLCanvasElement} canvas
+     * @param {Keyboard} keyboard
+     */
     constructor(canvas, keyboard) {
-        this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
         this.keyboard = keyboard;
-        this.character = new Character(this); 
-        this.setWorld(keyboard);
-        this.character.animate(); 
+
+        this.character = new Character(this);
+
+        this.setWorld();
+        this.character.animate();
+
         this.drawStartscreen();
-        this.animationId = null;
-        this.running = true
-              
     }
 
     /**
-     * The function `setWorld()` sets the world property of the character object to the current object.
+     * Links character to world instance.
      */
     setWorld() {
         this.character.world = this;
     }
 
-  
-
     /**
-     * The drawStartscreen function clears the canvas, adds the startscreen to the map, hides the game
-     * restart button, and continuously redraws the startscreen until the game is playing.
-     * @returns In the `drawStartscreen` function, if the condition `this.isPlaying == false` is true,
-     * the function will clear the canvas, add elements to the map, hide the game restart element, and
-     * then call `requestAnimationFrame` to recursively call `drawStartscreen` until `this.isPlaying`
-     * is true. If the condition is false, the function will return without doing anything.
+     * Renders the start screen until game starts.
      */
     drawStartscreen() {
-        if (this.isPlaying == false) {
-            this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-            this.addToMap(this.startscreen);
-            this.gameRestart.style.display = 'none';
-            requestAnimationFrame(() => this.drawStartscreen());
-        } else return;
+        if (this.isPlaying) return;
+
+        this.clearScreen();
+        this.addToMap(this.startscreen);
+
+        this.gameRestart.style.display = 'none';
+
+        requestAnimationFrame(() => this.drawStartscreen());
     }
-   
+
     /**
-     * The draw function in JavaScript clears the canvas, translates the context, sets up the level,
-     * status bars, characters, and enemies, checks for game over or win conditions, and requests
-     * animation frame for continuous drawing.
-     * @returns In the provided code snippet, the `draw()` function is returning either nothing
-     * (undefined) or the result of calling `requestAnimationFrame(this.draw.bind(this))`.
+     * Main game render loop.
      */
-
     draw() {
-        if (this.running) {
-            if (!this.level) return;
-                this.camera_x = -this.character.x + 150;
-                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                this.ctx.save();
-                this.ctx.translate(this.camera_x, 0);
-                this.setUpLevel();
-                this.ctx.translate(-this.camera_x, 0);
-                this.setUpStatusbars();
-                this.ctx.translate(this.camera_x, 0);
-                this.setUpCharacterAndEnemies();
-                this.addObjectsToMap(this.throwableObjects);
-                this.ctx.restore();
-                this.homeBtn.style.display = 'none';
-                if (this.character.isDead()) {
-                    if (!this.character.isDying) {
-                        this.character.startDying();
-                    }
-                    let timePassed = new Date().getTime() - this.character.deathStartTime;
-                    if (timePassed > 1000) {
-                        this.gameOver();
-                        return;
-                    }
-                }
-                if (this.character.finalKill) {
-                    this.gameWin();
-                    return;
-                }
-        } else return;
-        this.animationId = requestAnimationFrame(this.draw.bind(this));
+        if (!this.running || !this.level) return;
+
+        this.updateCamera();
+        this.clearScreen();
+
+        this.ctx.save();
+
+        this.renderWorld();
+
+        this.ctx.restore();
+
+        this.handleHUD();
+        this.checkGameState();
+
+        this.animationId = requestAnimationFrame(() => this.draw());
     }
 
-        /**
-     * The `gameOver` function adds the end screen to the map, stops the game, and displays the game
-     * restart button.
+    /**
+     * Updates camera position.
+     */
+    updateCamera() {
+        this.camera_x = -this.character.x + 150;
+    }
+
+    /**
+     * Clears canvas.
+     */
+    clearScreen() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    /**
+     * Renders all game objects.
+     */
+    renderWorld() {
+        this.ctx.translate(this.camera_x, 0);
+
+        this.setUpLevel();
+        this.setUpCharacterAndEnemies();
+
+        this.addObjectsToMap(this.throwableObjects);
+    }
+
+    /**
+     * Handles UI elements.
+     */
+    handleHUD() {
+        this.homeBtn.style.display = 'none';
+    }
+
+    /**
+     * Checks win/lose conditions.
+     */
+    checkGameState() {
+        if (this.character.isDead()) {
+            this.handleDeath();
+        }
+
+        if (this.character.finalKill) {
+            this.gameWin();
+        }
+    }
+
+    /**
+     * Handles player death.
+     */
+    handleDeath() {
+        if (!this.character.isDying) {
+            this.character.startDying();
+        }
+
+        const timePassed = Date.now() - this.character.deathStartTime;
+
+        if (timePassed > 1000) {
+            this.gameOver();
+        }
+    }
+
+    /**
+     * Game over sequence.
      */
     gameOver() {
-            this.character.loadImage((this.character.IMAGES_DEAD[6]))
-            this.addToMap(this.endscreen);
-            this.gameRestart.style.display = 'flex';
-            this.homeBtn.style.display = 'block';
-            this.stop();
-            this.soundManager.stopAll();
-            this.isPlaying = false;   
-        
+        this.character.loadImage(this.character.IMAGES_DEAD[6]);
+        this.addToMap(this.endscreen);
+
+        this.gameRestart.style.display = 'flex';
+        this.homeBtn.style.display = 'block';
+
+        this.stop();
+        this.isPlaying = false;
     }
 
     /**
-     * The `gameWin` function adds the win message to the map, stops the game, and displays the game
-     * restart button.
+     * Win sequence.
      */
     gameWin() {
         this.addToMap(this.level.win);
+
         this.gameRestart.style.display = 'flex';
         this.homeBtn.style.display = 'block';
+
         this.stop();
         this.soundManager.stopAll();
+
         this.isPlaying = false;
         this.youWon = true;
     }
 
     /**
-     * The function `addObjectsToMap` iterates through an array of objects and adds each object to a
-     * map.
-     * @param objects - An array of objects that need to be added to a map.
+     * Adds multiple objects to canvas.
+     *
+     * @param {Array} objects
      */
     addObjectsToMap(objects) {
-        objects.forEach(object => {
-            this.addToMap(object);
-        });
+        objects.forEach(obj => this.addToMap(obj));
     }
 
     /**
-     * The function `addToMap` in JavaScript flips the image if `mo.otherDirection` is true, draws
-     * `mo`, and then flips the image back if `mo.otherDirection` is true.
-     * @param mo - It looks like the `addToMap` function takes an object `mo` as a parameter. The
-     * object `mo` seems to have properties such as `otherDirection`, `draw`, `showHitBox`, and `ctx`.
-     * The function checks the `otherDirection` property of the `mo`
+     * Draws a single object with optional flip.
+     *
+     * @param {Object} mo
      */
     addToMap(mo) {
-        if (mo.otherDirection) {
-            this.flipImage(mo);
-        }
+        if (mo.otherDirection) this.flipImage(mo);
+
         mo.draw(this.ctx);
-        //mo.showHitBox(this.ctx);  Hitbox for offsets
-        if (mo.otherDirection) {
-            this.flipImageBack(mo);
-        }
+
+        if (mo.otherDirection) this.flipImageBack(mo);
     }
 
     /**
-     * The `run` function sets up a recurring interval to check for collisions and throwable objects in
-     * a game loop.
+     * Starts update loop.
      */
     run() {
         this.runIntervall = setInterval(() => {
             this.checkCollisions();
-            this.checkThrowableObject()
-        }, 1000/60);
+            this.checkThrowableObject();
+        }, 1000 / 60);
     }
 
     /**
-     * The function `checkThrowableObject` creates a new `ThrowableObject` and adds it to an array if a
-     * specific condition is met.
+     * Handles throwing bottles.
      */
     checkThrowableObject() {
         if (this.keyboard.D && this.character.bottleCount > 0 && !this.lastThrowPressed) {
-        let bottle = new ThrowableObject(
-            this.character.x + 20,
-            this.character.y + 10,
-            this.character
-        );
-        this.throwableObjects.push(bottle);
-        this.character.bottleCount--; 
-        this.level.statusbar[2].setBottleBar(this.character.bottleCount)
+
+            const bottle = new ThrowableObject(
+                this.character.x + 20,
+                this.character.y + 10,
+                this.character
+            );
+
+            this.throwableObjects.push(bottle);
+            this.character.bottleCount--;
+
+            this.level.statusbar[2].setBottleBar(this.character.bottleCount);
         }
+
         this.lastThrowPressed = this.keyboard.D;
     }
 
     /**
-     * The function `checkCollisions` checks for collisions with enemies, coins, and a salsa bottle in
-     * a game.
+     * Collision system entry point.
      */
     checkCollisions() {
         if (!this.isPlaying) return;
-        //check Collision with enemy for character and throwableObject
+
         this.checkEnemies();
-        // check Coins
         this.checkCoins();
-        // check SalsaBottle
         this.checkBottle();
     }
 
     /**
-     * The function `checkEnemies` iterates through enemies in a game level, checking for collisions
-     * with the player character and throwable objects, and triggering appropriate actions based on the
-     * interactions.
+     * Enemy collision handling.
      */
     checkEnemies() {
         this.level.enemies.forEach(enemy => {
-            if (enemy.isDying && !enemy.isDead()){
+
+            if (enemy.isDying && !enemy.isDead()) {
                 this.soundManager.play('chickenDying');
-                return
-            };
-            let isJumpingOnEnemy = this.character.jumpOn(enemy);
-            if (isJumpingOnEnemy) {
-                enemy.energy = 0;;
+                return;
+            }
+
+            if (this.character.jumpOn(enemy)) {
+                enemy.energy = 0;
                 this.soundManager.play('splat');
                 return;
-            } else if (this.character.isColiding(enemy) && !enemy.isDying && !enemy.isDead() && !this.character.isHurt()) {
+            }
+
+            if (this.character.isColiding(enemy) &&
+                !enemy.isDying &&
+                !enemy.isDead() &&
+                !this.character.isHurt()) {
+
                 this.character.hit(enemy.dmg);
                 this.soundManager.play('hit');
                 this.level.statusbar[0].setPercentage(this.character.energy);
             }
-            this.throwableObjects.forEach(throwableObject => {
-                if (throwableObject.isColiding(enemy) && !enemy.isDying && !enemy.isDead() && !enemy.isHurt()) {
-                    throwableObject.hasSplashed = true;
-                    throwableObject.stopGravity();
-                    enemy.hit(this.character.dmg);      
-                }    
-            })
-        })
+
+            this.checkBottleEnemyCollision(enemy);
+        });
     }
-            
-    
-    
 
     /**
-     * The `checkCoins` function iterates through coins in the level, increments the character's coin
-     * count if there is a collision, collects the coin, and updates the coin count on the status bar.
+     * Bottle vs enemy collision.
+     */
+    checkBottleEnemyCollision(enemy) {
+        this.throwableObjects.forEach(bottle => {
+            if (bottle.isColiding(enemy) && !enemy.isDead() && !enemy.isHurt()) {
+                bottle.hasSplashed = true;
+                bottle.stopGravity();
+                enemy.hit(this.character.dmg);
+            }
+        });
+    }
+
+    /**
+     * Coin collection.
      */
     checkCoins() {
         this.level.coins.forEach(coin => {
             if (this.character.isColiding(coin)) {
                 coin.collectCoin();
-                this.character.coinCount += 1;
+                this.character.coinCount++;
+
                 this.level.statusbar[1].setCoinBar(this.character.coinCount);
                 this.soundManager.play('collectSound');
             }
         });
     }
-    
+
     /**
-     * The function `checkBottle` checks if the character is colliding with a bottle in the level and
-     * collects it if so.
+     * Bottle collection.
      */
     checkBottle() {
         this.level.bottles.forEach(bottle => {
             if (this.character.isColiding(bottle)) {
                 bottle.collectBottle();
                 this.character.bottleCount++;
+
                 this.level.statusbar[2].setBottleBar(this.character.bottleCount);
                 this.soundManager.play('collectSound');
             }
-        })
+        });
     }
 
     /**
-     * The flipImage function flips an image horizontally in a canvas context.
-     * @param mo - The `mo` parameter seems to represent an image object with the following properties:
+     * Flips image horizontally.
      */
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
         this.ctx.scale(-1, 1);
-        mo.x = mo.x * -1;
+        mo.x *= -1;
     }
 
     /**
-     * The function `flipImageBack` flips an image back horizontally by changing its x-coordinate and
-     * restoring the canvas context.
-     * @param mo - The parameter `mo` likely represents an object with properties related to an image
-     * or graphical element. In the provided function `flipImageBack`, it appears to be used to flip
-     * the image horizontally by changing its `x` property. The `this.ctx.restore()` call suggests that
-     * this function is part of
+     * Restores flipped image.
      */
     flipImageBack(mo) {
-        mo.x = mo.x * -1;
+        mo.x *= -1;
         this.ctx.restore();
-    }   
+    }
 
     /**
-     * The setUpLevel function adds various objects to the game map based on the level configuration.
+     * Level rendering.
      */
     setUpLevel() {
         this.addObjectsToMap(this.level.skyes);
@@ -301,38 +380,34 @@ class World {
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottles);
     }
-    
+
     /**
-     * The setUpStatusbars function in JavaScript translates the canvas context to draw a static status
-     * bar and then translates it back.
+     * HUD rendering.
      */
     setUpStatusbars() {
         this.addObjectsToMap(this.level.statusbar);
     }
 
     /**
-     * The function sets up the character and enemies on the canvas for smooth animation.
+     * Character + enemies rendering.
      */
     setUpCharacterAndEnemies() {
-        // draw the character and the enemies on the canvas
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
-        
     }
 
     /**
-     * The `stop` function in JavaScript cancels the current animation frame if it is running.
+     * Stops game loop and cleanup.
      */
     stop() {
         this.running = false;
-        if (this.animationId) {
-            cancelAnimationFrame(this.animationId);
-            this.animationId = null;
-        }
-        if (this.runIntervall) {
-            clearInterval(this.runIntervall);
-            this.runIntervall = null;
-        }
+
+        if (this.animationId) cancelAnimationFrame(this.animationId);
+        if (this.runIntervall) clearInterval(this.runIntervall);
+
+        this.animationId = null;
+        this.runIntervall = null;
+
         this.soundManager.stopAll();
     }
 }

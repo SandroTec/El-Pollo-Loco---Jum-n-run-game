@@ -1,58 +1,106 @@
+/**
+ * Handles keyboard and touch/button input for player controls.
+ * Provides unified state management for keyboard and on-screen buttons.
+ */
 class Keyboard {
+    /** @type {boolean} */
     LEFT = false;
+    /** @type {boolean} */
     RIGHT = false;
+    /** @type {boolean} */
     SPACE = false;
+    /** @type {boolean} */
     D = false;
+    /** @type {boolean} */
     C = false;
 
+    /** @type {HTMLElement} */
     btnLeft = document.getElementById('moveLeft');
+    /** @type {HTMLElement} */
     btnRight = document.getElementById('moveRight');
+    /** @type {HTMLElement} */
     btnJump = document.getElementById('jump');
+    /** @type {HTMLElement} */
     btnThrow = document.getElementById('throw');
 
+    /**
+     * Creates a new Keyboard controller instance.
+     * Initializes keyboard and button input bindings.
+     */
     constructor() {
         this.bindKeyboard();
         this.bindButtons();
     }
 
     /**
-     * The `bindKeyboard` function in JavaScript listens for keydown and keyup events to set boolean
-     * values based on the pressed keys.
+     * Registers keyboard event listeners for movement and action controls.
+     * Updates internal boolean state based on key press and release events.
      */
     bindKeyboard() {
-        window.addEventListener('keydown', (e) => {
-            if (e.code === 'ArrowLeft') this.LEFT = true;
-            if (e.code === 'ArrowRight') this.RIGHT = true;
-            if (e.code === 'Space') this.SPACE = true;
-            if (e.code === 'KeyD') this.D = true;
-            if (e.code === 'KeyC') this.C = true;
-        });
-        window.addEventListener('keyup', (e) => {
-            if (e.code === 'ArrowLeft') this.LEFT = false;
-            if (e.code === 'ArrowRight') this.RIGHT = false;
-            if (e.code === 'Space') this.SPACE = false;
-            if (e.code === 'KeyD') this.D = false;
-            if (e.code === 'KeyC') this.C = false;
-        });
+        window.addEventListener('keydown', (e) => this.handleKeyChange(e.code, true));
+        window.addEventListener('keyup', (e) => this.handleKeyChange(e.code, false));
     }
 
     /**
-     * The `bindButtons` function sets up event listeners for buttons to track key states for left,
-     * right, jump, and throw actions.
+     * Handles mapping of keyboard event codes to internal state flags.
+     *
+     * @param {string} code - The keyboard event code.
+     * @param {boolean} state - True if key is pressed, false if released.
+     */
+    handleKeyChange(code, state) {
+        switch (code) {
+            case 'ArrowLeft':
+                this.LEFT = state;
+                break;
+            case 'ArrowRight':
+                this.RIGHT = state;
+                break;
+            case 'Space':
+                this.SPACE = state;
+                break;
+            case 'KeyD':
+                this.D = state;
+                break;
+            case 'KeyC':
+                this.C = state;
+                break;
+        }
+    }
+
+    /**
+     * Binds all on-screen control buttons to corresponding keyboard states.
+     * Enables touch and pointer input support for mobile devices.
      */
     bindButtons() {
-        const bind = (btn, key) => {
-            btn.addEventListener('pointerdown', (e) => {
-                e.preventDefault();
-                this[key] = true; 
-            });
-            btn.addEventListener('pointerup', () => this[key] = false);
-            btn.addEventListener('pointerleave', () => this[key] = false);
-            btn.addEventListener('pointercancel', () => this[key] = false); 
+        this.bindButton(this.btnLeft, 'LEFT');
+        this.bindButton(this.btnRight, 'RIGHT');
+        this.bindButton(this.btnJump, 'SPACE');
+        this.bindButton(this.btnThrow, 'D');
+    }
+
+    /**
+     * Binds a single button element to a keyboard state property.
+     * Ensures proper handling of pointer interactions (down, up, leave, cancel).
+     *
+     * @param {HTMLElement} btn - The button element to bind.
+     * @param {string} key - The internal state key to update.
+     */
+    bindButton(btn, key) {
+        if (!btn) return;
+
+        const setState = (state) => {
+            this[key] = state;
         };
-        bind(this.btnLeft, 'LEFT');
-        bind(this.btnRight, 'RIGHT');
-        bind(this.btnJump, 'SPACE');
-        bind(this.btnThrow, 'D');
+
+        btn.addEventListener('pointerdown', (e) => {
+            e.preventDefault();
+            setState(true);
+        });
+
+        const reset = () => setState(false);
+
+        btn.addEventListener('pointerup', reset);
+        btn.addEventListener('pointerleave', reset);
+        btn.addEventListener('pointercancel', reset);
     }
 }
