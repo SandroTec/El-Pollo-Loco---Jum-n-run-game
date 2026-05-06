@@ -52,7 +52,6 @@ class Bottle extends MoveableObject {
     /**
      * Marks the bottle as collected and removes it from the world.
      *
-     * @returns {void}
      */
     collectBottle() {
         this.removed = true;

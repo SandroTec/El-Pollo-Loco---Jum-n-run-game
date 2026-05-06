@@ -108,7 +108,6 @@ class Endboss extends MoveableObject {
 
     /**
      * Controls boss behavior loop.
-     * @returns {void}
      */
     animate() {
         if (this.deathHandled) return;
@@ -181,7 +180,6 @@ class Endboss extends MoveableObject {
 
     /**
      * Starts sound loop.
-     * @returns {void}
      */
     startSoundLoop() {
         setInterval(() => {
@@ -203,7 +201,6 @@ class Endboss extends MoveableObject {
 
     /**
      * Plays alert animation.
-     * @returns {void}
      */
     bossIsAlerted() {
         this.loadImages(this.IMAGES_ALERT);
@@ -217,7 +214,6 @@ class Endboss extends MoveableObject {
 
     /**
      * Handles death animation and removal.
-     * @returns {void}
      */
     bossIsDead() {
         if (this.deathHandled) return;
@@ -242,7 +238,6 @@ class Endboss extends MoveableObject {
 
     /**
      * Starts death sequence.
-     * @returns {void}
      */
     bossStartsDying() {
         if (!this.isDying && this.isDead()) {
@@ -253,7 +248,6 @@ class Endboss extends MoveableObject {
 
     /**
      * Handles movement logic.
-     * @returns {void}
      */
     bossMoves() {
         if (world.character.x < this.x) {

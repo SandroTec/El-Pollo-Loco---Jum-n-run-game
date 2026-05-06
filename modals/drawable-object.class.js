@@ -53,7 +53,6 @@ class DrawableObject {
      * Loads multiple images into cache.
      *
      * @param {string[]} arr - Array of image paths
-     * @returns {void}
      */
     loadImages(arr) {
         arr.forEach(path => {
@@ -67,7 +66,6 @@ class DrawableObject {
      * Draws the object on canvas.
      *
      * @param {CanvasRenderingContext2D} ctx
-     * @returns {void}
      */
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
@@ -77,7 +75,6 @@ class DrawableObject {
      * Draws a hitbox for debugging purposes.
      *
      * @param {CanvasRenderingContext2D} ctx
-     * @returns {void}
      */
     showHitBox(ctx) {
         const isDrawable =

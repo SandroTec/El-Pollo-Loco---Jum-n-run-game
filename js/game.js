@@ -12,7 +12,6 @@ const homeBtn = document.getElementById('homeBtn');
 /**
  * Initializes the game and creates the world instance.
  * @function init
- * @returns {void}
  */
 function init() {
     canvas = document.getElementById('canvas');
@@ -23,7 +22,6 @@ function init() {
 /**
  * Toggles the control information popup visibility.
  * @function controllPopUpDialog
- * @returns {void}
  */
 function controllPopUpDialog() {
     const isHidden = controllInformation.style.display === 'none';
@@ -36,7 +34,6 @@ function controllPopUpDialog() {
 /**
  * Starts the game if not already running.
  * @function gameStart
- * @returns {void}
  */
 function gameStart() {
     if (world.isPlaying) return;
@@ -52,7 +49,6 @@ function gameStart() {
 /**
  * Restarts the game and resets state.
  * @function restart
- * @returns {void}
  */
 function restart() {
     backToHome();
@@ -62,7 +58,6 @@ function restart() {
 /**
  * Resets game to start screen.
  * @function backToHome
- * @returns {void}
  */
 function backToHome() {
     resetCharacter();
@@ -74,7 +69,6 @@ function backToHome() {
 /**
  * Enables fullscreen mode for canvas.
  * @function setCanvasToFullscreen
- * @returns {void}
  */
 function setCanvasToFullscreen() {
     canvas.requestFullscreen();
@@ -104,7 +98,6 @@ window.addEventListener('keyup', (e) => handleKey(e, false));
  * Handles start button click.
  * @function handleClick
  * @param {Event} [event]
- * @returns {void}
  */
 function handleClick(event) {
     if (!world.isPlaying && !world.youWon && !world.character.isDead()) {
@@ -117,7 +110,6 @@ function handleClick(event) {
  * Handles home button click.
  * @function handleHomeClick
  * @param {Event} event
- * @returns {void}
  */
 function handleHomeClick(event) {
     if (world.youWon || world.character.isDead()) {
@@ -130,7 +122,6 @@ function handleHomeClick(event) {
 /**
  * Resets character to initial state.
  * @function resetCharacter
- * @returns {void}
  */
 function resetCharacter() {
     const char = world.character;
@@ -152,7 +143,6 @@ function resetCharacter() {
 /**
  * Initializes UI event listeners.
  * @function initUIEvents
- * @returns {void}
  */
 function initUIEvents() {
     startBtn.addEventListener('click', handleClick);

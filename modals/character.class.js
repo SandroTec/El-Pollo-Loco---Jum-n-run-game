@@ -148,7 +148,6 @@ class Character extends MoveableObject {
 
     /**
      * Starts movement and animation handling.
-     * @returns {void}
      */
     animate() {
         this.setKeyboardMoves();
@@ -157,7 +156,6 @@ class Character extends MoveableObject {
 
     /**
      * Handles keyboard input for movement.
-     * @returns {void}
      */
     setKeyboardMoves() {
         setInterval(() => {
@@ -179,7 +177,6 @@ class Character extends MoveableObject {
 
     /**
      * Handles all sound effects.
-     * @returns {void}
      */
     startSoundLoop() {
         setInterval(() => {
@@ -237,7 +234,6 @@ class Character extends MoveableObject {
 
     /**
      * Controls animation states.
-     * @returns {void}
      */
     setAnimations() {
         setInterval(() => {
@@ -302,7 +298,6 @@ class Character extends MoveableObject {
     /**
      * Handles idle and sleeping animations.
      * @param {Object} world
-     * @returns {void}
      */
     handleIdleAnimation(world) {
         if (world.isPlaying && this.speed !== 0 && !this.isDead() && !this.isHurt()) {

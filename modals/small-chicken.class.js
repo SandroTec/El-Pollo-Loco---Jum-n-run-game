@@ -60,7 +60,6 @@ class SmallChicken extends MoveableObject {
      * Starts movement and death handling loops.
      * Chicken moves left until death and triggers death logic.
      *
-     * @returns {void}
      */
     animate() {
         setInterval(() => {
@@ -75,7 +74,6 @@ class SmallChicken extends MoveableObject {
     /**
      * Handles death animation, removal from world and state updates.
      *
-     * @returns {void}
      */
     handleDeath() {
         this.deathStartTime = this.deathStartTime || new Date().getTime();

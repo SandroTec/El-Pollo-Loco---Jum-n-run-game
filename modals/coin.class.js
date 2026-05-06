@@ -51,7 +51,6 @@ class Coin extends MoveableObject {
     /**
      * Handles coin collection logic and removes collected coins.
      *
-     * @returns {void}
      */
     collectCoin() {
         world.level.coins.forEach(coin => {

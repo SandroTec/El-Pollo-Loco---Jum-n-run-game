@@ -92,12 +92,9 @@ class World {
      */
     drawStartscreen() {
         if (this.isPlaying) return;
-
         this.clearScreen();
         this.addToMap(this.startscreen);
-
         this.gameRestart.style.display = 'none';
-
         requestAnimationFrame(() => this.drawStartscreen());
     }
 
@@ -106,22 +103,14 @@ class World {
      */
     draw() {
         if (!this.running || !this.level) return;
-
         this.updateCamera();
         this.clearScreen();
-
         this.ctx.save();
-
         this.renderWorld();
-
         this.ctx.restore();
-
-        // IMPORTANT: HUD is NOT affected by camera transform
         this.setUpStatusbars();
-
         this.handleHUD();
         this.checkGameState();
-
         this.animationId = requestAnimationFrame(() => this.draw());
     }
 
@@ -165,7 +154,6 @@ class World {
         if (this.character.isDead()) {
             this.handleDeath();
         }
-
         if (this.character.finalKill) {
             this.gameWin();
         }
@@ -178,9 +166,7 @@ class World {
         if (!this.character.isDying) {
             this.character.startDying();
         }
-
         const timePassed = Date.now() - this.character.deathStartTime;
-
         if (timePassed > 1000) {
             this.gameOver();
         }
@@ -191,12 +177,9 @@ class World {
      */
     gameOver() {
         this.character.loadImage(this.character.IMAGES_DEAD[6]);
-
         this.addToMap(this.endscreen);
-
         this.gameRestart.style.display = 'flex';
         this.homeBtn.style.display = 'block';
-
         this.stop();
         this.isPlaying = false;
     }
@@ -206,13 +189,10 @@ class World {
      */
     gameWin() {
         this.addToMap(this.level.win);
-
         this.gameRestart.style.display = 'flex';
         this.homeBtn.style.display = 'block';
-
         this.stop();
         this.soundManager.stopAll();
-
         this.isPlaying = false;
         this.youWon = true;
     }
@@ -254,7 +234,6 @@ class World {
      */
     checkThrowableObject() {
         if (this.keyboard.D && this.character.bottleCount > 0 && !this.lastThrowPressed) {
-
             const bottle = new ThrowableObject(
                 this.character.x + 20,
                 this.character.y + 10,
@@ -263,10 +242,8 @@ class World {
 
             this.throwableObjects.push(bottle);
             this.character.bottleCount--;
-
             this.level.statusbar[2].setBottleBar(this.character.bottleCount);
         }
-
         this.lastThrowPressed = this.keyboard.D;
     }
 
@@ -336,7 +313,6 @@ class World {
             if (this.character.isColiding(bottle)) {
                 bottle.collectBottle();
                 this.character.bottleCount++;
-
                 this.level.statusbar[2].setBottleBar(this.character.bottleCount);
                 this.soundManager.play('collectSound');
             }
@@ -378,9 +354,7 @@ class World {
     setUpStatusbars() {
         this.ctx.save();
         this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-
         this.addObjectsToMap(this.level.statusbar);
-
         this.ctx.restore();
     }
 

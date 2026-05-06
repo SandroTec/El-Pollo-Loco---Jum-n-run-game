@@ -35,7 +35,6 @@ class MoveableObject extends DrawableObject {
 
     /**
      * Requests fullscreen mode for the game canvas.
-     * @returns {void}
      */
     setCanvasToFullscreen() {
         canvas.requestFullscreen();
@@ -44,7 +43,6 @@ class MoveableObject extends DrawableObject {
     /**
      * Applies gravity to the object by modifying vertical position and velocity.
      * Runs continuously on a fixed interval.
-     * @returns {void}
      */
     applyGravity() {
         setInterval(() => {
@@ -70,7 +68,6 @@ class MoveableObject extends DrawableObject {
      * Plays an animation by cycling through image frames.
      *
      * @param {string[]} images - Array of image paths.
-     * @returns {void}
      */
     playAnimation(images) {
         const index = this.currentImage % images.length;
@@ -82,7 +79,6 @@ class MoveableObject extends DrawableObject {
 
     /**
      * Moves object to the right.
-     * @returns {void}
      */
     moveRight() {
         this.x += this.speed;
@@ -90,7 +86,6 @@ class MoveableObject extends DrawableObject {
 
     /**
      * Moves object to the left.
-     * @returns {void}
      */
     moveLeft() {
         this.x -= this.speed;
@@ -98,7 +93,6 @@ class MoveableObject extends DrawableObject {
 
     /**
      * Moves boss object faster to the left.
-     * @returns {void}
      */
     moveLeftBoss() {
         this.x -= 3 * this.speed;
@@ -106,7 +100,6 @@ class MoveableObject extends DrawableObject {
 
     /**
      * Makes the object jump by setting vertical velocity.
-     * @returns {void}
      */
     jump() {
         this.speed_y = 40;
@@ -139,7 +132,6 @@ class MoveableObject extends DrawableObject {
      * Applies damage to the object and updates last hit timestamp.
      *
      * @param {number} dmg - Damage amount.
-     * @returns {void}
      */
     hit(dmg) {
         this.energy -= dmg;
@@ -176,7 +168,6 @@ class MoveableObject extends DrawableObject {
     /**
      * Marks the object as dying and stores death timestamp.
      *
-     * @returns {void}
      */
     startDying() {
         this.isDying = true;

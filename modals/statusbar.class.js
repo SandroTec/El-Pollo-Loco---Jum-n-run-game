@@ -20,10 +20,8 @@ class Statusbar_health extends DrawableObject {
      */
     constructor() {
         super();
-
         this.loadImages(this.IMAGES_HEALTH);
         this.setPercentage(100);
-
         this.x = 20;
         this.y = 0;
         this.height = 75;
@@ -81,10 +79,8 @@ class Statusbar_coin extends DrawableObject {
      */
     constructor() {
         super();
-
         this.loadImages(this.IMAGES_COIN);
         this.setCoinBar(0);
-
         this.x = 20;
         this.y = 50;
         this.height = 75;
@@ -138,10 +134,8 @@ class Statusbar_bottle extends DrawableObject {
      */
     constructor() {
         super();
-
         this.loadImages(this.IMAGES_BOTTLE);
         this.setBottleBar(0);
-
         this.x = 20;
         this.y = 100;
         this.height = 75;

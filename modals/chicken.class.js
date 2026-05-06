@@ -85,7 +85,6 @@ class Chicken extends MoveableObject {
 
     /**
      * Starts movement and death handling loops.
-     * @returns {void}
      */
     animate() {
         setInterval(() => {
@@ -99,7 +98,6 @@ class Chicken extends MoveableObject {
 
     /**
      * Handles death behavior, animation, and removal from the world.
-     * @returns {void}
      */
     chickenDies() {
         this.deathStartTime = Date.now();
@@ -117,7 +115,6 @@ class Chicken extends MoveableObject {
 
     /**
      * Handles logic when the chicken is dead.
-     * @returns {void}
      */
     handleDeadState() {
         this.loadImage(this.IMAGES_DEAD[0]);

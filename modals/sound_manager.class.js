@@ -69,7 +69,6 @@ class SoundManager {
      * Prevents overlapping playback of the same sound.
      *
      * @param {string} name - Name of the sound key.
-     * @returns {void}
      */
     play(name) {
         const sound = this.sounds[name];
@@ -96,7 +95,6 @@ class SoundManager {
 
     /**
      * Plays walking sound in a loop.
-     * @returns {void}
      */
     playWalk() {
         const sound = this.sounds.walk;
@@ -107,7 +105,6 @@ class SoundManager {
 
     /**
      * Stops walking sound and resets playback.
-     * @returns {void}
      */
     stopWalk() {
         this.resetSound(this.sounds.walk);
@@ -115,7 +112,6 @@ class SoundManager {
 
     /**
      * Plays snoring sound in a loop.
-     * @returns {void}
      */
     playSnoring() {
         const sound = this.sounds.snoring;
@@ -126,7 +122,6 @@ class SoundManager {
 
     /**
      * Stops snoring sound.
-     * @returns {void}
      */
     stopSnoring() {
         this.resetSound(this.sounds.snoring);
@@ -146,7 +141,6 @@ class SoundManager {
      * Enables or disables mute mode for all sounds.
      *
      * @param {boolean} muted
-     * @returns {void}
      */
     setMuted(muted) {
         this.isMuted = muted;
@@ -162,7 +156,6 @@ class SoundManager {
     /**
      * Toggles mute state.
      *
-     * @returns {void}
      */
     toggleMute() {
         this.setMuted(!this.isMuted);
@@ -171,7 +164,6 @@ class SoundManager {
     /**
      * Updates mute button icon based on current state.
      *
-     * @returns {void}
      */
     updateMuteButton() {
         if (!this.muteIcon) return;
@@ -184,7 +176,6 @@ class SoundManager {
     /**
      * Stops all currently playing sounds and resets them.
      *
-     * @returns {void}
      */
     stopAll() {
         this.allSounds.forEach(this.resetSound);
