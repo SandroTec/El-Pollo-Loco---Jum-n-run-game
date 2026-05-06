@@ -247,19 +247,21 @@ class Character extends MoveableObject {
 
             this.handleIdleAnimation(world);
 
-        }, 100);
+        }, 80);
     }
 
     /** @returns {boolean} */
     handleDeathAnimation() {
-        if (this.isDead() && !this.deathSequenceStarted && this.isDying) {
-            this.playAnimation(this.IMAGES_DEAD);
+        if (!this.isDead()) return false;
+        if (!this.deathSequenceStarted) {
             this.deathSequenceStarted = true;
             this.speed = 0;
-            return true;
+            this.deathStartTime = Date.now();
         }
-        return false;
-    }
+        this.playAnimation(this.IMAGES_DEAD);
+        return true;
+
+        }
 
     /** @returns {boolean} */
     handleHurtAnimation() {
@@ -302,14 +304,12 @@ class Character extends MoveableObject {
     handleIdleAnimation(world) {
         if (world.isPlaying && this.speed !== 0 && !this.isDead() && !this.isHurt()) {
             this.playAnimation(this.IMAGES_IDLE);
-
             if (!this.timerStartet) {
                 this.startIdleTime = Date.now();
                 this.timerStartet = true;
             }
 
             const timePassed = Date.now() - this.startIdleTime;
-
             if (timePassed > 15000) {
                 this.sleeping = true;
                 this.playAnimation(this.IMAGES_SLEEPING);
