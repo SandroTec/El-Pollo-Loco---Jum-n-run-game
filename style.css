@@ -115,8 +115,8 @@ button {
     margin-left: -100px;
 }
 
-.controlls-btn-container {
-    display: none;
+ .controlls-btn-container {
+    display: none ; 
     position: absolute;
     bottom: 0;
     justify-content:center;
@@ -195,7 +195,7 @@ footer {
     @media (max-width: 1400px) {
 
         .controlls-btn-container {
-            display: flex;
+            display: flex ;
             max-width: 720px;
         }
         

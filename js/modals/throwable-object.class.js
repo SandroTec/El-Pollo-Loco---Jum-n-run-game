@@ -148,7 +148,7 @@ class ThrowableObject extends MoveableObject {
     handleSplash() {
         this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
         const timePassed = new Date().getTime() - this.splashStartTime;
-        if (timePassed > 750) {
+        if (timePassed > 350) {
             this.removed = true;
             world.throwableObjects =
                 world.throwableObjects.filter(obj => !obj.removed);
