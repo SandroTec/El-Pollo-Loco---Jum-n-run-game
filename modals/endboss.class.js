@@ -129,8 +129,8 @@ class Endboss extends MoveableObject {
      */
     handleAlert() {
         if (
-            world.character.x >= 1000 &&
-            world.character.x <= 2000 &&
+            world.character.x >= 2000 &&
+            world.character.x <= 5000 &&
             this.isAlerted &&
             !this.isDead()
         ) {

@@ -133,18 +133,15 @@ class Character extends MoveableObject {
      */
     constructor() {
         super().loadImages(this.IMAGES_IDLE);
-
         this.loadImages(this.IMAGES_SLEEPING);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
-
         this.x = 0;
         this.y = 170;
         this.speed = 10;
         this.speed_y = 0;
-
         this.startSoundLoop();
         this.applyGravity();
     }
@@ -166,21 +163,17 @@ class Character extends MoveableObject {
         setInterval(() => {
             const world = this.world;
             if (!world || !world.isPlaying) return;
-
             if (world.keyboard.RIGHT && this.x < world.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false;
             }
-
             if (world.keyboard.LEFT && this.x > -200) {
                 this.moveLeft();
                 this.otherDirection = true;
             }
-
             if (world.keyboard.SPACE && !this.isAboveGround() && !this.isDead()) {
                 this.jump();
             }
-
         }, 1000 / 60);
     }
 
@@ -192,41 +185,54 @@ class Character extends MoveableObject {
         setInterval(() => {
             const world = this.world;
             if (!world) return;
-
             if (this.isDead() && !this.deathSoundPlayed) {
-                this.deathSoundPlayed = true;
-                world.soundManager.play('characterDying');
+                this.playDyingSound() 
             }
-
             if (!world.isPlaying) return;
-
             const moving = world.keyboard.RIGHT || world.keyboard.LEFT;
-
             if (moving && !this.isDead()) {
-                world.soundManager.playWalk();
-                world.soundManager.stopSnoring();
-                this.sleeping = false;
+                this.playMovingSound()
             } else {
                 world.soundManager.stopWalk();
             }
-
             if (world.keyboard.SPACE && !this.isAboveGround()) {
-                world.soundManager.play('jump');
-                world.soundManager.stopSnoring();
-                this.sleeping = false;
+                this.playJumpingSound()
             }
-
             world.level.enemies.forEach(enemy => {
                 if (enemy.isDead() && enemy.removed === false) {
                     world.soundManager.play('splat');
                 }
             });
-
             if (this.sleeping && !moving) {
                 world.soundManager.playSnoring();
             }
-
         }, 100);
+    }
+
+    /**
+     * help handle dying sound effect.
+     */
+    playDyingSound() {
+        this.deathSoundPlayed = true;
+        world.soundManager.play('characterDying');
+    }
+
+    /**
+     * help handle moving sound effect.
+     */
+    playMovingSound() {
+        world.soundManager.playWalk();
+        world.soundManager.stopSnoring();
+        this.sleeping = false;  
+    }
+
+    /**
+     * help handle jumping sound effect.
+     */
+    playJumpingSound() {
+        world.soundManager.play('jump');
+        world.soundManager.stopSnoring();
+        this.sleeping = false;
     }
 
     /**

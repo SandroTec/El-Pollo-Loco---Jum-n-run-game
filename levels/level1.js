@@ -61,7 +61,7 @@ function initLevel() {
             )
         ],
 
-        // ================= BACKGROUND =================
+        // ================= BACKGROUND / GROUND =================
         [
             new Background('img/5_background/layers/3_third_layer/2.png', -720),
             new Background('img/5_background/layers/2_second_layer/2.png', -720),

@@ -286,29 +286,16 @@ class World {
      */
     checkEnemies() {
         this.level.enemies.forEach(enemy => {
-
-            if (enemy.isDying && !enemy.isDead()) {
-                this.soundManager.play('chickenDying');
-                return;
-            }
-
             if (this.character.jumpOn(enemy)) {
                 enemy.energy = 0;
                 this.soundManager.play('splat');
                 return;
             }
-
-            if (this.character.isColiding(enemy) &&
-                !enemy.isDying &&
-                !enemy.isDead() &&
-                !this.character.isHurt()) {
-
+            if (this.character.isColiding(enemy) && !enemy.isDying && !enemy.isDead() && !this.character.isHurt()) {
                 this.character.hit(enemy.dmg);
                 this.soundManager.play('hit');
-
                 this.level.statusbar[0].setPercentage(this.character.energy);
             }
-
             this.checkBottleEnemyCollision(enemy);
         });
     }
@@ -410,13 +397,10 @@ class World {
      */
     stop() {
         this.running = false;
-
         if (this.animationId) cancelAnimationFrame(this.animationId);
         if (this.runIntervall) clearInterval(this.runIntervall);
-
         this.animationId = null;
         this.runIntervall = null;
-
         this.soundManager.stopAll();
     }
 }

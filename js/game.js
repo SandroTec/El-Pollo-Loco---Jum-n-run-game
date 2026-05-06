@@ -146,7 +146,6 @@ function resetCharacter() {
     char.deathSoundPlayed = false;
     char.deathSequenceStarted = false;
     char.finalKill = false;
-
     world.throwableObjects = [];
 }
 

@@ -79,15 +79,12 @@ class SmallChicken extends MoveableObject {
      */
     handleDeath() {
         this.deathStartTime = this.deathStartTime || new Date().getTime();
-
         setInterval(() => {
             if (this.isDead()) {
                 this.loadImage(this.IMAGES_DEAD[0]);
                 this.speed = 0;
                 this.enemyDead = true;
-
                 const timePassed = new Date().getTime() - this.deathStartTime;
-
                 if (timePassed >= 5000) {
                     world.level.enemies = world.level.enemies.filter(
                         (obj) => !obj.enemyDead

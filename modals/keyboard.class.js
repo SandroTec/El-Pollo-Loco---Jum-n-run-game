@@ -91,14 +91,12 @@ class Keyboard {
         const setState = (state) => {
             this[key] = state;
         };
-
         btn.addEventListener('pointerdown', (e) => {
             e.preventDefault();
             setState(true);
         });
 
         const reset = () => setState(false);
-
         btn.addEventListener('pointerup', reset);
         btn.addEventListener('pointerleave', reset);
         btn.addEventListener('pointercancel', reset);

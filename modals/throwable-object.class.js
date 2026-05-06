@@ -147,9 +147,7 @@ class ThrowableObject extends MoveableObject {
      */
     handleSplash() {
         this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
-
         const timePassed = new Date().getTime() - this.splashStartTime;
-
         if (timePassed > 750) {
             this.removed = true;
             world.throwableObjects =
@@ -163,19 +161,16 @@ class ThrowableObject extends MoveableObject {
     startSoundLoop() {
         setInterval(() => {
             if (this.soundPlayed) return;
-
             if (this.bottleHitGround()) {
                 world.soundManager.play('bottle');
                 this.soundPlayed = true;
             }
-
             world.level.enemies.forEach(enemy => {
                 if (this.isColiding(enemy)) {
                     world.soundManager.play('bottle');
                     this.soundPlayed = true;
                 }
             });
-
         }, 100);
     }
 

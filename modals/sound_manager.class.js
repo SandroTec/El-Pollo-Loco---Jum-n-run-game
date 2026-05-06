@@ -32,9 +32,7 @@ class SoundManager {
     constructor() {
         this.muteBtn = document.getElementById('muteBtn');
         this.muteIcon = document.getElementById('muteIcon');
-
         this.isMuted = sessionStorage.getItem('mute') === 'true';
-
         this.sounds = {
             jump: this.createAudio('./sounds/character/assets_audio_character_characterJump.wav'),
             stomp: this.createAudio('./sounds/character/stomp.mp3'),
@@ -49,9 +47,7 @@ class SoundManager {
             splat: this.createAudio('./sounds/enemies/splat.mp3'),
             snoring: this.createAudio('./sounds/character/assets_audio_character_characterSnoring.mp3')
         };
-
         this.allSounds = Object.values(this.sounds);
-
         this.updateMuteButton();
         this.setMuted(this.isMuted);
     }
