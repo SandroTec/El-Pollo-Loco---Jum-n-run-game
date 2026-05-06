@@ -106,9 +106,15 @@ class World {
         this.updateCamera();
         this.clearScreen();
         this.ctx.save();
-        this.renderWorld();
-        this.ctx.restore();
-        this.setUpStatusbars();
+        this.ctx.translate(this.camera_x, 0); 
+        this.setUpLevel(); 
+        this.ctx.restore(); 
+        this.setUpStatusbars(); 
+        this.ctx.save();
+        this.ctx.translate(this.camera_x, 0); 
+        this.setUpCharacterAndEnemies();
+        this.addObjectsToMap(this.throwableObjects);
+        this.ctx.restore(); 
         this.handleHUD();
         this.checkGameState();
         this.animationId = requestAnimationFrame(() => this.draw());
@@ -349,7 +355,7 @@ class World {
     }
 
     /**
-     * FIXED: HUD rendering (no camera transform applied)
+     * Sets up the statusbars on the canvas
      */
     setUpStatusbars() {
         this.ctx.save();
