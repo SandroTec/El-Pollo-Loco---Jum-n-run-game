@@ -119,7 +119,7 @@ class Endboss extends MoveableObject {
             if (this.handleDeath()) return;
 
             this.bossMoves();
-        }, 200);
+        }, 150);
     }
 
     /**

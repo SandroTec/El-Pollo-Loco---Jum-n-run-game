@@ -58,39 +58,34 @@ class SmallChicken extends MoveableObject {
 
     /**
      * Starts movement and death handling loops.
-     * Chicken moves left until death and triggers death logic.
-     *
      */
     animate() {
         setInterval(() => {
             if (!this.isDead()) {
                 this.moveLeft();
+                this.playAnimation(this.IMAGES_WALKING);
+            } else {
+                this.handleDeadState();
             }
-        }, 1000 / 30);
-
-        this.handleDeath();
+        }, 50);
     }
 
     /**
-     * Handles death animation, removal from world and state updates.
-     *
+     * Handles logic when the chicken is dead.
      */
-    handleDeath() {
-        this.deathStartTime = this.deathStartTime || new Date().getTime();
-        setInterval(() => {
-            if (this.isDead()) {
-                this.loadImage(this.IMAGES_DEAD[0]);
-                this.speed = 0;
-                this.enemyDead = true;
-                const timePassed = new Date().getTime() - this.deathStartTime;
-                if (timePassed >= 5000) {
-                    world.level.enemies = world.level.enemies.filter(
-                        (obj) => !obj.enemyDead
-                    );
-                }
-            } else {
-                this.playAnimation(this.IMAGES_WALKING);
-            }
-        }, 200);
+    handleDeadState() {
+        if (!this.deathStartTime) {
+            this.deathStartTime = Date.now();
+        }
+        this.loadImage(this.IMAGES_DEAD[0]);
+        this.speed = 0;
+        const REMOVE_DELAY = 5000;
+        const timePassed = Date.now() - this.deathStartTime;
+        if (timePassed >= REMOVE_DELAY) {
+            this.enemyDead = true;
+            world.level.enemies = world.level.enemies.filter(
+                enemy => !enemy.enemyDead
+            );
+        }
     }
 }

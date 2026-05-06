@@ -90,41 +90,26 @@ class Chicken extends MoveableObject {
         setInterval(() => {
             if (!this.isDead()) {
                 this.moveLeft();
-            }
-        }, 1000 / 30);
-
-        this.chickenDies();
-    }
-
-    /**
-     * Handles death behavior, animation, and removal from the world.
-     */
-    chickenDies() {
-        this.deathStartTime = Date.now();
-
-        setInterval(() => {
-            if (this.isDead()) {
+                this.playAnimation(this.IMAGES_WALKING);
+            } else {
                 this.handleDeadState();
-                return;
             }
-
-            this.playAnimation(this.IMAGES_WALKING);
-
-        }, 200);
+        }, 50);
     }
 
     /**
      * Handles logic when the chicken is dead.
      */
     handleDeadState() {
+        if (!this.deathStartTime) {
+            this.deathStartTime = Date.now();
+        }
         this.loadImage(this.IMAGES_DEAD[0]);
         this.speed = 0;
-        this.enemyDead = true;
-
         const REMOVE_DELAY = 5000;
         const timePassed = Date.now() - this.deathStartTime;
-
         if (timePassed >= REMOVE_DELAY) {
+            this.enemyDead = true;
             world.level.enemies = world.level.enemies.filter(
                 enemy => !enemy.enemyDead
             );
