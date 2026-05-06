@@ -28,7 +28,10 @@ function controllPopUpDialog() {
 
     controllInformation.style.display = isHidden ? 'flex' : 'none';
     gameBtns.style.display = isHidden ? 'none' : 'flex';
-    mobileControlls.style.display = isHidden ? 'none' : 'flex';
+    if (window.innerHeight == 1024 && window.innerWidth == 1400) {
+        mobileControlls.style.display = isHidden ? 'none' : 'flex';
+    }
+    
 }
 
 /**
@@ -41,7 +44,6 @@ function gameStart() {
     world.level = initLevel();
     world.isPlaying = true;
     world.running = true;
-
     world.draw();
     world.run();
 }
