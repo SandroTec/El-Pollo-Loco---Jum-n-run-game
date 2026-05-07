@@ -34,6 +34,7 @@ class SoundManager {
         this.muteIcon = document.getElementById('muteIcon');
         this.isMuted = sessionStorage.getItem('mute') === 'true';
         this.sounds = {
+            backgroundMusic: this.createAudio('./sounds/background-music.mp3'),
             jump: this.createAudio('./sounds/character/assets_audio_character_characterJump.wav'),
             stomp: this.createAudio('./sounds/character/stomp.mp3'),
             hit: this.createAudio('./sounds/character/assets_audio_character_characterDamage.mp3'),
@@ -99,7 +100,7 @@ class SoundManager {
     playWalk() {
         const sound = this.sounds.walk;
         sound.loop = true;
-        sound.volume = 0.025;
+        sound.volume = 0.055;
         sound.play().catch(() => {});
     }
 

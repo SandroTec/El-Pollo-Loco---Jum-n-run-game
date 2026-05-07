@@ -20,7 +20,7 @@ class Chicken extends MoveableObject {
     ];
 
     /** @type {number} Height of the chicken */
-    height = 55;
+    height = 75;
 
     /** @type {number} Width of the chicken */
     width = 70;

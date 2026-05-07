@@ -1,8 +1,8 @@
 body{
     margin:0;
     padding:40px 20px;
-    background:#111;
-    color:#ddd;
+    background-image: url('../img/bg-image.jpg');
+    color:#212121;
     font-family:Arial, sans-serif;
 }
 
@@ -18,14 +18,14 @@ body{
 h1{
     font-size:28px;
     margin-bottom:20px;
-    color:#fff;
+    color:#312d2d;
 }
 
 h2{
     font-size:18px;
     margin-top:25px;
     margin-bottom:10px;
-    color:#aaa;
+    color:#312d2d;
 }
 
 p{
@@ -35,10 +35,11 @@ p{
 }
 
 a{
-    color:#6aa9ff;
+    color:#164485;
     text-decoration:none;
 }
 
 a:hover{
+    color:#2f73d3;
     text-decoration:underline;
 }

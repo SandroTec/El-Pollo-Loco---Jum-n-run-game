@@ -8,10 +8,10 @@
 class Bottle extends MoveableObject {
 
     /** @type {number} */
-    height = 150;
+    height = 100;
 
     /** @type {number} */
-    width = 150;
+    width = 100;
 
     /** @type {boolean} */
     removed = false;

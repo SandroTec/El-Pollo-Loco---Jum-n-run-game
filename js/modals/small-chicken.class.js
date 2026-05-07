@@ -17,7 +17,7 @@ class SmallChicken extends MoveableObject {
     ];
 
     /** @type {number} */
-    height = 35;
+    height = 55;
 
     /** @type {number} */
     width = 70;

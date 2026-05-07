@@ -182,6 +182,9 @@ class Character extends MoveableObject {
         setInterval(() => {
             const world = this.world;
             if (!world) return;
+            if (world.isPlaying) {
+                this.playBackgroundMusic();
+            }
             if (this.isDead() && !this.deathSoundPlayed) {
                 this.playDyingSound() 
             }
@@ -204,6 +207,10 @@ class Character extends MoveableObject {
                 world.soundManager.playSnoring();
             }
         }, 100);
+    }
+
+    playBackgroundMusic() {
+        world.soundManager.play('backgroundMusic')
     }
 
     /**
