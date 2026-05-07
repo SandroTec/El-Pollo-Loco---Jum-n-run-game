@@ -26,11 +26,7 @@ function init() {
 function controllPopUpDialog() {
     const isHidden = controllInformation.style.display === 'none';
     controllInformation.style.display = isHidden ? 'flex' : 'none';
-        if (window.innerHeight <= 1024 && window.innerWidth <= 1400) {
-            gameBtns.style.display = isHidden ? 'none' : 'flex';
-            mobileControlls.style.display = isHidden ? 'none' : 'flex';   
-        }
-    
+    gameBtns.style.display = isHidden ? 'none' : 'flex';
 }
 
 /**
