@@ -103,7 +103,7 @@ button {
     position: absolute;
     height: 50px;
     width: 100px;
-    top: 60%;
+    top: 55%;
 }
 
 .game-btns {
@@ -178,16 +178,16 @@ a {
 }
 
 a:hover {
-    color: aquamarine;
+    color: blueviolet;
 }
 
 footer {
-    position: absolute;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-end;
+    text-decoration: underline;
     height: 50px;
-    width: 100%;
+    width: 90dvw;
     bottom: 0;
 }
 
@@ -219,6 +219,7 @@ footer {
 
         footer {
             position: absolute;
+            justify-content: flex-start;
             align-items: flex-start;
             top: 0;
             width: 90%;
