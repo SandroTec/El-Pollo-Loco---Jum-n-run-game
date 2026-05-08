@@ -19,8 +19,8 @@ class Bottle extends MoveableObject {
     /** @type {{top:number,left:number,right:number,bottom:number}} */
     offset = {
         top: 23,
-        left: 60,
-        right: 60,
+        left: 20,
+        right: 20,
         bottom: 18
     };
 

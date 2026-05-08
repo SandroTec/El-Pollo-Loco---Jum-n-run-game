@@ -160,7 +160,7 @@ class World {
         if (this.character.isDead()) {
             this.handleDeath();
         }
-        if (this.character.finalKill) {
+        if (this.character.finalKill && !this.character.isDead()) {
             this.gameWin();
         }
     }
@@ -270,6 +270,7 @@ class World {
     checkEnemies() {
         this.level.enemies.forEach(enemy => {
             if (this.character.jumpOn(enemy)) {
+                this.soundManager.play('stomp');
                 enemy.energy = 0;
                 this.soundManager.play('splat');
                 return;
@@ -289,7 +290,7 @@ class World {
     checkBottleEnemyCollision(enemy) {
         this.throwableObjects.forEach(bottle => {
             if (bottle.isColiding(enemy) && !enemy.isDead() && !enemy.isHurt()) {
-                bottle.hasSplashed = true;
+                bottle.triggerSplash()
                 bottle.stopGravity();
                 enemy.hit(this.character.dmg);
             }

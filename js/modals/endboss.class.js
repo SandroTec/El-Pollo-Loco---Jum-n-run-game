@@ -72,6 +72,9 @@ class Endboss extends MoveableObject {
     };
 
     /** @type {boolean} */
+    bossStarted = false;
+
+    /** @type {boolean} */
     bossDead = false;
 
     /** @type {boolean} */
@@ -111,16 +114,25 @@ class Endboss extends MoveableObject {
      */
     animate() {
         if (this.deathHandled) return;
-
         setInterval(() => {
-            if (this.handleAlert()) return;
-            if (this.handleAttack()) return;
-            if (this.handleHurt()) return;
-            if (this.handleDeath()) return;
+            if (world.character.x >= (world.level_end_x - 1500) && !this.bossStarted) {
+                this.bossStarted = true
+            } else return
+        }, 500)
+        
+        setInterval(() => {
+            if (this.bossStarted) {
+                if (this.handleAlert()) return;
+                if (this.handleAttack()) return;
+                if (this.handleHurt()) return;
+                if (this.handleDeath()) return;
 
-            this.bossMoves();
+                this.bossMoves();
+            }
         }, 150);
+        
     }
+    
 
     /**
      * Handles alert behavior.
