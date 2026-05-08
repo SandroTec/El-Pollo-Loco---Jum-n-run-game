@@ -66,12 +66,12 @@ class Statusbar_coin extends DrawableObject {
 
     /** @type {string[]} */
     IMAGES_COIN = [
-        'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png',
-        'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/20.png',
-        'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/40.png',
-        'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/60.png',
-        'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/80.png',
-        'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png',
+        'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/0.png',
+        'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/20.png',
+        'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/40.png',
+        'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/60.png',
+        'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/80.png',
+        'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/100.png',
     ];
 
     /**
@@ -121,12 +121,12 @@ class Statusbar_bottle extends DrawableObject {
 
     /** @type {string[]} */
     IMAGES_BOTTLE = [
-        'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png',
-        'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/20.png',
-        'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/40.png',
-        'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/60.png',
-        'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/80.png',
-        'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png',
+        'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/0.png',
+        'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/20.png',
+        'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/40.png',
+        'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/60.png',
+        'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/80.png',
+        'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/100.png'
     ];
 
     /**
@@ -165,5 +165,61 @@ class Statusbar_bottle extends DrawableObject {
      */
     clampIndex(value, max) {
         return Math.max(0, Math.min(value, max - 1));
+    }
+}
+
+
+class Statusbar_boss extends DrawableObject {
+
+    /** @type {string[]} */
+    IMAGES_BOSS = [
+        'img/7_statusbars/2_statusbar_endboss/blue/blue0.png',
+        'img/7_statusbars/2_statusbar_endboss/blue/blue20.png',
+        'img/7_statusbars/2_statusbar_endboss/blue/blue40.png',
+        'img/7_statusbars/2_statusbar_endboss/blue/blue60.png',
+        'img/7_statusbars/2_statusbar_endboss/blue/blue80.png',
+        'img/7_statusbars/2_statusbar_endboss/blue/blue100.png'
+    ];
+
+    /**
+     * Creates a status bar for the boss.
+     */
+    constructor() {
+        super();
+        this.loadImages(this.IMAGES_BOSS);
+        this.setPercentage(100);
+        this.x = 410;
+        this.y = 10;
+        this.height = 75;
+        this.width = 250;
+    }
+
+    /**
+     * Updates the health bar based on percentage.
+     *
+     * @param {number} percentage
+     */
+    setPercentage(percentage) {
+        this.percentage = percentage;
+
+        const index = this.getHealthIndex(percentage);
+        const path = this.IMAGES_BOSS[index];
+
+        this.img = this.imageCache[path];
+    }
+
+    /**
+     * Converts percentage into image index.
+     *
+     * @param {number} percentage
+     * @returns {number}
+     */
+    getHealthIndex(percentage) {
+        if (percentage >= 90) return 5;
+        if (percentage >= 70) return 4;
+        if (percentage >= 50) return 3;
+        if (percentage >= 30) return 2;
+        if (percentage >= 15) return 1;
+        return 0;
     }
 }

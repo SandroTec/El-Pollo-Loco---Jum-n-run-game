@@ -27,6 +27,9 @@ class Level {
     statusbar;
 
     /** @type {Object} */
+    bossBar
+
+    /** @type {Object} */
     endscreen;
 
     /** @type {boolean} */
@@ -44,7 +47,7 @@ class Level {
      * @param {Object} statusbar - UI status bar object (e.g. health, coins).
      * @param {boolean} win - Win state flag for the level.
      */
-    constructor(enemies, clouds, backgroundObjects, skyes, coins, bottles, statusbar, win) {
+    constructor(enemies, clouds, backgroundObjects, skyes, coins, bottles, statusbar, bossBar, win) {
         this.enemies = enemies;
         this.clouds = clouds;
         this.backgroundObjects = backgroundObjects;
@@ -52,6 +55,7 @@ class Level {
         this.coins = coins;
         this.bottles = bottles;
         this.statusbar = statusbar;
+        this.bossBar = bossBar;
         this.win = win;
     }
 }

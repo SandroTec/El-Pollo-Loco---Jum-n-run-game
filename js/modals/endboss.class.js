@@ -116,7 +116,8 @@ class Endboss extends MoveableObject {
         if (this.deathHandled) return;
         setInterval(() => {
             if (world.character.x >= (world.level_end_x - 600) && !this.bossStarted) {
-                this.bossStarted = true
+                this.bossStarted = true;
+                world.endbossActivated = true;
             } else return
         }, 500)
         
@@ -129,7 +130,7 @@ class Endboss extends MoveableObject {
 
                 this.bossMoves();
             }
-        }, 150);
+        }, 250);
         
     }
     

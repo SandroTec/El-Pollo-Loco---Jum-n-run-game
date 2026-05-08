@@ -61,6 +61,9 @@ class World {
     /** @type {HTMLElement} */
     homeBtn = document.getElementById('homeBtn');
 
+    /** @type {boolean} */
+    endbossActivated = false;
+
     /**
      * Creates the game world and initializes rendering systems.
      *
@@ -361,15 +364,17 @@ class World {
         this.ctx.save();
         this.ctx.setTransform(1, 0, 0, 1, 0, 0);
         this.addObjectsToMap(this.level.statusbar);
+        if (this.endbossActivated) {this.addToMap(this.level.bossBar)};
         this.ctx.restore();
     }
 
+    
     /**
      * Character + enemies rendering.
      */
     setUpCharacterAndEnemies() {
-        this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
+        this.addToMap(this.character);
     }
 
     /**

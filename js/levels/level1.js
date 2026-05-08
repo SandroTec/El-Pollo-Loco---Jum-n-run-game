@@ -140,6 +140,8 @@ function initLevel() {
             new Statusbar_bottle(),
         ],
 
+        new Statusbar_boss(),
+
         // ================= WIN SCREEN =================
         new Win()
     );
