@@ -75,7 +75,7 @@ class SoundManager {
         const sound = this.sounds[name];
         if (!sound || !sound.paused) return;
 
-        sound.volume = 0.12;
+        sound.volume = 0.25;
         sound.play().catch(() => {});
 
         this.resetAfterDelay(sound, 3000);
@@ -92,6 +92,16 @@ class SoundManager {
             sound.pause();
             sound.currentTime = 0;
         }, delay);
+    }
+
+    /**
+     * Plays walking sound in a loop.
+     */
+    playBackgroundMusic() {
+        const sound = this.sounds.backgroundMusic;
+        sound.loop = true;
+        sound.volume = 0.2;
+        sound.play().catch(() => {});
     }
 
     /**

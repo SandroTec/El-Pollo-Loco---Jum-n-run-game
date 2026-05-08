@@ -193,10 +193,11 @@ footer {
 
 @media (max-height: 1024px ) {
     @media (max-width: 1400px) {
-
-        .controlls-btn-container {
-            display: flex ;
-            max-width: 720px;
+        @media (hover: none) {
+            .controlls-btn-container {
+                display: flex ;
+                max-width: 720px;
+            }
         }
         
         canvas {
@@ -230,22 +231,28 @@ footer {
             .controlls-btn-container {
                 gap: 20%;
             }
+
+            footer h2 {
+                font-size: 18px;
+            }
         }
     }
 }
 
-@media screen and (orientation: portrait) {
-  #rotate-message {
-    display: flex;
-  }
+@media (hover: none) {
+    @media screen and (orientation: portrait) {
+    #rotate-message {
+        display: flex;
+    }
 
-}
+    }
 
-@media screen and (orientation: landscape) {
-  #rotate-message {
-    display: none;
-  }
+    @media screen and (orientation: landscape) {
+    #rotate-message {
+        display: none;
+    }
 
+    }
 }
 
 @media (max-height: 550px) {

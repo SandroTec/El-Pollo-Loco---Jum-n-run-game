@@ -210,7 +210,7 @@ class Character extends MoveableObject {
     }
 
     playBackgroundMusic() {
-        world.soundManager.play('backgroundMusic')
+        world.soundManager.playBackgroundMusic();
     }
 
     /**
