@@ -41,7 +41,7 @@ class SoundManager {
             bottle: this.createAudio('./sounds/assets_audio_throwable_bottleBreak.mp3'),
             walk: this.createAudio('./sounds/character/assets_audio_character_characterRun.mp3'),
             characterDying: this.createAudio('./sounds/character/assets_audio_character_characterDead.wav'),
-            chickenDying: this.createAudio('./sounds/enemies/assets_audio_chicken_chickenDead.mp3'),
+            chickenDying: this.createAudio('./sounds/enemies/assets_audio_chicken_chickenDead2.mp3'),
             endbossAlert: this.createAudio('./sounds/enemies/assets_audio_endboss_endbossApproach.wav'),
             endbossHurt: this.createAudio('./sounds/enemies/assets_audio_chicken_chickenDead2.mp3'),
             collectSound: this.createAudio('./sounds/assets_audio_collectibles_collectSound.wav'),
@@ -78,7 +78,7 @@ class SoundManager {
         sound.volume = 0.25;
         sound.play().catch(() => {});
 
-        this.resetAfterDelay(sound, 3000);
+        this.resetAfterDelay(sound, 1500);
     }
 
     /**
@@ -110,7 +110,7 @@ class SoundManager {
     playWalk() {
         const sound = this.sounds.walk;
         sound.loop = true;
-        sound.volume = 0.055;
+        sound.volume = 0.25;
         sound.play().catch(() => {});
     }
 

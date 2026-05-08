@@ -1,4 +1,4 @@
-let canvas;
+let canvas = document.getElementById('canvas');;
 let world;
 const keyboard = new Keyboard();
 
@@ -14,7 +14,6 @@ const homeBtn = document.getElementById('homeBtn');
  * @function init
  */
 function init() {
-    canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
     controllInformation.style.display = 'none';
 }
@@ -26,14 +25,14 @@ function init() {
 function controllPopUpDialog() {
     const isHidden = controllInformation.style.display === 'none';
     controllInformation.style.display = isHidden ? 'flex' : 'none';
+    gameBtns.style.display = isHidden ? 'none' : 'flex';
+    canvas.style.display = isHidden ? 'none' : 'flex';
     const isMobile = window.matchMedia('(hover: none)').matches;
     if (isMobile) {
-        gameBtns.style.display = isHidden ? 'none' : 'flex';
         mobileControlls.style.display = isHidden ? 'none' : 'flex';
     }else {
         mobileControlls.style.display = 'none';
     }
-    
 }
 
 /**
@@ -142,6 +141,7 @@ function resetCharacter() {
     char.deathSequenceStarted = false;
     char.finalKill = false;
     world.throwableObjects = [];
+    char.otherDirection = false;
 }
 
 /**

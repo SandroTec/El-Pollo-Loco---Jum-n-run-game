@@ -272,7 +272,6 @@ class World {
             if (this.character.jumpOn(enemy)) {
                 this.soundManager.play('stomp');
                 enemy.energy = 0;
-                this.soundManager.play('splat');
                 return;
             }
             if (this.character.isColiding(enemy) && !enemy.isDying && !enemy.isDead() && !this.character.isHurt()) {

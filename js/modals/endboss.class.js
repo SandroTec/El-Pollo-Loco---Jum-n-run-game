@@ -115,7 +115,7 @@ class Endboss extends MoveableObject {
     animate() {
         if (this.deathHandled) return;
         setInterval(() => {
-            if (world.character.x >= (world.level_end_x - 1500) && !this.bossStarted) {
+            if (world.character.x >= (world.level_end_x - 600) && !this.bossStarted) {
                 this.bossStarted = true
             } else return
         }, 500)
@@ -139,12 +139,7 @@ class Endboss extends MoveableObject {
      * @returns {boolean}
      */
     handleAlert() {
-        if (
-            world.character.x >= 2000 &&
-            world.character.x <= 5000 &&
-            this.isAlerted &&
-            !this.isDead()
-        ) {
+        if (this.isAlerted && this.bossStarted) {
             this.bossIsAlerted();
             return true;
         }
@@ -205,7 +200,7 @@ class Endboss extends MoveableObject {
                 world.soundManager.play('endbossHurt');
             }
 
-            if (this.isAlerted && world.character.x >= 1000) {
+            if (this.isAlerted && this.bossStarted) {
                 world.soundManager.play('endbossAlert');
             }
         }, 1000);
@@ -219,7 +214,7 @@ class Endboss extends MoveableObject {
         this.playAnimation(this.IMAGES_ALERT);
         this.isAlertedCounter++;
 
-        if (this.isAlertedCounter >= 10) {
+        if (this.isAlertedCounter == 12) {
             this.isAlerted = false;
         }
     }
