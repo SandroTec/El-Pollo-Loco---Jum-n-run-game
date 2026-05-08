@@ -59,6 +59,9 @@ class Endboss extends MoveableObject {
     isAlertedCounter = 0;
 
     /** @type {number} */
+    energy = 100;
+
+    /** @type {number} */
     dmg = 50;
 
     /**
@@ -70,6 +73,9 @@ class Endboss extends MoveableObject {
         right: 20,
         bottom: 10
     };
+
+    /** @type {boolean} */
+    boss = true;
 
     /** @type {boolean} */
     bossStarted = false;
@@ -94,9 +100,8 @@ class Endboss extends MoveableObject {
         this.height = 470;
         this.width = 150;
         this.speed = this.getRandomSpeed();
-        this.energy = 150;
         this.isDying = false;
-
+        this.bossStarted = false
         this.animate();
         this.startSoundLoop();
     }
@@ -130,7 +135,7 @@ class Endboss extends MoveableObject {
 
                 this.bossMoves();
             }
-        }, 250);
+        }, 200);
         
     }
     
@@ -167,7 +172,7 @@ class Endboss extends MoveableObject {
     handleHurt() {
         if (this.isHurt() && !this.isDead()) {
             this.loadImages(this.IMAGES_HURT);
-            this.playAnimation(this.IMAGES_HURT);
+            this.playAnimation(this.IMAGES_HURT);    
             return true;
         }
         return false;
@@ -181,6 +186,7 @@ class Endboss extends MoveableObject {
         if (this.isDead()) {
             this.bossStartsDying();
             this.bossIsDead();
+            
             return true;
         }
         return false;
@@ -268,4 +274,6 @@ class Endboss extends MoveableObject {
         this.loadImages(this.IMAGES_WALKING);
         this.playAnimation(this.IMAGES_WALKING);
     }
+    
+
 }

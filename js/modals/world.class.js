@@ -10,6 +10,9 @@ class World {
     /** @type {Character} */
     character;
 
+    /** @type {Endboss} */
+    endboss;
+
     /** @type {Endscreen} */
     endscreen = new Endscreen();
 
@@ -295,6 +298,11 @@ class World {
                 bottle.triggerSplash()
                 bottle.stopGravity();
                 enemy.hit(this.character.dmg);
+                this.endboss = this.level.enemies.filter(
+                enemy => enemy.boss
+                );
+                this.level.bossBar.setPercentage(this.endboss.energy)
+            
             }
         });
     }
@@ -364,7 +372,9 @@ class World {
         this.ctx.save();
         this.ctx.setTransform(1, 0, 0, 1, 0, 0);
         this.addObjectsToMap(this.level.statusbar);
-        if (this.endbossActivated) {this.addToMap(this.level.bossBar)};
+        if (this.endbossActivated) {
+            this.addToMap(this.level.bossBar);
+        };
         this.ctx.restore();
     }
 

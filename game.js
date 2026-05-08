@@ -45,6 +45,7 @@ function gameStart() {
     world.level = initLevel();
     world.isPlaying = true;
     world.running = true;
+    world.endbossActivated = false;
     world.draw();
     world.run();
 }
@@ -54,6 +55,7 @@ function gameStart() {
  * @function restart
  */
 function restart() {
+    world.stop()
     backToHome();
     handleClick();
 }
