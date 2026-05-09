@@ -47,7 +47,7 @@ function gameStart() {
     world.running = true;
     world.endbossActivated = false;
     world.draw();
-    world.run();
+    world.loopmanager.run();
 }
 
 /**

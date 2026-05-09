@@ -49,6 +49,9 @@ class World {
     /** @type {number|null} */
     animationId = null;
 
+    /** @type {Loopmanager} */
+    loopmanager;
+
     /** @type {number|null} */
     runIntervall = null;
 
@@ -79,7 +82,7 @@ class World {
         this.keyboard = keyboard;
 
         this.character = new Character(this);
-
+        this.loopmanager = new WorldLoopManager(this)
         this.setWorld();
         this.character.animate();
 
@@ -232,16 +235,6 @@ class World {
     }
 
     /**
-     * Starts game update loop.
-     */
-    run() {
-        this.runIntervall = setInterval(() => {
-            this.checkCollisions();
-            this.checkThrowableObject();
-        }, 1000 / 60);
-    }
-
-    /**
      * Handles bottle throwing logic.
      */
     checkThrowableObject() {
@@ -264,7 +257,6 @@ class World {
      */
     checkCollisions() {
         if (!this.isPlaying) return;
-
         this.checkEnemies();
         this.checkCoins();
         this.checkBottle();
@@ -301,7 +293,6 @@ class World {
                 this.endboss = this.level.enemies.find(enemy => enemy.boss === true);
                 if (this.endboss) {
                     this.level.bossBar.setPercentage(this.endboss.energy);
-                    console.log(this.endboss.energy);
                 }
             }
         });
