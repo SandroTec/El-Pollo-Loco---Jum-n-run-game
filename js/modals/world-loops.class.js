@@ -18,6 +18,11 @@ class WorldLoopManager {
         this.world.runIntervall = setInterval(() => {
             this.world.checkCollisions();
             this.world.checkThrowableObject();
+        if (window.innerHeight <= 1024 && window.innerWidth <= 1400) {
+            document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+            });
+        }
         }, 1000 / 60);
     }
 
