@@ -1,3 +1,7 @@
+/**
+ * Class responsible for managing the core game update loop.
+ * Handles the timing and execution of game logic updates.
+ */
 class WorldLoopManager {
     /**
      * @param {World} world - The World instance
