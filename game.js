@@ -1,11 +1,9 @@
 let canvas = document.getElementById('canvas');;
 let world;
 const keyboard = new Keyboard();
-
 const controllInformation = document.getElementById('controllInformation');
 const gameBtns = document.getElementById('gameBtns');
 const mobileControlls = document.getElementById('mobileControllBtns');
-
 const startBtn = document.getElementById('startBtn');
 const homeBtn = document.getElementById('homeBtn');
 
@@ -48,6 +46,7 @@ function gameStart() {
     world.endbossActivated = false;
     world.draw();
     world.loopmanager.run();
+    
 }
 
 /**

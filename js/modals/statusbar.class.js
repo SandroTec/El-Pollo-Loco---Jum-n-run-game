@@ -188,8 +188,8 @@ class Statusbar_boss extends DrawableObject {
         super();
         this.loadImages(this.IMAGES_BOSS);
         this.setPercentage(100);
-        this.x = 410;
-        this.y = 10;
+        this.x = 430;
+        this.y = 50;
         this.height = 75;
         this.width = 250;
     }

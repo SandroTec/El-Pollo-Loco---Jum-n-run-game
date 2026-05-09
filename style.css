@@ -86,7 +86,7 @@ button {
 }
 
 .start-btn {
-    margin-left: -50px;
+    margin-left: -35px;
 }
 
 .restart-btn {
@@ -101,9 +101,9 @@ button {
 
 .game-btn {
     position: absolute;
-    height: 50px;
-    width: 100px;
-    top: 55%;
+    height: 70px;
+    width: 70px;
+    top: 50%;
 }
 
 .game-btns {
@@ -112,7 +112,7 @@ button {
 
 .home-btn {
     display: none;
-    margin-left: -100px;
+    margin-left: -70px;
 }
 
  .controlls-btn-container {
@@ -163,6 +163,7 @@ button {
 
 .controlls-design {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding-bottom: 20px;
@@ -264,6 +265,20 @@ footer {
         height: 35px;
         width: 35px;
     }
+
+    .game-btn {
+        height: 40px;
+        width: 40px;
+    }
+
+    .start-btn {
+        margin-left: -20px;
+    }
+
+    .home-btn {
+        margin-left: -40px;
+    }
+
     .icon {
         width: 20px;
         height: 20px;

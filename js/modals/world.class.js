@@ -69,6 +69,9 @@ class World {
 
     /** @type {boolean} */
     endbossActivated = false;
+    
+    /** @type {HTMLElement} */
+    controllPopUpButton = document.getElementById('controllPopUp')
 
     /**
      * Creates the game world and initializes rendering systems.
@@ -104,6 +107,7 @@ class World {
         this.clearScreen();
         this.addToMap(this.startscreen);
         this.gameRestart.style.display = 'none';
+        this.controllPopUpButton.style.display = 'flex';
         requestAnimationFrame(() => this.drawStartscreen());
     }
 
@@ -141,6 +145,7 @@ class World {
      */
     clearScreen() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.controllPopUpButton.style.display = 'none';
     }
 
     /**
@@ -191,12 +196,14 @@ class World {
      * Game over screen logic.
      */
     gameOver() {
+        const controllPopUpButton = document.getElementById('controllPopUp')
         this.character.loadImage(this.character.IMAGES_DEAD[6]);
         this.addToMap(this.endscreen);
         this.gameRestart.style.display = 'flex';
         this.homeBtn.style.display = 'block';
         this.stop();
         this.isPlaying = false;
+        this.controllPopUpButton.style.display = 'flex';
     }
 
     /**
@@ -210,6 +217,7 @@ class World {
         this.soundManager.stopAll();
         this.isPlaying = false;
         this.youWon = true;
+        this.controllPopUpButton.style.display = 'flex';
     }
 
     /**
