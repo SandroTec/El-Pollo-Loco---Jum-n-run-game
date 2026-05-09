@@ -298,11 +298,11 @@ class World {
                 bottle.triggerSplash()
                 bottle.stopGravity();
                 enemy.hit(this.character.dmg);
-                this.endboss = this.level.enemies.filter(
-                enemy => enemy.boss
-                );
-                this.level.bossBar.setPercentage(this.endboss.energy)
-            
+                this.endboss = this.level.enemies.find(enemy => enemy.boss === true);
+                if (this.endboss) {
+                    this.level.bossBar.setPercentage(this.endboss.energy);
+                    console.log(this.endboss.energy);
+                }
             }
         });
     }

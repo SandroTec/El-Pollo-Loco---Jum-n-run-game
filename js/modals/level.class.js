@@ -45,6 +45,7 @@ class Level {
      * @param {Array} coins - Collectible coin objects.
      * @param {Array} bottles - Collectible or throwable bottle objects.
      * @param {Object} statusbar - UI status bar object (e.g. health, coins).
+     * @param {Object} bossBar - Boss UI status healthbar object.
      * @param {boolean} win - Win state flag for the level.
      */
     constructor(enemies, clouds, backgroundObjects, skyes, coins, bottles, statusbar, bossBar, win) {
