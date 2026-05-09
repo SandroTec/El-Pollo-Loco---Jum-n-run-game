@@ -6,6 +6,7 @@ const gameBtns = document.getElementById('gameBtns');
 const mobileControlls = document.getElementById('mobileControllBtns');
 const startBtn = document.getElementById('startBtn');
 const homeBtn = document.getElementById('homeBtn');
+const isHidden = gameBtns.style.display === 'none';
 
 /**
  * Initializes the game and creates the world instance.
@@ -18,13 +19,13 @@ function init() {
 
 /**
  * Toggles the control information popup visibility.
- * @function controllPopUpDialog
+ * @function toggleControllPopUpDialog
  */
-function controllPopUpDialog() {
-    const isHidden = controllInformation.style.display === 'none';
-    controllInformation.style.display = isHidden ? 'flex' : 'none';
+function toggleControllPopUpDialog() {
+    
+    controllInformation.showModal()
     gameBtns.style.display = isHidden ? 'none' : 'flex';
-    canvas.style.display = isHidden ? 'none' : 'flex';
+    controllInformation.style.display = 'flex';
     const isMobile = window.matchMedia('(hover: none)').matches;
     if (isMobile) {
         mobileControlls.style.display = isHidden ? 'none' : 'flex';
@@ -32,6 +33,14 @@ function controllPopUpDialog() {
         mobileControlls.style.display = 'none';
     }
 }
+
+controllInformation.addEventListener('click', (e) => {
+  if (e.target === controllInformation) {
+    controllInformation.close();
+    controllInformation.style.display = 'none';
+
+  }
+});
 
 /**
  * Starts the game if not already running.

@@ -41,7 +41,7 @@
     </div>
     <div class="fullScreenContainer">
         <div class="top-btn-left">
-            <button onclick="controllPopUpDialog()" id="controllPopUp"><img src="./img/help-icon.svg" alt="controlls" class="icon"></button>
+            <button onclick="toggleControllPopUpDialog()" id="controllPopUp"><img src="./img/help-icon.svg" alt="controlls" class="icon"></button>
             <button onclick="world.soundManager.toggleMute()" id="muteBtn">
                 <img class="icon" id="muteIcon" src="./img/sound-icon.svg" alt="sound">
             </button>
@@ -55,7 +55,7 @@
     </div>
     <canvas id="canvas" width="720" height="480">
     </canvas>
-    <dialog id="controllInformation" class="controlling-information">
+    <dialog id="controllInformation" class="controlling-information ">
         <h2 class="game-name">El Pollo Loco</h2>
         <div class="controlls-design">
             <h2>Controlling:</h2> 
@@ -65,6 +65,11 @@
                     <li>Arrow-Right: Character moves right.</li>
                     <li>Space-bar: Character Jumps. Jump on enemy to kill them.</li>
                     <li>Keyboard-key D: Character throws Salsa-bottle, if collected.</li>
+                    <br>
+                    <p>
+                        The boss needs to be hit with two or more bottles <br>
+                        so be carful how many you use early.
+                    </p>
                 </ul>
             </article>
         </div>
