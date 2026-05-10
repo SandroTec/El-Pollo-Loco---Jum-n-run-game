@@ -138,6 +138,7 @@ function resetCharacter() {
     char.speed = 10;
     char.coinCount = 0;
     char.bottleCount = 0;
+    char.startIdleTime = null;
     char.sleeping = false;
     char.deathStartTime = null;
     char.deathSoundPlayed = false;
