@@ -75,7 +75,7 @@ class SoundManager {
         const sound = this.sounds[name];
         if (!sound || !sound.paused) return;
 
-        sound.volume = 0.25;
+        sound.volume = 0.2;
         sound.play().catch(() => {});
 
         this.resetAfterDelay(sound, 1500);
@@ -100,7 +100,7 @@ class SoundManager {
     playBackgroundMusic() {
         const sound = this.sounds.backgroundMusic;
         sound.loop = true;
-        sound.volume = 0.2;
+        sound.volume = 0.05;
         sound.play().catch(() => {});
     }
 
@@ -110,7 +110,7 @@ class SoundManager {
     playWalk() {
         const sound = this.sounds.walk;
         sound.loop = true;
-        sound.volume = 0.25;
+        sound.volume = 0.125;
         sound.play().catch(() => {});
     }
 
@@ -127,7 +127,7 @@ class SoundManager {
     playSnoring() {
         const sound = this.sounds.snoring;
         sound.loop = true;
-        sound.volume = 0.05;
+        sound.volume = 0.115;
         sound.play().catch(() => {});
     }
 
