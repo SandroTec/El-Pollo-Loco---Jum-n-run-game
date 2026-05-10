@@ -41,7 +41,7 @@ controllInformation.addEventListener('click', (e) => {
  */
 function gameStart() {
     if (world.isPlaying) return;
-
+    resetCharacter();
     world.level = initLevel();
     world.isPlaying = true;
     world.running = true;
