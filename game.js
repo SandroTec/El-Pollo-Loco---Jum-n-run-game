@@ -66,7 +66,6 @@ function restart() {
  * @function backToHome
  */
 function backToHome() {
-    resetCharacter();
     world.isPlaying = false;
     world.youWon = false;
     world.drawStartscreen();
