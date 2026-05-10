@@ -21,17 +21,10 @@ function init() {
  * Toggles the control information popup visibility.
  * @function toggleControllPopUpDialog
  */
-function toggleControllPopUpDialog() {
+function controllPopUpDialog() {
     
     controllInformation.showModal()
-    gameBtns.style.display = isHidden ? 'none' : 'flex';
     controllInformation.style.display = 'flex';
-    const isMobile = window.matchMedia('(hover: none)').matches;
-    if (isMobile) {
-        mobileControlls.style.display = isHidden ? 'none' : 'flex';
-    }else {
-        mobileControlls.style.display = 'none';
-    }
 }
 
 controllInformation.addEventListener('click', (e) => {
