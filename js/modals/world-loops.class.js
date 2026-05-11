@@ -23,7 +23,7 @@ class WorldLoopManager {
             event.preventDefault();
             });
         }
-        }, 50);
+        }, 1000/30);
     }
 
 }
