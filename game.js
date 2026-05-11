@@ -58,7 +58,7 @@ function gameStart() {
 function restart() {
     world.stop()
     backToHome();
-    handleClick();
+    gameStart();
 }
 
 /**
@@ -105,10 +105,8 @@ window.addEventListener('keyup', (e) => handleKey(e, false));
  * @param {Event} [event]
  */
 function handleClick(event) {
-    if (!world.isPlaying && !world.youWon && !world.character.isDead()) {
-        gameStart();
-        startBtn.style.display = 'none';
-    }
+    gameStart();
+    startBtn.style.display = 'none';   
 }
 
 /**
@@ -137,7 +135,7 @@ function resetCharacter() {
     char.speed = 10;
     char.coinCount = 0;
     char.bottleCount = 0;
-    char.startIdleTime = null;
+    char.idleTimer = null;
     char.sleeping = false;
     char.deathStartTime = null;
     char.deathSoundPlayed = false;

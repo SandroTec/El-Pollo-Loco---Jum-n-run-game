@@ -105,6 +105,9 @@ class Character extends MoveableObject {
     /** @type {?number} Idle start timestamp */
     startIdleTime = null;
 
+    /** @type {?number} Idle timer */
+    idleTimer = null;
+
     /** @type {boolean} Indicates sleeping state */
     sleeping = false;
 
@@ -316,9 +319,10 @@ class Character extends MoveableObject {
                 this.timerStartet = true;
             }
 
-            const timePassed = Date.now() - this.startIdleTime;
-            if (timePassed > 15000) {
+            this.idleTimer = Date.now() - this.startIdleTime;
+            if (this.idleTimer > 15000) {
                 this.sleeping = true;
+                this.idleTimer = null;
                 this.playAnimation(this.IMAGES_SLEEPING);
             }
         }
