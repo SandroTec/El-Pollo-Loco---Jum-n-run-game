@@ -126,12 +126,10 @@ class World {
         this.ctx.save();
         this.ctx.translate(this.camera_x, 0); 
         this.setUpLevel(); 
-        this.ctx.restore(); 
-        this.setUpStatusbars(); 
-        this.ctx.save();
-        this.ctx.translate(this.camera_x, 0); 
+        
         this.setUpCharacterAndEnemies();
         this.addObjectsToMap(this.throwableObjects);
+        this.setUpStatusbars(); 
         this.ctx.restore(); 
         if (this.isMobileTouch()) {
             this.mobileControlls.style.display = 'flex';
