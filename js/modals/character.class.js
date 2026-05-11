@@ -127,7 +127,7 @@ class Character extends MoveableObject {
     finalKill = false;
 
     /** @type {number} Damage value */
-    dmg = 40;
+    dmg = 50;
 
     /**
      * Creates a new Character instance.

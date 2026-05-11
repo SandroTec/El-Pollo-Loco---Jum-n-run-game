@@ -126,7 +126,6 @@ class World {
         this.ctx.save();
         this.ctx.translate(this.camera_x, 0); 
         this.setUpLevel(); 
-        
         this.setUpCharacterAndEnemies();
         this.addObjectsToMap(this.throwableObjects);
         this.setUpStatusbars(); 
