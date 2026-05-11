@@ -254,8 +254,10 @@ class Character extends MoveableObject {
             if (this.handleHurtAnimation()) return;
             if (this.handleJumpAnimation()) return;
             if (this.handleWalkAnimation()) return;
-
-            this.handleIdleAnimation(world);
+            if (world.isPlaying) {
+                this.handleIdleAnimation(world);
+            }
+            
 
         }, 80);
     }
