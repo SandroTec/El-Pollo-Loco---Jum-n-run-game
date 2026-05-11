@@ -187,7 +187,7 @@ class Statusbar_boss extends DrawableObject {
     constructor() {
         super();
         this.loadImages(this.IMAGES_BOSS);
-        this.setPercentage(100);
+        this.setPercentage(200);
         this.x = 430;
         this.y = 50;
         this.height = 75;
@@ -215,11 +215,11 @@ class Statusbar_boss extends DrawableObject {
      * @returns {number}
      */
     getHealthIndex(percentage) {
-        if (percentage >= 90) return 5;
-        if (percentage >= 70) return 4;
-        if (percentage >= 50) return 3;
-        if (percentage >= 30) return 2;
-        if (percentage > 0 && percentage <= 29) return 1;
+        if (percentage >= 180) return 5;
+        if (percentage >= 140) return 4;
+        if (percentage >= 100) return 3;
+        if (percentage >= 60) return 2;
+        if (percentage > 0 && percentage <= 40) return 1;
         return 0;
     }
 }

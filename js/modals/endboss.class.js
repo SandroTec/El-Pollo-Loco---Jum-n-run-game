@@ -59,7 +59,7 @@ class Endboss extends MoveableObject {
     isAlertedCounter = 0;
 
     /** @type {number} */
-    energy = 100;
+    energy = 200;
 
     /** @type {number} */
     dmg = 50;

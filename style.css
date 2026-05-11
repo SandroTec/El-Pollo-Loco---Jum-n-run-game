@@ -218,6 +218,10 @@ footer {
                 display: flex ;
                 max-width: 720px;
             }            
+
+            .fullscreen-btn {
+                display: none;
+            }
         }
 
         canvas {
