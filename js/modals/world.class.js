@@ -277,7 +277,11 @@ class World {
         this.level.enemies.forEach(enemy => {
             if (this.character.jumpOn(enemy)) {
                 this.soundManager.play('stomp');
-                enemy.energy = 0;
+                enemy.hit(this.character.dmg) ;
+                this.endboss = this.level.enemies.find(boss => boss.boss === true);
+                if (this.endboss) {
+                    this.level.bossBar.setPercentage(this.endboss.energy);
+                }
                 return;
             }
             if (this.character.isColiding(enemy) && !enemy.isDying && !enemy.isDead() && !this.character.isHurt()) {
@@ -301,6 +305,7 @@ class World {
                 this.endboss = this.level.enemies.find(enemy => enemy.boss === true);
                 if (this.endboss) {
                     this.level.bossBar.setPercentage(this.endboss.energy);
+                    this.endboss.isHurt();
                 }
             }
         });

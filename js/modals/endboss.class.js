@@ -96,8 +96,8 @@ class Endboss extends MoveableObject {
         super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
 
         this.x = world.level_end_x;
-        this.y = 0;
-        this.height = 470;
+        this.y = 170;
+        this.height = 300;
         this.width = 150;
         this.speed = this.getRandomSpeed();
         this.isDying = false;
