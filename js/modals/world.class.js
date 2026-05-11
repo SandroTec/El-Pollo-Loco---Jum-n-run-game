@@ -72,6 +72,10 @@ class World {
     
     /** @type {HTMLElement} */
     controllPopUpButton = document.getElementById('controllPopUp')
+    
+    /** @type {HTMLElement} */
+    mobileControlls = document.getElementById('mobileControllBtns');
+
 
     /**
      * Creates the game world and initializes rendering systems.
@@ -108,6 +112,7 @@ class World {
         this.addToMap(this.startscreen);
         this.gameRestart.style.display = 'none';
         this.controllPopUpButton.style.display = 'flex';
+        this.mobileControlls.style.display = 'none';
         requestAnimationFrame(() => this.drawStartscreen());
     }
 
@@ -128,9 +133,19 @@ class World {
         this.setUpCharacterAndEnemies();
         this.addObjectsToMap(this.throwableObjects);
         this.ctx.restore(); 
+        if (this.isMobileTouch()) {
+            this.mobileControlls.style.display = 'flex';
+        }else this.mobileControlls.style.display = 'none';
         this.handleHUD();
         this.checkGameState();
         this.animationId = requestAnimationFrame(() => this.draw());
+    }
+
+    /**
+     * checks if hover is none on the window.
+     */
+    isMobileTouch() {
+        return window.matchMedia("(hover: none)").matches;
     }
 
     /**
@@ -252,7 +267,6 @@ class World {
                 this.character.y + 10,
                 this.character
             );
-
             this.throwableObjects.push(bottle);
             this.character.bottleCount--;
             this.level.statusbar[2].setBottleBar(this.character.bottleCount);

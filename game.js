@@ -3,7 +3,6 @@ let world;
 const keyboard = new Keyboard();
 const controllInformation = document.getElementById('controllInformation');
 const gameBtns = document.getElementById('gameBtns');
-const mobileControlls = document.getElementById('mobileControllBtns');
 const startBtn = document.getElementById('startBtn');
 const homeBtn = document.getElementById('homeBtn');
 const isHidden = gameBtns.style.display === 'none';

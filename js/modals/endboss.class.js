@@ -68,7 +68,7 @@ class Endboss extends MoveableObject {
      * @type {{top:number,left:number,right:number,bottom:number}}
      */
     offset = {
-        top: 60,
+        top: 10,
         left: 25,
         right: 20,
         bottom: 10

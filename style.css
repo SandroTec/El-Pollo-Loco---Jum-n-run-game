@@ -215,7 +215,6 @@ footer {
     @media (max-width: 1400px) {
         @media (hover: none) {
             .controlls-btn-container {
-                display: flex ;
                 max-width: 720px;
             }            
 
