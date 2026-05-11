@@ -53,7 +53,7 @@ class Statusbar_health extends DrawableObject {
         if (percentage >= 70) return 4;
         if (percentage >= 50) return 3;
         if (percentage >= 30) return 2;
-        if (percentage >= 15) return 1;
+        if (percentage > 0 && percentage < 30) return 1;
         return 0;
     }
 }

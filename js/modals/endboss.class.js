@@ -93,8 +93,7 @@ class Endboss extends MoveableObject {
      * Creates a new Endboss.
      */
     constructor() {
-        super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
-
+        super().loadImage(this.IMAGES_ALERT[0])
         this.x = world.level_end_x;
         this.y = 170;
         this.height = 300;
@@ -104,6 +103,11 @@ class Endboss extends MoveableObject {
         this.bossStarted = false
         this.animate();
         this.startSoundLoop();
+        this.loadImages(this.IMAGES_ALERT);
+        this.loadImages(this.IMAGES_WALKING);
+        this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_ATTACK);
+        this.loadImages(this.IMAGES_DEAD);
     }
 
     /**
@@ -132,7 +136,6 @@ class Endboss extends MoveableObject {
                 if (this.handleAttack()) return;
                 if (this.handleHurt()) return;
                 if (this.handleDeath()) return;
-
                 this.bossMoves();
             }
         }, 200);
@@ -158,7 +161,6 @@ class Endboss extends MoveableObject {
      */
     handleAttack() {
         if (world.character.isColiding(this) && !this.isDying && !this.isDead()) {
-            this.loadImages(this.IMAGES_ATTACK);
             this.playAnimation(this.IMAGES_ATTACK);
             return true;
         }
@@ -171,7 +173,6 @@ class Endboss extends MoveableObject {
      */
     handleHurt() {
         if (this.isHurt() && !this.isDead()) {
-            this.loadImages(this.IMAGES_HURT);
             this.playAnimation(this.IMAGES_HURT);    
             return true;
         }
@@ -198,11 +199,9 @@ class Endboss extends MoveableObject {
     startSoundLoop() {
         setInterval(() => {
             if (!world.isPlaying) return;
-
             if (this.isDead() && !this.bossDead) {
                 world.soundManager.play('chickenDying');
             }
-
             if (this.isHurt() && !this.isDead()) {
                 world.soundManager.play('endbossHurt');
             }
@@ -217,10 +216,8 @@ class Endboss extends MoveableObject {
      * Plays alert animation.
      */
     bossIsAlerted() {
-        this.loadImages(this.IMAGES_ALERT);
         this.playAnimation(this.IMAGES_ALERT);
         this.isAlertedCounter++;
-
         if (this.isAlertedCounter == 12) {
             this.isAlerted = false;
         }
@@ -231,14 +228,10 @@ class Endboss extends MoveableObject {
      */
     bossIsDead() {
         if (this.deathHandled) return;
-
         if (this.isDying && this.isDead()) {
-            this.loadImages(this.IMAGES_DEAD);
             this.playAnimation(this.IMAGES_DEAD);
             this.speed = 0;
-
             const timePassed = Date.now() - this.deathStartTime;
-
             if (timePassed >= 500) {
                 this.bossDead = true;
                 world.level.enemies = world.level.enemies.filter(
@@ -270,8 +263,6 @@ class Endboss extends MoveableObject {
             this.otherDirection = true;
             this.moveRight();
         }
-
-        this.loadImages(this.IMAGES_WALKING);
         this.playAnimation(this.IMAGES_WALKING);
     }
     

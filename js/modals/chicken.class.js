@@ -26,7 +26,7 @@ class Chicken extends MoveableObject {
     width = 70;
 
     /** @type {number} Damage dealt to the player */
-    dmg = 25;
+    dmg = 20;
 
     /** @type {{top:number,left:number,right:number,bottom:number}} Collision offset */
     offset = {
@@ -46,12 +46,10 @@ class Chicken extends MoveableObject {
     constructor() {
         super().loadImage(this.IMAGES_WALKING[1]);
         this.loadImages(this.IMAGES_WALKING);
-
         this.x = this.getRandomXPosition();
         this.y = 370;
         this.energy = 25;
         this.speed = this.getRandomSpeed();
-
         this.isDying = false;
 
         this.applyGravity();

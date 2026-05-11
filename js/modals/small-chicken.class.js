@@ -23,7 +23,7 @@ class SmallChicken extends MoveableObject {
     width = 70;
 
     /** @type {number} */
-    dmg = 25;
+    dmg = 20;
 
     /** @type {{top:number,left:number,right:number,bottom:number}} */
     offset = {
@@ -42,16 +42,12 @@ class SmallChicken extends MoveableObject {
      */
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/2_w.png');
-
         this.loadImages(this.IMAGES_WALKING);
-
         this.x = 200 + Math.random() * 5000;
         this.y = 395;
         this.energy = 25;
         this.speed = 10 * Math.random() + 0.5;
-
         this.isDying = false;
-
         this.applyGravity();
         this.animate();
     }
