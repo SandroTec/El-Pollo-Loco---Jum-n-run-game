@@ -259,7 +259,7 @@ class Character extends MoveableObject {
             }
             
 
-        }, 80);
+        }, 110);
     }
 
     /** @returns {boolean} */
