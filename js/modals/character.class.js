@@ -200,6 +200,9 @@ class Character extends MoveableObject {
         }, 100);
     }
 
+    /**
+     * help function for enemy splat sound effect.
+     */
     enemySounds() {
         world.level.enemies.forEach(enemy => {
             if (enemy.isDead() && enemy.removed === false) {
@@ -208,6 +211,9 @@ class Character extends MoveableObject {
         });
     }
 
+    /**
+     * help function for moving sound effects.
+     */
     characterMovingSound() {
         const moving = world.keyboard.RIGHT || world.keyboard.LEFT;
         if (moving && !this.isDead()) {
@@ -220,6 +226,9 @@ class Character extends MoveableObject {
         }
     }
 
+    /**
+     * help function to play background-music
+     */
     playBackgroundMusic() {
         world.soundManager.playBackgroundMusic();
     }
