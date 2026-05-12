@@ -98,7 +98,7 @@ class Endboss extends MoveableObject {
         this.y = 170;
         this.height = 300;
         this.width = 150;
-        this.speed = this.getRandomSpeed();
+        this.speed = 20
         this.isDying = false;
         this.bossStarted = false
         this.animate();
@@ -110,13 +110,6 @@ class Endboss extends MoveableObject {
         this.loadImages(this.IMAGES_DEAD);
     }
 
-    /**
-     * Generates random speed.
-     * @returns {number}
-     */
-    getRandomSpeed() {
-        return Math.random() * 25 + 15;
-    }
 
     /**
      * Controls boss behavior loop.
