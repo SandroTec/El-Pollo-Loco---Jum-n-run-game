@@ -87,7 +87,6 @@ class Keyboard {
      */
     bindButton(btn, key) {
         if (!btn) return;
-
         const setState = (state) => {
             this[key] = state;
         };
@@ -95,7 +94,6 @@ class Keyboard {
             e.preventDefault();
             setState(true);
         });
-
         const reset = () => setState(false);
         btn.addEventListener('pointerup', reset);
         btn.addEventListener('pointerleave', reset);

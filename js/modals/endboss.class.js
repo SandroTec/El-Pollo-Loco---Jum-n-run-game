@@ -98,7 +98,7 @@ class Endboss extends MoveableObject {
         this.y = 170;
         this.height = 300;
         this.width = 150;
-        this.speed = 20
+        this.speed = 55
         this.isDying = false;
         this.bossStarted = false
         this.animate();
@@ -122,19 +122,24 @@ class Endboss extends MoveableObject {
                 world.endbossActivated = true;
             } else return
         }, 500)
-        
         setInterval(() => {
             if (this.bossStarted) {
-                if (this.handleAlert()) return;
-                if (this.handleAttack()) return;
-                if (this.handleHurt()) return;
-                if (this.handleDeath()) return;
-                this.bossMoves();
+                this.handelStates();
             }
         }, 200);
-        
     }
     
+    /**
+     * Handles boss states/ behavior.
+     * @returns {boolean}
+     */
+    handelStates() {
+        if (this.handleAlert()) return;
+        if (this.handleAttack()) return;
+        if (this.handleHurt()) return;
+        if (this.handleDeath()) return;
+        this.bossMoves();
+    }
 
     /**
      * Handles alert behavior.
@@ -198,7 +203,6 @@ class Endboss extends MoveableObject {
             if (this.isHurt() && !this.isDead()) {
                 world.soundManager.play('endbossHurt');
             }
-
             if (this.isAlerted && this.bossStarted) {
                 world.soundManager.play('endbossAlert');
             }
@@ -227,9 +231,7 @@ class Endboss extends MoveableObject {
             const timePassed = Date.now() - this.deathStartTime;
             if (timePassed >= 500) {
                 this.bossDead = true;
-                world.level.enemies = world.level.enemies.filter(
-                    enemy => !enemy.bossDead
-                );
+                world.level.enemies = world.level.enemies.filter(enemy => !enemy.bossDead);
                 world.character.finalKill = true;
                 this.deathHandled = true;
             }

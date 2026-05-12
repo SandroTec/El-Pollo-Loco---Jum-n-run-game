@@ -127,7 +127,6 @@ function handleHomeClick(event) {
  */
 function resetCharacter() {
     const char = world.character;
-
     char.x = 0;
     char.isDying = false;
     char.energy = 100;

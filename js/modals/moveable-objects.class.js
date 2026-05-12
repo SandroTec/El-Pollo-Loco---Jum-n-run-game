@@ -184,22 +184,12 @@ class MoveableObject extends DrawableObject {
         const charLeft = this.x;
         const charRight = this.x + this.width;
         const charBottom = this.y + this.height - this.offset.bottom;
-
         const enemyLeft = mo.x + mo.offset.left;
         const enemyRight = mo.x + mo.width - mo.offset.right;
         const enemyTop = mo.y + mo.offset.top;
-
         const falling = this.speed_y < 0;
-
-        const horizontalOverlap =
-            charRight > enemyLeft &&
-            charLeft < enemyRight;
-
+        const horizontalOverlap = charRight > enemyLeft && charLeft < enemyRight;
         const verticalDistance = charBottom - enemyTop;
-
-        return falling &&
-            horizontalOverlap &&
-            verticalDistance >= -25 &&
-            verticalDistance <= 25;
+        return falling && horizontalOverlap && verticalDistance >= -25 && verticalDistance <= 25;
     }
 }

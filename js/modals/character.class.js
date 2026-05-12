@@ -192,24 +192,32 @@ class Character extends MoveableObject {
                 this.playDyingSound() 
             }
             if (!world.isPlaying) return;
-            const moving = world.keyboard.RIGHT || world.keyboard.LEFT;
-            if (moving && !this.isDead()) {
-                this.playMovingSound()
-            } else {
-                world.soundManager.stopWalk();
-            }
-            if (world.keyboard.SPACE && !this.isAboveGround()) {
-                this.playJumpingSound()
-            }
-            world.level.enemies.forEach(enemy => {
-                if (enemy.isDead() && enemy.removed === false) {
-                    world.soundManager.play('splat');
-                }
-            });
+            this.characterMovingSound()
+            this.enemySounds();
             if (this.sleeping && !moving) {
                 world.soundManager.playSnoring();
             }
         }, 100);
+    }
+
+    enemySounds() {
+        world.level.enemies.forEach(enemy => {
+            if (enemy.isDead() && enemy.removed === false) {
+                world.soundManager.play('splat');
+            }
+        });
+    }
+
+    characterMovingSound() {
+        const moving = world.keyboard.RIGHT || world.keyboard.LEFT;
+        if (moving && !this.isDead()) {
+            this.playMovingSound()
+        } else {
+            world.soundManager.stopWalk();
+        }
+        if (world.keyboard.SPACE && !this.isAboveGround()) {
+            this.playJumpingSound()
+        }
     }
 
     playBackgroundMusic() {

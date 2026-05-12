@@ -87,12 +87,10 @@ class World {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.keyboard = keyboard;
-
         this.character = new Character(this);
         this.loopmanager = new WorldLoopManager(this)
         this.setWorld();
         this.character.animate();
-
         this.drawStartscreen();
     }
 
@@ -124,10 +122,7 @@ class World {
         this.updateCamera();
         this.clearScreen();
         this.ctx.save();
-        this.ctx.translate(this.camera_x, 0); 
-        this.setUpLevel(); 
-        this.setUpCharacterAndEnemies();
-        this.addObjectsToMap(this.throwableObjects);
+        this.renderWorld();
         this.setUpStatusbars(); 
         this.ctx.restore(); 
         if (this.isMobileTouch()) {
@@ -165,10 +160,8 @@ class World {
      */
     renderWorld() {
         this.ctx.translate(this.camera_x, 0);
-
         this.setUpLevel();
         this.setUpCharacterAndEnemies();
-
         this.addObjectsToMap(this.throwableObjects);
     }
 
@@ -292,8 +285,7 @@ class World {
                 this.endboss = this.level.enemies.find(boss => boss.boss === true);
                 if (this.endboss) {
                     this.level.bossBar.setPercentage(this.endboss.energy);
-                }
-                return;
+                }return;
             }
             if (this.character.isColiding(enemy) && !enemy.isDying && !enemy.isDead() && !this.character.isHurt()) {
                 this.character.hit(enemy.dmg);
@@ -313,7 +305,7 @@ class World {
                 bottle.triggerSplash()
                 bottle.stopGravity();
                 enemy.hit(this.character.dmg);
-                this.endboss = this.level.enemies.find(enemy => enemy.boss === true);
+                this.endboss = this.level.enemies.find(boss => boss.boss === true);
                 if (this.endboss) {
                     this.level.bossBar.setPercentage(this.endboss.energy);
                     this.endboss.isHurt();
